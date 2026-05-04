@@ -1,96 +1,126 @@
 "use client";
 
-import React from 'react';
-import Link from 'next/link';
-import { ArrowRight, Box, Cpu, Leaf } from 'lucide-react';
+import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
+import { useRef, useState } from "react";
+
+// Product data definition
+const seriesData = {
+  local: [
+    { id: 101, name: "Local Mint", image: "/images/vape9.png", bg: "/images/bg1.png" },
+    { id: 102, name: "Local Berry", image: "/images/vape7.png", bg: "/images/bg2.png" },
+    { id: 103, name: "Local Mango", image: "/images/vape7.png", bg: "/images/bg3.png" },
+  ],
+  regular: [
+    { id: 201, name: "Reg Classic", image: "/images/vape7.png", bg: "/images/bg3.png" },
+    { id: 202, name: "Reg Ice", image: "/images/vape9.png", bg: "/images/bg1.png" },
+    { id: 203, name: "Reg Gold", image: "/images/vape7.png", bg: "/images/bg2.png" },
+  ],
+};
 
 const Features = () => {
-  const features = [
-    {
-      title: "Pure Aesthetics",
-      desc: "Designed with a focus on clean lines and simple forms that blend into any space.",
-      icon: <Box className="w-6 h-6 text-[#937ef1]" />,
-      number: "01"
-    },
-    {
-      title: "Smart Tech",
-      desc: "Seamlessly integrated technology that works for you without the complexity.",
-      icon: <Cpu className="w-6 h-6 text-[#3ac8ee]" />,
-      number: "02"
-    },
-    {
-      title: "Eco-Friendly",
-      desc: "Sustainable materials that don't compromise on premium quality or style.",
-      icon: <Leaf className="w-6 h-6 text-emerald-500" />,
-      number: "03"
-    }
-  ];
+  const [activeSeries, setActiveSeries] = useState("regular");
+  const containerRef = useRef(null);
+
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start end", "end start"],
+  });
 
   return (
-    <section className="relative bg-white py-24 px-6 overflow-hidden">
-      {/* Smooth Transition Overlay: Hero se connectivity ke liye */}
-      <div className="absolute top-0 left-0 w-full h-24 bg-gradient-to-b from-black/5 to-transparent pointer-events-none"></div>
-
-      <div className="container mx-auto max-w-7xl">
-        {/* Header Section */}
-        <div className="flex flex-col md:flex-row items-end justify-between mb-20 gap-8">
-          <div className="space-y-4 max-w-2xl">
-            <div className="inline-block px-3 py-1 rounded-md bg-[#937ef1]/10 text-[#937ef1] text-xs font-bold uppercase tracking-widest">
-              The Collection
-            </div>
-            <h2 className="text-black text-5xl md:text-7xl font-bold tracking-tighter leading-tight">
-              Crafted for the <br /> 
-              <span className="text-gray-300">Modern Minimalist.</span>
-            </h2>
-          </div>
-          
-          <div className="pb-2">
-            <Link 
-              href="/shop" 
-              className="group flex items-center gap-2 text-black font-semibold text-lg hover:underline underline-offset-8 decoration-2 decoration-[#937ef1] transition-all"
-            >
-              Explore Collection 
-              <ArrowRight className="group-hover:translate-x-2 transition-transform duration-300" />
-            </Link>
-          </div>
-        </div>
-
-        {/* Features Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
-          {features.map((item, i) => (
-            <div 
-              key={i}
-              className="group relative p-10 rounded-[2.5rem] bg-gray-50 border border-gray-100 hover:bg-white hover:shadow-[0_30px_60px_-15px_rgba(0,0,0,0.1)] transition-all duration-500 transform hover:-translate-y-3"
-            >
-              {/* Card Number Background */}
-              <span className="absolute top-8 right-10 text-6xl font-black text-gray-100 group-hover:text-gray-200 transition-colors duration-500 italic">
-                {item.number}
-              </span>
-
-              <div className="relative z-10">
-                <div className="w-12 h-12 rounded-2xl bg-white shadow-sm flex items-center justify-center mb-8 group-hover:scale-110 transition-transform duration-500">
-                  {item.icon}
-                </div>
-                
-                <h3 className="text-2xl font-bold mb-4 text-gray-900 group-hover:text-black">
-                  {item.title}
-                </h3>
-                
-                <p className="text-gray-500 leading-relaxed text-lg">
-                  {item.desc}
-                </p>
-              </div>
-
-              {/* Subtle hover line animation */}
-              <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-1 bg-gradient-to-r from-[#3ac8ee] to-[#937ef1] group-hover:w-full transition-all duration-500 rounded-b-[2.5rem]"></div>
-            </div>
-          ))}
-        </div>
+    <section
+      ref={containerRef}
+      className="relative min-h-screen py-20 flex flex-col items-center justify-center overflow-hidden bg-[#f5e1a4]"
+    >
+      {/* 1. Top Heading Section */}
+      <div className="relative z-20 text-center mb-16">
+        <motion.h2 
+          initial={{ opacity: 0, y: -20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          className="text-5xl md:text-6xl font-black text-[#222] tracking-tighter"
+        >
+          EXPLORE NEW PRODUCTS
+        </motion.h2>
+        <div className="w-24 h-1 bg-black mx-auto mt-4 rounded-full" />
       </div>
 
-      {/* Background Decorative Blurs */}
-      <div className="absolute -bottom-24 -right-24 w-[500px] h-[500px] bg-[#3ac8ee]/5 rounded-full blur-[120px] pointer-events-none"></div>
-      <div className="absolute top-1/2 -left-24 w-[400px] h-[400px] bg-[#937ef1]/5 rounded-full blur-[120px] pointer-events-none"></div>
+      {/* 2. Products Grid Section */}
+      <div className="relative z-10 flex flex-wrap items-end justify-center gap-8 md:gap-12 px-4 h-auto md:h-[550px]">
+        {seriesData[activeSeries].map((item, i) => {
+          
+          // Scroll based Parallax movement
+          const imgY = useTransform(
+            scrollYProgress,
+            [0, 1],
+            ["40%", `${-15 - i * 8}%`] // Har image alag speed se upar jayegi
+          );
+
+          const bgY = useTransform(scrollYProgress, [0, 1], ["15%", "0%"]);
+
+          return (
+            <div 
+              key={item.id} 
+              className="relative w-[260px] h-[420px] flex items-end group"
+            >
+              {/* Background Card with Parallax */}
+              <motion.div
+                style={{ y: bgY }}
+                className="absolute inset-0 overflow-hidden rounded-t-[130px] rounded-b-2xl shadow-2xl border-4 border-white/20"
+              >
+                <img
+                  src={item.bg}
+                  alt="background"
+                  className="w-full h-full object-cover brightness-95 group-hover:scale-110 transition-transform duration-700"
+                />
+              </motion.div>
+
+              {/* Product Vape Image */}
+              <AnimatePresence mode="wait">
+                <motion.img
+                  key={activeSeries + item.id} // Re-animate on series change
+                  src={item.image}
+                  alt={item.name}
+                  initial={{ opacity: 0, scale: 0.5, y: 100 }}
+                  animate={{ opacity: 1, scale: 1, y: 0 }}
+                  exit={{ opacity: 0, scale: 0.8, y: -50 }}
+                  transition={{ type: "spring", damping: 15, stiffness: 100 }}
+                  style={{ y: imgY }}
+                  className="relative z-10 w-full h-auto object-contain drop-shadow-[0_35px_35px_rgba(0,0,0,0.5)] cursor-pointer"
+                />
+              </AnimatePresence>
+            </div>
+          );
+        })}
+      </div>
+
+      {/* 3. Control Buttons */}
+      <div className="flex gap-6 mt-20 z-20">
+        <button
+          onClick={() => setActiveSeries("local")}
+          className={`px-10 py-4 rounded-full font-bold text-sm tracking-widest transition-all duration-300 border-2 ${
+            activeSeries === "local"
+              ? "bg-black text-white border-black scale-110 shadow-xl"
+              : "bg-transparent text-black border-black hover:bg-black hover:text-white"
+          }`}
+        >
+          LOCAL SERIES
+        </button>
+        
+        <button
+          onClick={() => setActiveSeries("regular")}
+          className={`px-10 py-4 rounded-full font-bold text-sm tracking-widest transition-all duration-300 border-2 ${
+            activeSeries === "regular"
+              ? "bg-black text-white border-black scale-110 shadow-xl"
+              : "bg-transparent text-black border-black hover:bg-black hover:text-white"
+          }`}
+        >
+          REGULAR SERIES
+        </button>
+      </div>
+      
+      {/* Decorative Text in background */}
+      <div className="absolute bottom-[-5%] left-1/2 -translate-x-1/2 text-[15rem] font-black text-black/[0.03] select-none whitespace-nowrap z-0">
+        PREMIUM VAPES
+      </div>
     </section>
   );
 };

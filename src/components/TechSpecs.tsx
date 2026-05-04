@@ -18,10 +18,7 @@ const FlavorAroma = () => {
           
           {/* Left: Content Area */}
           <div className="w-full lg:w-1/2 space-y-8">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-black text-white text-xs font-bold tracking-widest uppercase">
-              <Wind size={14} className="animate-pulse" />
-              The Sensation
-            </div>
+          
 
             <h2 className="text-5xl md:text-7xl font-bold text-black tracking-tighter leading-[0.9]">
               Beyond <br /> 
