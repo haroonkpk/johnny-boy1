@@ -5,7 +5,15 @@ import { motion, useScroll, useSpring, useTransform } from 'framer-motion';
 import { FaEnvelope, FaMapMarkerAlt, FaPhoneAlt } from 'react-icons/fa';
 
 // --- InfoCard Component (Clean Version) ---
-const InfoCard = ({ icon, title, val, delay, borderColor }) => {
+interface InfoCardProps {
+  icon: React.ReactNode;
+  title: string;
+  val: string;
+  delay: number;
+  borderColor: string;
+}
+
+const InfoCard = ({ icon, title, val, delay, borderColor }: InfoCardProps) => {
     return (
         <motion.div
             initial={{ opacity: 0, height: "100px", width: "80px", borderRadius: "50px" }}
@@ -36,7 +44,7 @@ const InfoCard = ({ icon, title, val, delay, borderColor }) => {
 };
 
 const Contact = () => {
-    const containerRef = useRef(null);
+    const containerRef = useRef<HTMLDivElement>(null);
 
     const { scrollYProgress } = useScroll({
         target: containerRef,

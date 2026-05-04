@@ -2,7 +2,7 @@
 "use client";
 
 import React from "react";
-import { motion } from "framer-motion";
+import { motion, Variants } from "framer-motion";
 import { BiCalendar } from "react-icons/bi";
 import {
   FaFacebook,
@@ -15,7 +15,7 @@ import { IoMailOpen } from "react-icons/io5";
 import { MdKeyboardDoubleArrowRight } from "react-icons/md";
 
 const Footer = () => {
-  const containerVariants = {
+  const containerVariants: Variants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
@@ -26,7 +26,7 @@ const Footer = () => {
     },
   };
 
-  const itemVariants = {
+  const itemVariants: Variants = {
     hidden: { opacity: 0, y: 30 },
     visible: {
       opacity: 1,

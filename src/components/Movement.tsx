@@ -166,7 +166,7 @@ import {
 } from "framer-motion";
 
 const UltraModernVapeSection = () => {
-  const containerRef = useRef(null);
+  const containerRef = useRef<HTMLElement>(null);
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -194,7 +194,7 @@ const UltraModernVapeSection = () => {
   );
 
   // ✅ FIX: safe mouse handler (no crash + no boundingRect issues)
-  const handleMouseMove = (event) => {
+  const handleMouseMove = (event: React.MouseEvent) => {
     if (!containerRef.current) return;
 
     const rect = containerRef.current.getBoundingClientRect();
