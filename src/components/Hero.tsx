@@ -161,20 +161,15 @@ export default function Home() {
           
           {/* Left Side: Content */}
           <div className="space-y-8 text-left pointer-events-none">
-            <div className="inline-block px-4 py-1.5 rounded-full text-sm text-gray-300 border border-white/10 bg-white/5 backdrop-blur-md">
-              <span className="flex items-center space-x-2">
-                <span className="w-2 h-2 rounded-full bg-pink-500 animate-pulse"></span>
-                <span>Experience shopping</span>
-              </span>
-            </div>
+          
             
             <h1 className="text-5xl md:text-7xl lg:text-8xl font-black tracking-tighter sweep-text leading-[1.1] pointer-events-auto">
-              Redefining  <br /> Aesthetic
+              JOHNNY  <br /> BOY
             </h1>
             
-            <p className="text-xl md:text-2xl text-gray-400 font-light max-w-xl tracking-wide">
-              Curated premium tech and minimalist accessories that float into your life.
-            </p>
+          <p className="text-xl md:text-2xl text-gray-400 font-light max-w-xl tracking-wide">
+  Smooth hits. Bold flavors. Crafted for a premium vaping experience.
+</p>
         <div className="flex items-center gap-4 pt-4 pointer-events-auto">
   {/* Login Button: Glassy Border with Purple Glow hover */}
   <Link 

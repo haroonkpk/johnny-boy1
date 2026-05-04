@@ -11,9 +11,9 @@ export default function Home() {
       <CustomCursor />
       <Hero />
       <TechSpecs/>
-      <ProductShowcase/>
-      <Movement/>
       <Features />
+      <Movement/>
+      <ProductShowcase/>
     </main>
   );
 }
