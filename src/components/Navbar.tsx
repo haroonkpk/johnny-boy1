@@ -82,9 +82,9 @@ export default function Navbar() {
 
   const navLinks = [
     { name: 'Home', href: '/', icon: Home },
-    { name: 'Services', href: '/services', icon: Package },
+    { name: 'Products', href: '/services', icon: Package },
+    { name: 'Review', href: '/review', icon: Package },
     { name: 'Contact', href: '/contact', icon: Package },
-    { name: 'Project', href: '/project', icon: Package },
     { name: 'Cart', href: '/cart', icon: ShoppingCart },
     { name: 'Admin', href: '/admin', icon: Settings },
   ];
