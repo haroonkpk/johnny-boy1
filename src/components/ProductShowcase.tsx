@@ -90,22 +90,7 @@ const ProductShowcase = () => {
           </div>
         </div>
 
-        {/* --- Bottom Flavor Buttons --- */}
-        {/* <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-6">
-          {flavorData.map((flavor, i) => (
-            <div 
-              key={i} 
-              onMouseEnter={() => setActiveFlavor(flavor)} // Hover par image change hogi
-              className={`py-4 px-6 rounded-2xl border transition-all cursor-pointer flex items-center justify-center text-sm font-bold uppercase tracking-widest
-                ${activeFlavor.name === flavor.name 
-                  ? 'bg-black text-white border-black scale-105 shadow-lg' 
-                  : 'bg-gray-50 text-gray-400 border-gray-100 hover:border-gray-300'
-                }`}
-            >
-              {flavor.name}
-            </div>
-          ))}
-        </div> */}
+        
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-6">
   {flavorData.map((flavor, i) => {
     const isActive = activeFlavor.name === flavor.name;
