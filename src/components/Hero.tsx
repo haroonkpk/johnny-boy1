@@ -304,7 +304,7 @@ export default function Home() {
   const bottleY = useTransform(smoothY, [0, 500], [0, -45]);
 
   return (
-    <div className="relative min-h-screen bg-black overflow-x-hidden flex flex-col">
+    <div className="relative min-h-screen bg-black overflow-x-hidden overflow-y-hidden flex flex-col">
       <ParticleBackground />
 
       <style jsx global>{`
