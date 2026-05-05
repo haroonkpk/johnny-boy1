@@ -95,9 +95,15 @@ const UltraModernVapeSection = () => {
                 </span>
               </h2>
 
-              <p className="text-gray-400 text-lg max-w-sm mb-8 font-light">
+              {/* <p className="text-gray-400 text-lg max-w-sm mb-8 font-light">
                 Infused with dark cherry essence and Mesh V2 heating for bold cloud experience.
-              </p>
+              </p> */}
+              <p className="text-gray-400 text-lg max-w-sm mb-8 font-light leading-relaxed">
+  Infused with dark cherry essence and Mesh V2 heating for a bold cloud experience. 
+  <span className="text-[#ff2d55] block mt-2 font-medium">
+    Integrated Power Bank for unyielding performance.
+  </span>
+</p>
 
             <Link href="/contact">
   <button className="group relative px-10 py-4 border border-[#ff2d55]/40 rounded-[2rem] font-bold uppercase tracking-widest overflow-hidden transition-all duration-500 hover:border-[#ff2d55]">

@@ -59,7 +59,7 @@ const ProductShowcase = () => {
                 className="px-8 py-3 rounded-full font-bold flex items-center gap-2 transition-all"
                 style={{ backgroundColor: activeFlavor.color, color: '#000' }}
               >
-                <ShoppingBag size={18} /> Buy Now — $49.00
+                <ShoppingBag size={18} /> shopping
               </button>
             </div>
           </div>
