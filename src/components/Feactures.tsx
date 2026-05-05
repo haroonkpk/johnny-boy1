@@ -1,45 +1,382 @@
+
+// // "use client";
+
+// // // features
+// // import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
+// // import { useRef, useState } from "react";
+
+
+// // type SeriesKey = "local" | "regular";
+
+// // // Product data definition
+// // const seriesData: Record<
+// //   SeriesKey,
+// //   { id: number; name: string; image: string; bg: string }[]
+// // > = {
+// //   local: [
+// //     { id: 101, name: "Local Mint", image: "/images/fruiti2.png", bg: "/images/all1.jpeg" },
+// //     { id: 102, name: "Local Berry", image: "/images/fruiti3.png", bg: "/images/all2.jpeg" },
+// //     { id: 103, name: "Local Mango", image: "/images/fruiti7.png", bg: "/images/all3.jpeg" },
+// //   ],
+// //   regular: [
+// //     { id: 201, name: "Reg Classic", image: "/images/fruiti7.png", bg: "/images/all3.jpeg" },
+// //     { id: 202, name: "Reg Ice", image: "/images/fruiti2.png", bg: "/images/all1.jpeg" },
+// //     { id: 203, name: "Reg Gold", image: "/images/fruiti3.png", bg: "/images/all2.jpeg" },
+// //   ],
+// // };
+
+// // const Features = () => {
+
+// //   const [activeSeries, setActiveSeries] = useState<SeriesKey>("regular");
+// //   // const [activeSeries, setActiveSeries] = useState<SeriesKey>("regular");
+
+// //   const containerRef = useRef(null);
+// //   // const containerRef = useRef(null);
+
+// //   const { scrollYProgress } = useScroll({
+// //     target: containerRef,
+// //     offset: ["start end", "end start"],
+// //   });
+
+// //   return (
+// //     <section
+// //       ref={containerRef}
+// //       className="relative min-h-screen py-20 flex flex-col items-center justify-center overflow-hidden bg-white"
+// //     >
+// //       {/* 1. Top Heading Section */}
+// //       <div className="relative z-20 text-center mb-3">
+// //         <motion.h2
+// //           initial={{ opacity: 0, y: -20 }}
+// //           whileInView={{ opacity: 1, y: 0 }}
+// //           className="text-5xl md:text-6xl font-black text-[#222] tracking-tighter"
+// //         >
+// //           EXPLORE OUR PRODUCTS
+// //         </motion.h2>
+// //         <div className="w-24 h-1 bg-black mx-auto mt-4 rounded-full" />
+// //       </div>
+
+// //       {/* 2. Products Grid Section */}
+// //       <div className="relative z-10 flex flex-wrap items-end justify-center gap-8 md:gap-12 px-4 h-auto md:h-[550px]">
+// //         {seriesData[activeSeries].map((item, i) => {
+// //           const imgY = useTransform(
+// //             scrollYProgress,
+// //             [0, 1],
+// //             ["40%", `${-15 - i * 8}%`]
+// //           );
+
+// //           const bgY = useTransform(scrollYProgress, [0, 1], ["15%", "0%"]);
+
+// //           return (
+// //             <div
+// //               key={item.id}
+// //               className="relative w-[260px] h-[420px] flex items-end group"
+// //             >
+// //               {/* Background */}
+// //               <motion.div
+// //                 style={{ y: bgY }}
+// //                 className="absolute inset-0 overflow-hidden rounded-t-[130px] rounded-b-2xl shadow-2xl border-4 border-white/20"
+// //               >
+// //                 <img
+// //                   src={item.bg}
+// //                   alt="background"
+// //                   className="w-full h-full object-cover brightness-95 group-hover:scale-110 transition-transform duration-700"
+// //                 />
+// //               </motion.div>
+
+// //               {/* Product Image */}
+// //               <AnimatePresence mode="wait">
+// //                 <motion.img
+// //                   key={activeSeries + item.id}
+// //                   src={item.image}
+// //                   alt={item.name}
+// //                   initial={{ opacity: 0, scale: 0.5, y: 100 }}
+// //                   animate={{ opacity: 1, scale: 1, y: 0 }}
+// //                   exit={{ opacity: 0, scale: 0.8, y: -50 }}
+// //                   transition={{ type: "spring", damping: 15, stiffness: 100 }}
+// //                   style={{ y: imgY }}
+// //                   className="relative z-10 w-[900px] h-[300px] object-contain drop-shadow-[0_35px_35px_rgba(0,0,0,0.5)] cursor-pointer"
+// //                 />
+// //               </AnimatePresence>
+// //             </div>
+// //           );
+// //         })}
+// //       </div>
+
+// //       {/* 3. Control Buttons */}
+// //       <div className="flex gap-6 mt-20 z-20">
+// //         <button
+// //           onClick={() => setActiveSeries("local")}
+// //           className={`px-10 py-4 rounded-full font-bold text-sm tracking-widest transition-all duration-300 border-2 ${
+// //             activeSeries === "local"
+// //               ? "bg-black text-white border-black scale-110 shadow-xl"
+// //               : "bg-transparent text-black border-black hover:bg-black hover:text-white"
+// //           }`}
+// //         >
+// //           LOCAL SERIES
+// //         </button>
+
+// //         <button
+// //           onClick={() => setActiveSeries("regular")}
+// //           className={`px-10 py-4 rounded-full font-bold text-sm tracking-widest transition-all duration-300 border-2 ${
+// //             activeSeries === "regular"
+// //               ? "bg-black text-white border-black scale-110 shadow-xl"
+// //               : "bg-transparent text-black border-black hover:bg-black hover:text-white"
+// //           }`}
+// //         >
+// //           REGULAR SERIES
+// //         </button>
+// //       </div>
+
+// //       {/* Moving Background Text */}
+// //       <motion.div
+// //         initial={{ x: "0%" }}
+// //         animate={{ x: "-50%" }}
+// //         transition={{
+// //           repeat: Infinity,
+// //           duration: 20,
+// //           ease: "linear",
+// //         }}
+// //         className="absolute bottom-[-5%] left-0 w-[200%] flex text-[15rem] font-black text-black/[0.03] select-none whitespace-nowrap z-0"
+// //       >
+// //         <span className="mr-20">PREMIUM VAPES</span>
+// //         <span>PREMIUM VAPES</span>
+// //       </motion.div>
+// //     </section>
+// //   );
+// // };
+
+// // export default Features;
+
+// // newly
+// // "use client";
+
+// // import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
+// // import { useRef, useState } from "react";
+
+// // type SeriesKey = "local" | "regular";
+
+// // // 1. Data mein vapeImage property add ki gayi hai
+// // const seriesData: Record<
+// //   SeriesKey,
+// //   { id: number; name: string; image: string; vapeImage: string; bg: string; waterImage: string }[]
+// // > = {
+// //   local: [
+// //     { id: 101, name: "Local Mint", image: "/images/fruiti2.png", vapeImage: "/images/vape6.png", bg: "/images/all1.jpeg", waterImage: "/images/water.png" },
+// //     { id: 102, name: "Local Berry", image: "/images/fruiti3.png", vapeImage: "/images/vape6.png", bg: "/images/all2.jpeg", waterImage: "/images/water.png" },
+// //     { id: 103, name: "Local Mango", image: "/images/fruiti7.png", vapeImage: "/images/vape6.png", bg: "/images/all3.jpeg", waterImage: "/images/water.png" },
+// //   ],
+// //   regular: [
+// //     { id: 201, name: "Reg Classic", image: "/images/fruiti7.png", vapeImage: "/images/vape6.png", bg: "/images/all3.jpeg", waterImage: "/images/water.png" },
+// //     { id: 202, name: "Reg Ice", image: "/images/fruiti2.png", vapeImage: "/images/vape6.png", bg: "/images/all1.jpeg", waterImage: "/images/water.png" },
+// //     { id: 203, name: "Reg Gold", image: "/images/fruiti3.png", vapeImage: "/images/vape6.png", bg: "/images/all2.jpeg", waterImage: "/images/water.png" },
+// //   ],
+// // };
+
+// // const Features = () => {
+// //   const [activeSeries, setActiveSeries] = useState<SeriesKey>("regular");
+// //   const containerRef = useRef(null);
+
+// //   const { scrollYProgress } = useScroll({
+// //     target: containerRef,
+// //     offset: ["start end", "end start"],
+// //   });
+
+// //   return (
+// //     <section
+// //       ref={containerRef}
+// //       className="relative min-h-screen py-20 flex flex-col items-center justify-center overflow-hidden bg-white"
+// //     >
+// //       {/* Top Heading Section */}
+// //       <div className="relative z-20 text-center mb-3">
+// //         <motion.h2
+// //           initial={{ opacity: 0, y: -20 }}
+// //           whileInView={{ opacity: 1, y: 0 }}
+// //           className="text-5xl md:text-6xl font-black text-[#222] tracking-tighter"
+// //         >
+// //           EXPLORE OUR PRODUCTS
+// //         </motion.h2>
+// //         <div className="w-24 h-1 bg-black mx-auto mt-4 rounded-full" />
+// //       </div>
+
+// //       {/* Products Grid Section */}
+// //       <div className="relative z-10 flex flex-wrap items-end justify-center gap-8 md:gap-12 px-4 h-auto md:h-[550px]">
+// //         {seriesData[activeSeries].map((item, i) => {
+// //           // Product (Fruit) parallax
+// //           const imgY = useTransform(
+// //             scrollYProgress,
+// //             [0, 1],
+// //             ["30%", `${-10 - i * 5}%`]
+// //           );
+
+// //           // Vape Device parallax (thoda diff speed for depth)
+// //           const vapeY = useTransform(
+// //             scrollYProgress,
+// //             [0, 1],
+// //             ["45%", `${-20 - i * 7}%`]
+// //           );
+
+// //           const waterY = useTransform(
+// //             scrollYProgress,
+// //             [0, 1],
+// //             ["60%", `${-5 - i * 5}%`]
+// //           );
+
+// //           const bgY = useTransform(scrollYProgress, [0, 1], ["15%", "0%"]);
+
+// //           return (
+// //             <div
+// //               key={item.id}
+// //               className="relative w-[280px] h-[450px] flex items-end group"
+// //             >
+// //               {/* Card Background */}
+// //               <motion.div
+// //                 style={{ y: bgY }}
+// //                 className="absolute inset-0 overflow-hidden rounded-t-[140px] rounded-b-3xl shadow-2xl border-4 border-white/20"
+// //               >
+// //                 <img
+// //                   src={item.bg}
+// //                   alt="background"
+// //                   className="w-full h-full object-cover brightness-90 group-hover:scale-110 transition-transform duration-700"
+// //                 />
+// //               </motion.div>
+
+// //               {/* Water Layer */}
+// //               <AnimatePresence mode="wait">
+// //                 <motion.img
+// //                   key={`water-${item.id}`}
+// //                   src={item.waterImage}
+// //                   alt="water splash"
+// //                   initial={{ opacity: 0 }}
+// //                   animate={{ opacity: 0.6 }}
+// //                   style={{ y: waterY }}
+// //                   className="absolute z-10 w-[130%] h-auto pointer-events-none mix-blend-screen -left-[15%]"
+// //                 />
+// //               </AnimatePresence>
+
+// //               {/* EXTRA FEATURE: Vape Device Image */}
+// //               <AnimatePresence mode="wait">
+// //                 <motion.img
+// //                   key={`vape-${item.id}`}
+// //                   src={item.vapeImage}
+// //                   alt="vape device"
+// //                   initial={{ opacity: 0, x: -20 }}
+// //                   animate={{ opacity: 1, x: 0 }}
+// //                   exit={{ opacity: 0 }}
+// //                   style={{ y: vapeY }}
+// //                   className="absolute z-[30] w-[270px] left-[-20px] drop-shadow-2xl grayscale-[0.2] group-hover:grayscale-0 transition-all duration-500"
+// //                 />
+// //               </AnimatePresence>
+
+// //               {/* Main Product Image (Fruit) */}
+// //               <AnimatePresence mode="wait">
+// //                 <motion.img
+// //                   key={activeSeries + item.id}
+// //                   src={item.image}
+// //                   alt={item.name}
+// //                   initial={{ opacity: 0, scale: 0.5 }}
+// //                   animate={{ opacity: 1, scale: 1 }}
+// //                   exit={{ opacity: 0 }}
+// //                   transition={{ type: "spring", damping: 15 }}
+// //                   style={{ y: imgY }}
+// //                   className="relative z-20 w-full h-[280px] object-contain drop-shadow-[0_20px_40px_rgba(0,0,0,0.4)] group-hover:scale-110 transition-transform cursor-pointer"
+// //                 />
+// //               </AnimatePresence>
+              
+// //               {/* Product Name Overlay on Hover */}
+// //               <div className="absolute bottom-6 left-0 right-0 z-30 text-center opacity-0 group-hover:opacity-100 transition-opacity">
+// //                 <span className="bg-black/80 text-white px-4 py-1 rounded-full text-xs font-bold uppercase tracking-widest">
+// //                   {item.name}
+// //                 </span>
+// //               </div>
+// //             </div>
+// //           );
+// //         })}
+// //       </div>
+
+// //       {/* Control Buttons */}
+// //       <div className="flex gap-6 mt-20 z-20">
+// //         <button
+// //           onClick={() => setActiveSeries("local")}
+// //           className={`px-10 py-4 rounded-full font-bold text-sm tracking-widest transition-all duration-300 border-2 ${
+// //             activeSeries === "local"
+// //               ? "bg-black text-white border-black scale-110 shadow-xl"
+// //               : "bg-transparent text-black border-black hover:bg-black hover:text-white"
+// //           }`}
+// //         >
+// //           LOCAL SERIES
+// //         </button>
+
+// //         <button
+// //           onClick={() => setActiveSeries("regular")}
+// //           className={`px-10 py-4 rounded-full font-bold text-sm tracking-widest transition-all duration-300 border-2 ${
+// //             activeSeries === "regular"
+// //               ? "bg-black text-white border-black scale-110 shadow-xl"
+// //               : "bg-transparent text-black border-black hover:bg-black hover:text-white"
+// //           }`}
+// //         >
+// //           REGULAR SERIES
+// //         </button>
+// //       </div>
+
+// //       {/* Moving Background Text */}
+// //       <motion.div
+// //         initial={{ x: "0%" }}
+// //         animate={{ x: "-50%" }}
+// //         transition={{ repeat: Infinity, duration: 25, ease: "linear" }}
+// //         className="absolute bottom-[-5%] left-0 w-[200%] flex text-[15rem] font-black text-black/[0.03] select-none whitespace-nowrap z-0"
+// //       >
+// //         <span className="mr-20">PREMIUM VAPES</span>
+// //         <span>PREMIUM VAPES</span>
+// //       </motion.div>
+// //     </section>
+// //   );
+// // };
+
+// // export default Features;
 // "use client";
-// // features
+
 // import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
 // import { useRef, useState } from "react";
 
-// // Product data definition
-// const seriesData = {
+// type SeriesKey = "local" | "regular";
+
+// const seriesData: Record<
+//   SeriesKey,
+//   { id: number; name: string; image: string; vapeImage: string; bg: string; waterImage: string }[]
+// > = {
 //   local: [
-//     { id: 101, name: "Local Mint", image: "/images/vape6.png", bg: "/images/bg1.png" },
-//     { id: 102, name: "Local Berry", image: "/images/vape6.png", bg: "/images/bg2.png" },
-//     { id: 103, name: "Local Mango", image: "/images/vape6.png", bg: "/images/bg3.png" },
+//     { id: 101, name: "Local Mint", image: "/images/fruiti2.png", vapeImage: "/images/vape6.png", bg: "/images/all1.jpeg", waterImage: "/images/water.png" },
+//     { id: 102, name: "Local Berry", image: "/images/fruiti3.png", vapeImage: "/images/vape6.png", bg: "/images/all2.jpeg", waterImage: "/images/water.png" },
+//     { id: 103, name: "Local Mango", image: "/images/fruiti7.png", vapeImage: "/images/vape6.png", bg: "/images/all3.jpeg", waterImage: "/images/water.png" },
 //   ],
 //   regular: [
-//     { id: 201, name: "Reg Classic", image: "/images/vape7.png", bg: "/images/bg3.png" },
-//     { id: 202, name: "Reg Ice", image: "/images/vape9.png", bg: "/images/bg1.png" },
-//     { id: 203, name: "Reg Gold", image: "/images/vape7.png", bg: "/images/bg2.png" },
+//     { id: 201, name: "Reg Classic", image: "/images/fruiti7.png", vapeImage: "/images/vape6.png", bg: "/images/all3.jpeg", waterImage: "/images/water.png" },
+//     { id: 202, name: "Reg Ice", image: "/images/fruiti2.png", vapeImage: "/images/vape6.png", bg: "/images/all1.jpeg", waterImage: "/images/water.png" },
+//     { id: 203, name: "Reg Gold", image: "/images/fruiti3.png", vapeImage: "/images/vape6.png", bg: "/images/all2.jpeg", waterImage: "/images/water.png" },
 //   ],
 // };
 
+// // Fixed: Component function definition
 // const Features = () => {
-//   const [activeSeries, setActiveSeries] = useState("regular");
+//   const [activeSeries, setActiveSeries] = useState<SeriesKey>("regular");
 //   const containerRef = useRef(null);
 
 //   const { scrollYProgress } = useScroll({
 //     target: containerRef,
 //     offset: ["start end", "end start"],
 //   });
-//   // const { scrollYProgress } = useScroll({
-//   //   target: containerRefl,
-//   //   offset: ["start end", "end start"],
-//   // });
 
 //   return (
 //     <section
 //       ref={containerRef}
 //       className="relative min-h-screen py-20 flex flex-col items-center justify-center overflow-hidden bg-white"
 //     >
-//       {/* 1. Top Heading Section */}
-//       <div className="relative z-20 text-center mb-3">
-//         <motion.h2 
+//       {/* Top Heading */}
+//       <div className="relative z-20 text-center mb-10">
+//         <motion.h2
 //           initial={{ opacity: 0, y: -20 }}
 //           whileInView={{ opacity: 1, y: 0 }}
+//           transition={{ duration: 0.6 }}
 //           className="text-5xl md:text-6xl font-black text-[#222] tracking-tighter"
 //         >
 //           EXPLORE OUR PRODUCTS
@@ -47,56 +384,94 @@
 //         <div className="w-24 h-1 bg-black mx-auto mt-4 rounded-full" />
 //       </div>
 
-//       {/* 2. Products Grid Section */}
+//       {/* Products Grid */}
 //       <div className="relative z-10 flex flex-wrap items-end justify-center gap-8 md:gap-12 px-4 h-auto md:h-[550px]">
 //         {seriesData[activeSeries].map((item, i) => {
-          
-//           // Scroll based Parallax movement
-//           const imgY = useTransform(
-//             scrollYProgress,
-//             [0, 1],
-//             ["40%", `${-15 - i * 8}%`] // Har image alag speed se upar jayegi
-//           );
-
+//           // Parallax Calculations
+//           const imgY = useTransform(scrollYProgress, [0, 1], ["30%", `${-10 - i * 5}%`]);
+//           const vapeY = useTransform(scrollYProgress, [0, 1], ["45%", `${-20 - i * 7}%`]);
+//           const waterY = useTransform(scrollYProgress, [0, 1], ["60%", `${-5 - i * 5}%`]);
 //           const bgY = useTransform(scrollYProgress, [0, 1], ["15%", "0%"]);
 
+//           // Horizontal Movement
+//           const fruitX = useTransform(scrollYProgress, [0, 1], [i % 2 === 0 ? -30 : 30, i % 2 === 0 ? 30 : -30]);
+//           const waterX = useTransform(scrollYProgress, [0, 1], [i % 2 === 0 ? 20 : -20, i % 2 === 0 ? -20 : 20]);
+
 //           return (
-//             <div 
-//               key={item.id} 
-//               className="relative w-[260px] h-[420px] flex items-end group"
+//             <motion.div
+//               key={item.id}
+//               initial={{ opacity: 0, y: 100 }}
+//               whileInView={{ opacity: 1, y: 0 }}
+//               viewport={{ once: true, margin: "-100px" }}
+//               transition={{ duration: 0.8, delay: i * 0.2, ease: "easeOut" }}
+//               className="relative w-[280px] h-[450px] flex items-end group"
 //             >
-//               {/* Background Card with Parallax */}
+//               {/* Card Background */}
 //               <motion.div
 //                 style={{ y: bgY }}
-//                 className="absolute inset-0 overflow-hidden rounded-t-[130px] rounded-b-2xl shadow-2xl border-4 border-white/20"
+//                 className="absolute inset-0 overflow-hidden rounded-t-[140px] rounded-b-3xl shadow-2xl border-4 border-white/20"
 //               >
 //                 <img
 //                   src={item.bg}
 //                   alt="background"
-//                   className="w-full h-full object-cover brightness-95 group-hover:scale-110 transition-transform duration-700"
+//                   className="w-full h-full object-cover brightness-90 group-hover:scale-110 transition-transform duration-700"
 //                 />
 //               </motion.div>
 
-//               {/* Product Vape Image */}
+//               {/* Water Splash */}
 //               <AnimatePresence mode="wait">
 //                 <motion.img
-//                   key={activeSeries + item.id} // Re-animate on series change
-//                   src={item.image}
-//                   alt={item.name}
-//                   initial={{ opacity: 0, scale: 0.5, y: 100 }}
-//                   animate={{ opacity: 1, scale: 1, y: 0 }}
-//                   exit={{ opacity: 0, scale: 0.8, y: -50 }}
-//                   transition={{ type: "spring", damping: 15, stiffness: 100 }}
-//                   style={{ y: imgY }}
-//                   className="relative z-10 w-full h-auto object-contain drop-shadow-[0_35px_35px_rgba(0,0,0,0.5)] cursor-pointer"
+//                   key={`water-${item.id}`}
+//                   src={item.waterImage}
+//                   alt="water splash"
+//                   initial={{ opacity: 0 }}
+//                   animate={{ opacity: 0.6 }}
+//                   style={{ y: waterY, x: waterX }}
+//                   className="absolute z-10 w-[140%] h-auto pointer-events-none mix-blend-screen -left-[20%]"
 //                 />
 //               </AnimatePresence>
-//             </div>
+
+//               {/* Vape Device */}
+//               <AnimatePresence mode="wait">
+//                 <motion.img
+//                   key={`vape-${item.id}`}
+//                   src={item.vapeImage}
+//                   alt="vape device"
+//                   initial={{ opacity: 0, x: -20 }}
+//                   animate={{ opacity: 1, x: 0 }}
+//                   exit={{ opacity: 0 }}
+//                   style={{ y: vapeY }}
+//                   className="absolute z-[30] w-[270px] left-[-20px] drop-shadow-2xl grayscale-[0.2] group-hover:grayscale-0 transition-all duration-500"
+//                 />
+//               </AnimatePresence>
+
+//               {/* Fruit Image */}
+//               <AnimatePresence mode="wait">
+//                 <motion.img
+//                   key={activeSeries + item.id}
+//                   src={item.image}
+//                   alt={item.name}
+//                   initial={{ opacity: 0, scale: 0.5 }}
+//                   animate={{ opacity: 1, scale: 1 }}
+//                   exit={{ opacity: 0 }}
+//                   transition={{ type: "spring", damping: 15 }}
+//                   style={{ y: imgY, x: fruitX }}
+//                   className="relative z-20 w-full h-[280px] object-contain drop-shadow-[0_20px_40px_rgba(0,0,0,0.4)] group-hover:scale-110 transition-transform cursor-pointer"
+//                 />
+//               </AnimatePresence>
+              
+//               {/* Hover Name Tag */}
+//               <div className="absolute bottom-6 left-0 right-0 z-30 text-center opacity-0 group-hover:opacity-100 transition-opacity">
+//                 <span className="bg-black/80 text-white px-4 py-1 rounded-full text-xs font-bold uppercase tracking-widest">
+//                   {item.name}
+//                 </span>
+//               </div>
+//             </motion.div>
 //           );
 //         })}
 //       </div>
 
-//       {/* 3. Control Buttons */}
+//       {/* Control Buttons */}
 //       <div className="flex gap-6 mt-20 z-20">
 //         <button
 //           onClick={() => setActiveSeries("local")}
@@ -108,7 +483,7 @@
 //         >
 //           LOCAL SERIES
 //         </button>
-        
+
 //         <button
 //           onClick={() => setActiveSeries("regular")}
 //           className={`px-10 py-4 rounded-full font-bold text-sm tracking-widest transition-all duration-300 border-2 ${
@@ -120,63 +495,57 @@
 //           REGULAR SERIES
 //         </button>
 //       </div>
-      
-//       {/* Decorative Text in background */}
-//       {/* <div className="absolute bottom-[-5%] left-1/2 -translate-x-1/2 text-[15rem] font-black text-black/[0.03] select-none whitespace-nowrap z-0">
-//         PREMIUM VAPES
-//       </div> */}
+
+//       {/* Background Text */}
 //       <motion.div
-//   initial={{ x: "0%" }}
-//   animate={{ x: "-50%" }}
-//   transition={{
-//     repeat: Infinity,
-//     repeatType: "loop",
-//     duration: 20, // speed control (kam = fast, zyada = slow)
-//     ease: "linear",
-//   }}
-//   className="absolute bottom-[-5%] left-0 w-[200%] flex text-[15rem] font-black text-black/[0.03] select-none whitespace-nowrap z-0"
-// >
-//   <span className="mr-20">PREMIUM VAPES</span>
-//   <span>PREMIUM VAPES</span>
-// </motion.div>
+//         initial={{ x: "0%" }}
+//         animate={{ x: "-50%" }}
+//         transition={{ repeat: Infinity, duration: 25, ease: "linear" }}
+//         className="absolute bottom-[-5%] left-0 w-[200%] flex text-[15rem] font-black text-black/[0.03] select-none whitespace-nowrap z-0"
+//       >
+//         <span className="mr-20">PREMIUM VAPES</span>
+//         <span>PREMIUM VAPES</span>
+//       </motion.div>
 //     </section>
 //   );
 // };
 
+// // Fixed: Correct Default Export
 // export default Features;
 "use client";
 
-// features
-import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef, useState } from "react";
 
-
+// Types definition
 type SeriesKey = "local" | "regular";
 
-// Product data definition
-const seriesData: Record<
-  SeriesKey,
-  { id: number; name: string; image: string; bg: string }[]
-> = {
+interface ProductItem {
+  id: number;
+  name: string;
+  image: string;
+  vapeImage: string;
+  bg: string;
+  waterImage: string;
+  description: string;
+}
+
+const seriesData: Record<SeriesKey, ProductItem[]> = {
   local: [
-    { id: 101, name: "Local Mint", image: "/images/vape6.png", bg: "/images/bg1.png" },
-    { id: 102, name: "Local Berry", image: "/images/vape6.png", bg: "/images/bg2.png" },
-    { id: 103, name: "Local Mango", image: "/images/vape6.png", bg: "/images/bg3.png" },
+    { id: 101, name: "Local Mint", image: "/images/fruiti2.png", vapeImage: "/images/vape6.png", bg: "/images/all1.jpeg", waterImage: "/images/water.png", description: "Refreshing natural mint leaves with a cool breeze." },
+    { id: 102, name: "Local Berry", image: "/images/fruiti3.png", vapeImage: "/images/vape6.png", bg: "/images/all2.jpeg", waterImage: "/images/water.png", description: "Hand-picked wild berries for a sweet tarty finish." },
+    { id: 103, name: "Local Mango", image: "/images/fruiti7.png", vapeImage: "/images/vape6.png", bg: "/images/all3.jpeg", waterImage: "/images/water.png", description: "Pure Alphonso mango pulp for tropical lovers." },
   ],
   regular: [
-    { id: 201, name: "Reg Classic", image: "/images/vape7.png", bg: "/images/bg3.png" },
-    { id: 202, name: "Reg Ice", image: "/images/vape9.png", bg: "/images/bg1.png" },
-    { id: 203, name: "Reg Gold", image: "/images/vape7.png", bg: "/images/bg2.png" },
+    { id: 201, name: "Reg Classic", image: "/images/fruiti7.png", vapeImage: "/images/vape6.png", bg: "/images/all3.jpeg", waterImage: "/images/water.png", description: "The original classic blend with smooth undertones." },
+    { id: 202, name: "Reg Ice", image: "/images/fruiti2.png", vapeImage: "/images/vape6.png", bg: "/images/all1.jpeg", waterImage: "/images/water.png", description: "Sub-zero menthol blast for an extreme icy hit." },
+    { id: 203, name: "Reg Gold", image: "/images/fruiti3.png", vapeImage: "/images/vape6.png", bg: "/images/all2.jpeg", waterImage: "/images/water.png", description: "Premium golden tobacco leaves for a rich experience." },
   ],
 };
 
 const Features = () => {
-
   const [activeSeries, setActiveSeries] = useState<SeriesKey>("regular");
-  // const [activeSeries, setActiveSeries] = useState<SeriesKey>("regular");
-
-  const containerRef = useRef(null);
-  // const containerRef = useRef(null);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -188,11 +557,12 @@ const Features = () => {
       ref={containerRef}
       className="relative min-h-screen py-20 flex flex-col items-center justify-center overflow-hidden bg-white"
     >
-      {/* 1. Top Heading Section */}
-      <div className="relative z-20 text-center mb-3">
+      {/* Top Heading */}
+      <div className="relative z-20 text-center mb-10">
         <motion.h2
           initial={{ opacity: 0, y: -20 }}
           whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
           className="text-5xl md:text-6xl font-black text-[#222] tracking-tighter"
         >
           EXPLORE OUR PRODUCTS
@@ -200,94 +570,110 @@ const Features = () => {
         <div className="w-24 h-1 bg-black mx-auto mt-4 rounded-full" />
       </div>
 
-      {/* 2. Products Grid Section */}
+      {/* Products Grid */}
       <div className="relative z-10 flex flex-wrap items-end justify-center gap-8 md:gap-12 px-4 h-auto md:h-[550px]">
         {seriesData[activeSeries].map((item, i) => {
-          const imgY = useTransform(
-            scrollYProgress,
-            [0, 1],
-            ["40%", `${-15 - i * 8}%`]
-          );
-
-          const bgY = useTransform(scrollYProgress, [0, 1], ["15%", "0%"]);
+          // Parallax Calculations
+          const imgY = useTransform(scrollYProgress, [0, 1], [80, -80]);
+          const vapeY = useTransform(scrollYProgress, [0, 1], [120, -120]);
+          const waterY = useTransform(scrollYProgress, [0, 1], [150, -50]);
+          const bgY = useTransform(scrollYProgress, [0, 1], [40, 0]);
 
           return (
-            <div
+            <motion.div
               key={item.id}
-              className="relative w-[260px] h-[420px] flex items-end group"
+              initial={{ opacity: 0, y: 50 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: i * 0.1 }}
+              className="relative w-[280px] h-[450px] flex items-end group cursor-pointer"
             >
-              {/* Background */}
+              {/* Card Background & Hover Overlay */}
               <motion.div
                 style={{ y: bgY }}
-                className="absolute inset-0 overflow-hidden rounded-t-[130px] rounded-b-2xl shadow-2xl border-4 border-white/20"
+                className="absolute inset-0 overflow-hidden rounded-t-[140px] rounded-b-3xl shadow-2xl border-4 border-white/20 z-0"
               >
                 <img
                   src={item.bg}
-                  alt="background"
-                  className="w-full h-full object-cover brightness-95 group-hover:scale-110 transition-transform duration-700"
+                  alt="bg"
+                  className="w-full h-full object-cover brightness-90 group-hover:scale-110 transition-transform duration-700"
                 />
+
+                {/* Hover Detail Content */}
+                <div className="absolute inset-0 bg-black/70 backdrop-blur-[3px] opacity-0 group-hover:opacity-100 transition-all duration-500 z-50 flex flex-col items-center justify-center p-6 text-center">
+                  <h3 className="text-white font-black text-2xl mb-2 translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+                    {item.name}
+                  </h3>
+                  <p className="text-white/80 text-sm leading-relaxed translate-y-4 group-hover:translate-y-0 transition-transform duration-500 delay-75">
+                    {item.description}
+                  </p>
+                  <button className="mt-6 px-6 py-2 bg-white text-black text-xs font-bold rounded-full hover:bg-black hover:text-white transition-all">
+                    BUY NOW
+                  </button>
+                </div>
               </motion.div>
 
-              {/* Product Image */}
-              <AnimatePresence mode="wait">
-                <motion.img
-                  key={activeSeries + item.id}
-                  src={item.image}
-                  alt={item.name}
-                  initial={{ opacity: 0, scale: 0.5, y: 100 }}
-                  animate={{ opacity: 1, scale: 1, y: 0 }}
-                  exit={{ opacity: 0, scale: 0.8, y: -50 }}
-                  transition={{ type: "spring", damping: 15, stiffness: 100 }}
-                  style={{ y: imgY }}
-                  className="relative z-10 w-full h-auto object-contain drop-shadow-[0_35px_35px_rgba(0,0,0,0.5)] cursor-pointer"
-                />
-              </AnimatePresence>
-            </div>
+              {/* Decorative Parallax Images */}
+              <motion.img
+                src={item.waterImage}
+                style={{ y: waterY }}
+                className="absolute z-10 w-[140%] h-auto pointer-events-none mix-blend-screen -left-[20%] opacity-40"
+              />
+
+              <motion.img
+                src={item.vapeImage}
+                style={{ y: vapeY }}
+                className="absolute z-[30] w-[260px] left-[-15px] drop-shadow-2xl"
+              />
+
+              <motion.img
+                src={item.image}
+                style={{ y: imgY }}
+                className="relative z-20 w-full h-[280px] object-contain drop-shadow-2xl group-hover:scale-105 transition-transform duration-500"
+              />
+              
+              {/* Name Tag */}
+              <div className="absolute bottom-6 left-0 right-0 z-[35] text-center group-hover:opacity-0 transition-opacity">
+                <span className="bg-black/90 text-white px-5 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest">
+                  {item.name}
+                </span>
+              </div>
+            </motion.div>
           );
         })}
       </div>
 
-      {/* 3. Control Buttons */}
-      <div className="flex gap-6 mt-20 z-20">
-        <button
-          onClick={() => setActiveSeries("local")}
-          className={`px-10 py-4 rounded-full font-bold text-sm tracking-widest transition-all duration-300 border-2 ${
-            activeSeries === "local"
-              ? "bg-black text-white border-black scale-110 shadow-xl"
-              : "bg-transparent text-black border-black hover:bg-black hover:text-white"
-          }`}
-        >
-          LOCAL SERIES
-        </button>
-
-        <button
-          onClick={() => setActiveSeries("regular")}
-          className={`px-10 py-4 rounded-full font-bold text-sm tracking-widest transition-all duration-300 border-2 ${
-            activeSeries === "regular"
-              ? "bg-black text-white border-black scale-110 shadow-xl"
-              : "bg-transparent text-black border-black hover:bg-black hover:text-white"
-          }`}
-        >
-          REGULAR SERIES
-        </button>
+      {/* Controls */}
+      <div className="flex gap-4 mt-16 z-20">
+        {(["local", "regular"] as SeriesKey[]).map((key) => (
+          <button
+            key={key}
+            onClick={() => setActiveSeries(key)}
+            className={`px-8 py-3 rounded-full font-bold text-xs tracking-[0.2em] transition-all border-2 ${
+              activeSeries === key
+                ? "bg-black text-white border-black scale-105 shadow-lg"
+                : "bg-transparent text-black border-black hover:bg-black hover:text-white"
+            }`}
+          >
+            {key.toUpperCase()} SERIES
+          </button>
+        ))}
       </div>
 
-      {/* Moving Background Text */}
-      <motion.div
-        initial={{ x: "0%" }}
-        animate={{ x: "-50%" }}
-        transition={{
-          repeat: Infinity,
-          duration: 20,
-          ease: "linear",
-        }}
-        className="absolute bottom-[-5%] left-0 w-[200%] flex text-[15rem] font-black text-black/[0.03] select-none whitespace-nowrap z-0"
-      >
-        <span className="mr-20">PREMIUM VAPES</span>
-        <span>PREMIUM VAPES</span>
-      </motion.div>
+      {/* Marquee Background Text */}
+      <div className="absolute bottom-[-2%] left-0 w-full overflow-hidden pointer-events-none z-0">
+        <motion.div
+          animate={{ x: ["0%", "-50%"] }}
+          transition={{ repeat: Infinity, duration: 20, ease: "linear" }}
+          className="flex whitespace-nowrap text-[12rem] font-black text-black/[0.03]"
+        >
+          <span className="mr-20">PREMIUM VAPES</span>
+          <span className="mr-20">PREMIUM VAPES</span>
+        </motion.div>
+      </div>
     </section>
   );
 };
 
+// CRITICAL: Ensure this is a default export
 export default Features;
