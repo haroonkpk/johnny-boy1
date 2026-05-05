@@ -137,9 +137,9 @@ const Contact = () => {
 
             {/* HEADING */}
             <div className="max-w-3xl mx-auto text-center mb-16">
-                <h1 className="text-4xl font-bold tracking-tight text-gray-900 mb-4">
-                    Contact Us
-                </h1>
+                  <h2 className="text-5xl md:text-7xl font-black text-black mb-6 tracking-tighter">
+           Contact Us
+          </h2>
                 <p className="text-lg text-gray-600">
                     Have a question or want to get in touch? We'd love to hear from you.
                 </p>
