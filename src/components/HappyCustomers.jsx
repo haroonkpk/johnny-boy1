@@ -67,11 +67,12 @@ function VideoCard({ t, isActive, onToggle }) {
        
         <video
           ref={videoRef}
-          src={`${t.videoSrc}#t=0.1`}
+          src={t.videoSrc}
+          poster={t.videoSrc.replace(".mp4", ".png")}
           onTimeUpdate={onTimeUpdate}
           onEnded={onEnded}
           playsInline
-          preload="metadata"
+          preload="none"
           className="absolute inset-0 w-full h-full object-contain"
         />
 
