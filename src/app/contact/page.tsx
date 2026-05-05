@@ -66,10 +66,10 @@ const Contact = () => {
         </p>
       </div>
 
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
+                <div className="grid   items-center">
                     
                     {/* LEFT SIDE: INFO CARDS */}
-                    <div className="lg:col-span-4 flex flex-col gap-5">
+                    {/* <div className="lg:col-span-4 flex flex-col gap-5">
                         <InfoCard
                             icon={<FaPhoneAlt />}
                             title="Call Us"
@@ -91,7 +91,7 @@ const Contact = () => {
                             delay={0.3}
                             accentColor="#ec4899"
                         />
-                    </div>
+                    </div> */}
 
                     {/* RIGHT SIDE: CLEAN WHITE FORM */}
                     <motion.div
