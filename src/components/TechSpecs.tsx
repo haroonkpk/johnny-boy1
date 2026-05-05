@@ -97,8 +97,8 @@ const FlavorAroma = () => {
                 transition={{ delay: 0.8 }}
                 className="absolute top-[20%] -right-4 bg-white shadow-xl p-4 rounded-2xl z-30 rotate-6 hover:rotate-0 transition-transform"
               >
-                <p className="text-xs font-bold text-gray-400 uppercase">Nicotine</p>
-                <p className="text-lg font-black text-black">50MG/ML</p>
+                <p className="text-xs font-bold text-gray-400 uppercase"></p>
+                <p className="text-lg font-black text-black"></p>
               </motion.div>
               
               <motion.div 
@@ -107,8 +107,8 @@ const FlavorAroma = () => {
                 transition={{ delay: 1 }}
                 className="absolute bottom-[20%] -left-4 bg-white shadow-xl p-4 rounded-2xl z-30 -rotate-6 hover:rotate-0 transition-transform"
               >
-                <p className="text-xs font-bold text-gray-400 uppercase">Coil</p>
-                <p className="text-lg font-black text-black">MESH V2</p>
+                <p className="text-xs font-bold text-gray-400 uppercase"></p>
+                <p className="text-lg font-black text-black"></p>
               </motion.div>
             </div>
           </div>

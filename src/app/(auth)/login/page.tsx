@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState } from "react";
@@ -5,6 +6,8 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useAuthStore } from "@/store/authStore";
 import api from "@/lib/api";
+// react-icons se close icon import kiya
+import { IoClose } from "react-icons/io5";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -26,7 +29,6 @@ export default function LoginPage() {
         password,
       });
 
-      // safer fallback handling
       setCredentials({
         user: data.user,
         token: data.token,
@@ -44,8 +46,18 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-[80vh] flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8 bg-white p-10 rounded-2xl shadow-sm border border-gray-100">
+      {/* Container ko 'relative' kiya hai taaki cross icon corner mein set ho sake */}
+      <div className="relative max-w-md w-full space-y-8 bg-white p-10 rounded-2xl shadow-sm border border-gray-100">
         
+        {/* --- Cross Icon (Back Button) --- */}
+        <button
+          onClick={() => router.push("/")}
+          className="absolute right-4 top-4 p-2 text-gray-400 hover:text-black hover:bg-gray-50 rounded-full transition-all"
+          aria-label="Close"
+        >
+          <IoClose size={24} />
+        </button>
+
         {/* Header */}
         <div>
           <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900">
