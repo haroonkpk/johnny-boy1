@@ -74,14 +74,13 @@ const ProductCard = ({
       );
 
 
-      //  Fruit Image
+      //  Fruit Image 
       gsap.fromTo(
         fruitRef.current,
-        { y: "25%", scale: 1.3, opacity: 0.6 },
+        { y: "25%", scale: 1.3 },
         {
-          y: "-20%",
+          y: "-30%",
           scale: 1.8,
-          opacity: 1,
           ease: "none",
           scrollTrigger: {
             id: `card-${item.id}-fruit`,
@@ -98,7 +97,7 @@ const ProductCard = ({
         vapeRef.current,
         { y: "30%" },
         {
-          y: `-${30 + index * 8}%`,
+          y: `-${40 + index * 8}%`,
           ease: "none",
           scrollTrigger: {
             id: `card-${item.id}-vape`,
@@ -133,7 +132,7 @@ const ProductCard = ({
         ref={fruitRef}
         src={item.fruits}
         alt="fruits"
-        className="absolute bottom-4 left-1/2 scale-[1.3] -translate-x-1/2 z-[5] w-[80%] h-auto object-contain drop-shadow-[0_10px_20px_rgba(0,0,0,0.3)] pointer-events-none will-change-transform"
+        className="absolute bottom-4 left-1/2 scale-[1.3] -translate-x-1/2 z-[5] w-[80%] h-auto object-contain pointer-events-none will-change-transform"
       />
 
       {/* Layer 3 — Product / Vape Image */}
@@ -141,7 +140,7 @@ const ProductCard = ({
         ref={vapeRef}
         src={item.image}
         alt={item.name}
-        className="relative z-[10] w-full h-auto object-contain drop-shadow-[0_35px_35px_rgba(0,0,0,0.5)] cursor-pointer will-change-transform"
+        className="relative z-[10] w-full h-auto object-contain  cursor-pointer will-change-transform"
       />
     </div>
   );
