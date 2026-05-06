@@ -57,7 +57,7 @@ const UltraModernVapeSection = () => {
     <section
       ref={containerRef}
       onMouseMove={handleMouseMove}
-      className="relative min-h-screen bg-[#050505] flex items-center justify-center overflow-hidden py-20 cursor-crosshair"
+      className="relative min-h-screen bg-[#050505] flex items-center justify-center overflow-hidden py-20"
     >
       {/* BACKGROUND */}
       <div className="absolute inset-0 flex items-center overflow-hidden opacity-[0.03] pointer-events-none z-0">
