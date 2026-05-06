@@ -17,37 +17,37 @@ const initialProducts: Product[] = [
   {
     id: "1",
     title: "Minimalist Watch",
-    price: 199.99,
+    price: 0,
     imageUrl: "/images/vape6.png",
   },
   {
     id: "2",
     title: "Premium Headphones",
-    price: 299.0,
+    price: 0,
     imageUrl: "/images/vape7.png",
   },
   {
     id: "3",
     title: "Smart Speaker",
-    price: 149.5,
+    price:0,
     imageUrl: "/images/vape9.png",
   },
   {
     id: "4",
     title: "Mechanical Keyboard",
-    price: 249.99,
+    price: 0,
     imageUrl: "/images/vape9.png",
   },
   {
     id: "5",
     title: "Ergonomic Mouse",
-    price: 89.99,
+    price: 0,
     imageUrl: "/images/vape5.png",
   },
   {
     id: "6",
     title: "Leather Wallet",
-    price: 59.0,
+    price: 0,
     imageUrl: "/images/vape7.png",
   },
 ];

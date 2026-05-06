@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "AURA | Premium eCommerce",
+  title: "Johnny Boy",
   description: "Experience weightless shopping",
 };
 
