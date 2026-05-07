@@ -10,7 +10,7 @@ import {
   useSpring,
   useScroll,
 } from "framer-motion";
-import Button from "../../ui/Button";
+import Button from '@/components/ui/Button';
 
 const UltraModernVapeSection = () => {
   const containerRef = useRef<HTMLElement>(null);

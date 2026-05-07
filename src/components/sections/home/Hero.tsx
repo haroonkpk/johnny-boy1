@@ -220,10 +220,10 @@ import React, { useEffect, useRef } from 'react';
 import { useState } from 'react';
 import { LogIn, UserPlus } from 'lucide-react';
 import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
-import Button from '../../ui/Button';
-import { Modal } from '../../ui/modal';
-import { LoginForm } from '../../auth/LoginForm';
-import { SignupForm } from '../../auth/SignupForm';
+import Button from '@/components/ui/Button';
+import { Modal } from '@/components/ui/modal';
+import { LoginForm } from '@/components/auth/LoginForm';
+import { SignupForm } from '@/components/auth/SignupForm';
 import { useRouter } from 'next/navigation';
 
 // --- Particle Background Component ---

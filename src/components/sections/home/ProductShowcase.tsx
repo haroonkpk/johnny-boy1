@@ -2,9 +2,9 @@
 
 import React, { useState } from 'react';
 import { ShoppingBag, Star, Zap } from 'lucide-react';
-import Button from '../../ui/Button';
-import { Card } from '../../ui/card';
-import { SectionHeading } from '../../ui/SectionHeading';
+import Button from '@/components/ui/Button';
+import { Card } from '@/components/ui/card';
+import { SectionHeading } from '@/components/ui/SectionHeading';
 
 const ProductShowcase = () => {
   const flavorData = [

@@ -4,8 +4,8 @@
 import React from 'react';
 import { Wind, Zap, Droplets } from 'lucide-react';
 import { motion } from 'framer-motion';
-import Button from '../../ui/Button';
-import { SectionHeading } from '../../ui/SectionHeading';
+import Button from '@/components/ui/Button';
+import { SectionHeading } from '@/components/ui/SectionHeading';
 
 const FlavorAroma = () => {
   return (
