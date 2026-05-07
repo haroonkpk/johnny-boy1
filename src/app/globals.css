@@ -6,6 +6,10 @@
   --card: #111111;
   --card-foreground: #ffffff;
   --border: #262626;
+  --heading-bg: #7A7D8F;
+  --color-cream: #f5f0e8;
+  --gold: #e2bf32;
+  --heading-accent: #030404;
 }
 
 @theme inline {
@@ -14,6 +18,7 @@
   --color-card: var(--card);
   --color-card-foreground: var(--card-foreground);
   --color-border: var(--border);
+  --color-heading-bg: var(--heading-bg);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }

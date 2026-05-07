@@ -2,6 +2,9 @@
 "use client";
 
 import { useRef, useState, useEffect } from "react";
+import Button from "../../ui/Button";
+import { Card } from "../../ui/card";
+import { SectionHeading } from "../../ui/SectionHeading";
 
 // Data 
 const TESTIMONIALS = [
@@ -40,7 +43,7 @@ function VideoCard({ t, isActive, onToggle }) {
   }, [isActive]);
 
   return (
-    <div className="relative flex flex-col w-full h-full rounded-2xl overflow-hidden bg-white border border-black/[0.08] hover:border-black/[0.2] transition-colors duration-300 shadow-sm">
+    <Card className="relative flex flex-col w-full h-full overflow-hidden bg-white border border-black/[0.08] hover:border-black/[0.2] transition-colors duration-300 p-0">
       <div className="relative flex-1 cursor-pointer bg-gray-100 overflow-hidden" onClick={onToggle}>
         <video
           ref={videoRef}
@@ -52,14 +55,15 @@ function VideoCard({ t, isActive, onToggle }) {
           preload="none"
           className="absolute inset-0 w-full h-full object-cover"
         />
-        <button
+        <Button
+          variant="review"
           onClick={(e) => { e.stopPropagation(); onToggle(); }}
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10 w-[64px] h-[64px] rounded-full flex items-center justify-center bg-white/90 backdrop-blur-sm text-black transition-all hover:scale-110 active:scale-95 border border-black/10 shadow-xl"
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10 w-[64px] h-[64px]"
         >
           {isActive ? <PauseIcon /> : <PlayIcon />}
-        </button>
+        </Button>
       </div>
-    </div>
+    </Card>
   );
 }
 
@@ -132,18 +136,17 @@ export default function HappyCustomers() {
   return (
     <section className="bg-[#f8f8f8] relative min-h-screen pb-20">
       {/* 1. Header */}
-      <div className="text-center pt-24 pb-12 px-6">
-        <h2 className="font-bold leading-[1.1] text-black tracking-tighter" style={{ fontSize: "clamp(2.5rem, 6vw, 4.5rem)" }}>
-          What our customers say
-        </h2>
-         <p className="text-lg mt-4 opacity-50 max-w-2xl mx-auto text-gray-600">
-           Real stories from real people who bought our product
-         </p>
+      <div className="container mx-auto max-w-[1500px] pt-24 pb-12 px-6">
+        <SectionHeading 
+          title="What our customers say"
+          subtitle="Real stories from real people who bought our product"
+          badge="Testimonials"
+          mode="light"
+        />
       </div>
 
-      {/* 2. GSAP Wrapper (Pining area) */}
+      {/* 2. GSAP Wrapper  */}
       <div ref={wrapperRef} className="relative overflow-hidden">
-        {/* Is div ko humne sticky banaya hai taki arrows iske bottom par chipke rahein */}
         <div className="h-screen flex items-center relative">
           
           {/* Moving Videos Track */}
@@ -169,20 +172,21 @@ export default function HappyCustomers() {
             ))}
           </div>
 
-          {/* ARROWS: Inhe track se bahar aur wrapper ke andar rakha hai */}
           <div className="absolute bottom-10 left-0 w-full z-[100] flex justify-center gap-4 pointer-events-none">
-            <button
+            <Button
+              variant="secondary-outline"
               onClick={() => moveTrack('prev')}
-              className="pointer-events-auto p-4 rounded-full bg-white text-black shadow-xl border border-black/5 hover:scale-110 active:scale-95 transition-all"
+              className="pointer-events-auto py-[clamp(1rem,2.5vw,1.5rem)]"
             >
               <ArrowLeft />
-            </button>
-            <button
+            </Button>
+            <Button
+              variant="secondary"
               onClick={() => moveTrack('next')}
-              className="pointer-events-auto p-4 rounded-full bg-black text-white shadow-xl hover:scale-110 active:scale-95 transition-all"
+              className="pointer-events-auto py-[clamp(1rem,2.5vw,1.5rem)]"
             >
               <ArrowRight />
-            </button>
+            </Button>
           </div>
 
         </div>

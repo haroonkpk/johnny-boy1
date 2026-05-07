@@ -3,6 +3,11 @@
 import { useState } from 'react';
 import { useProductStore } from '@/store/useProductStore';
 import { Trash2, Plus, Package } from 'lucide-react';
+import { Card } from '@/components/ui/card';
+import { SectionHeading } from '@/components/ui/SectionHeading';
+import { Input } from '@/components/ui/input';
+
+import Button from '@/components/ui/Button';
 
 export default function AdminPage() {
   const { products, addProduct, deleteProduct } = useProductStore();
@@ -36,55 +41,53 @@ export default function AdminPage() {
   };
 
   return (
-    <div className="max-w-4xl mx-auto px-4 py-12">
-      <div className="mb-10">
-        <h1 className="text-3xl font-bold text-white mb-2">Admin Dashboard</h1>
-        <p className="text-gray-400">Manage your floating product collection.</p>
-      </div>
+    <div className="max-w-[1500px] mx-auto px-4 py-12">
+      <SectionHeading 
+        title="Admin Dashboard"
+        subtitle="Manage your floating product collection."
+        badge="Control Panel"
+        mode="dark"
+      />
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
         {/* Add Product Form */}
         <div className="md:col-span-1">
-          <div className="glass-card p-6 rounded-2xl">
+          <Card variant="primary" className="p-6">
             <div className="flex items-center space-x-2 mb-6 text-white font-medium">
               <Plus className="w-5 h-5" />
               <h2>Add Product</h2>
             </div>
             
             <form onSubmit={handleAddProduct} className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-400 mb-1">Title</label>
-                <input 
-                  type="text" 
-                  value={title}
-                  onChange={(e) => setTitle(e.target.value)}
-                  className="w-full bg-black/50 border border-white/10 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-white/30 transition-colors"
-                  placeholder="e.g. Minimalist Watch"
-                  required
-                />
-              </div>
+              <Input 
+                label="Title"
+                type="text" 
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                className="!bg-black/50 !border-white/10 !text-white"
+                placeholder="e.g. Minimalist Watch"
+                required
+              />
               
-              <div>
-                <label className="block text-sm font-medium text-gray-400 mb-1">Price ($)</label>
-                <input 
-                  type="number" 
-                  step="0.01"
-                  value={price}
-                  onChange={(e) => setPrice(e.target.value)}
-                  className="w-full bg-black/50 border border-white/10 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-white/30 transition-colors"
-                  placeholder="e.g. 199.99"
-                  required
-                />
-              </div>
+              <Input 
+                label="Price ($)"
+                type="number" 
+                step="0.01"
+                value={price}
+                onChange={(e) => setPrice(e.target.value)}
+                className="!bg-black/50 !border-white/10 !text-white"
+                placeholder="e.g. 199.99"
+                required
+              />
               
-              <div>
-                <label className="block text-sm font-medium text-gray-400 mb-1">Product Image</label>
-                <input 
+              <div className="space-y-2">
+                <Input 
+                  label="Product Image"
                   id="image-upload"
                   type="file" 
                   accept="image/*"
                   onChange={handleImageChange}
-                  className="w-full bg-black/50 border border-white/10 rounded-lg px-4 py-2 text-gray-400 focus:outline-none focus:border-white/30 transition-colors file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-white file:text-black hover:file:bg-gray-200 cursor-pointer"
+                  className="!bg-black/50 !border-white/10 !text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-white file:text-black hover:file:bg-gray-200 cursor-pointer"
                   required
                 />
                 {imageUrl && (
@@ -94,23 +97,24 @@ export default function AdminPage() {
                 )}
               </div>
               
-              <button 
+              <Button 
                 type="submit"
-                className="w-full bg-white text-black font-medium py-2 rounded-lg hover:bg-gray-200 transition-colors mt-4"
+                variant="secondary"
+                className="w-full mt-4"
               >
                 Create Product
-              </button>
+              </Button>
             </form>
-          </div>
+          </Card>
         </div>
 
         {/* Product List */}
         <div className="md:col-span-2">
-          <div className="glass-card p-6 rounded-2xl h-full">
+          <Card variant="primary" className="p-6 h-full">
             <div className="flex items-center space-x-2 mb-6 text-white font-medium">
               <Package className="w-5 h-5" />
               <h2>Current Products ({products.length})</h2>
-            </div>
+            </div> 
             
             {products.length === 0 ? (
               <div className="text-gray-500 text-center py-8">No products found.</div>
@@ -142,7 +146,7 @@ export default function AdminPage() {
                 ))}
               </div>
             )}
-          </div>
+          </Card>
         </div>
       </div>
     </div>

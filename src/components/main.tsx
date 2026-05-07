@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { ShieldCheck, Battery, Wind, Droplets } from 'lucide-react';
+import Button from './ui/Button';
 
 const TechSpecs = () => {
   const specs = [
@@ -38,7 +39,7 @@ const TechSpecs = () => {
            style={{ backgroundImage: 'linear-gradient(#ffffff 1px, transparent 1px), linear-gradient(90deg, #ffffff 1px, transparent 1px)', backgroundSize: '100px 100px' }} 
       />
 
-      <div className="container mx-auto max-w-7xl relative z-10">
+      <div className="container mx-auto max-w-[1500px] relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           
           {/* Left Side: Visual Technical Image */}
@@ -86,10 +87,13 @@ const TechSpecs = () => {
             </div>
 
             <div className="pt-8">
-              <button className="px-10 py-4 bg-white text-black rounded-full font-black uppercase tracking-tighter hover:bg-[#3ac8ee] transition-all flex items-center gap-3">
+              <Button 
+                variant="primary" 
+                className="px-10 py-4 rounded-full font-black uppercase tracking-tighter hover:bg-[#3ac8ee] flex items-center gap-3"
+              >
                 Download Technical Sheet
                 <div className="w-2 h-2 bg-black rounded-full animate-bounce" />
-              </button>
+              </Button>
             </div>
           </div>
 

@@ -4,6 +4,8 @@ import { motion } from 'framer-motion';
 import { Product } from '@/store/useProductStore';
 import { ShoppingCart } from 'lucide-react';
 import Image from 'next/image';
+import Button from './ui/Button';
+import { Card } from './ui/card';
 
 interface ProductCardProps {
   product: Product;
@@ -11,7 +13,7 @@ interface ProductCardProps {
 
 export default function ProductCard({ product }: ProductCardProps) {
   return (
-    <div className="glass-card rounded-2xl p-4 flex flex-col h-full group transition-all duration-300 hover:border-white/20">
+    <Card variant="primary" className="p-4 flex flex-col h-full group transition-all duration-300 hover:border-white/20">
       <div className="relative w-full h-64 mb-6 rounded-xl overflow-hidden bg-white/5 flex items-center justify-center">
         {/* Anti-Gravity Animation on the Image Wrapper */}
         <motion.div
@@ -35,12 +37,12 @@ export default function ProductCard({ product }: ProductCardProps) {
         <p className="text-gray-400 font-mono mb-4 text-xl tracking-tight">${product.price.toFixed(2)}</p>
         
         <div className="mt-auto pt-4">
-          <button className="w-full bg-white text-black hover:bg-gray-200 transition-colors font-medium rounded-lg py-3 px-4 flex items-center justify-center space-x-2">
+          <Button variant="primary" className="w-full">
             <ShoppingCart className="w-4 h-4" />
             <span>Add to Cart</span>
-          </button>
+          </Button>
         </div>
       </div>
-    </div>
+    </Card>
   );
 }

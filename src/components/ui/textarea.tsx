@@ -1,0 +1,35 @@
+import React, { TextareaHTMLAttributes } from 'react';
+
+interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
+  label?: string;
+}
+
+export const Textarea = ({ label, id, className = '', ...props }: TextareaProps) => {
+  return (
+    <div className="flex flex-col gap-[clamp(0.3rem,1vw,0.5rem)] w-full">
+      
+      {label && (
+        <label 
+          htmlFor={id} 
+          className="text-[clamp(0.7rem,1vw,0.8rem)] font-bold text-[#475569] uppercase tracking-wide"
+        >
+          {label}
+          {props.required && <span className="text-red-500 ml-1">*</span>}
+        </label>
+      )}
+
+      <textarea
+        id={id}
+        className={`
+          w-full bg-(--heading-bg)/10 text-[#1E293B] placeholder-[#94A3B8]
+          rounded-md outline-none transition-all duration-200 border border-transparent resize-y min-h-[100px]
+          focus:border-[var(--gold)] focus:bg-white/20 focus:shadow-sm
+          p-[clamp(0.6rem,1.5vw,0.875rem)]
+          text-[clamp(0.875rem,1vw+0.2rem,1rem)]
+          ${className}
+        `}
+        {...props}
+      />
+    </div>
+  );
+}

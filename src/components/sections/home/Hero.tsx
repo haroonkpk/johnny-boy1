@@ -217,10 +217,14 @@
 "use client";
 
 import React, { useEffect, useRef } from 'react';
-import Link from 'next/link';
+import { useState } from 'react';
 import { LogIn, UserPlus } from 'lucide-react';
 import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
-// import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
+import Button from '../../ui/Button';
+import { Modal } from '../../ui/modal';
+import { LoginForm } from '../../auth/LoginForm';
+import { SignupForm } from '../../auth/SignupForm';
+import { useRouter } from 'next/navigation';
 
 // --- Particle Background Component ---
 const ParticleBackground = () => {
@@ -295,6 +299,9 @@ const ParticleBackground = () => {
 };
 
 export default function Home() {
+  const [activeModal, setActiveModal] = useState<'login' | 'signup' | null>(null);
+  const router = useRouter();
+  
   const { scrollY } = useScroll();
   const smoothY = useSpring(scrollY, { stiffness: 100, damping: 30 });
 
@@ -302,6 +309,16 @@ export default function Home() {
   const cloudY = useTransform(smoothY, [0, 500], [0, -130]); 
   const waterY = useTransform(smoothY, [0, 500], [0, -230]);
   const bottleY = useTransform(smoothY, [0, 500], [0, -45]);
+
+  const handleLoginSuccess = () => {
+    setActiveModal(null);
+    router.refresh();
+  };
+
+  const handleSignupSuccess = () => {
+    setActiveModal(null);
+    router.refresh();
+  };
 
   return (
     <div className="relative min-h-screen bg-black overflow-x-hidden overflow-y-hidden flex flex-col">
@@ -329,7 +346,7 @@ export default function Home() {
 
       {/* Main Section */}
       <section className="relative w-full min-h-screen flex items-center z-10 py-20 md:py-0">
-        <div className="container mx-auto px-6 md:px-16 lg:px-24">
+        <div className="container mx-auto max-w-[1500px] px-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-32 items-center">
             
             {/* LEFT COLUMN: Content */}
@@ -350,18 +367,47 @@ export default function Home() {
               </div>
 
               <div className="flex flex-wrap items-center justify-center lg:justify-start gap-4 md:gap-6">
-                <Link href="/login" className="group relative px-8 md:px-10 py-3 md:py-4 rounded-full overflow-hidden border border-[#937ef1]/40 text-white transition-all">
-                  <span className="relative z-10 flex items-center gap-2 font-bold tracking-wider text-sm md:text-base">
-                    <LogIn size={20} /> LOGIN
-                  </span>
-                  <div className="absolute inset-0 bg-[#937ef1]/10 group-hover:bg-[#937ef1]/20 transition-all duration-300"></div>
-                </Link>
+                <Button 
+                  variant="primary-outline" 
+                  className="rounded-full px-8 md:px-10 py-3 md:py-4"
+                  onClick={() => setActiveModal('login')}
+                >
+                  <LogIn size={20} /> LOGIN
+                </Button>
 
-                <Link href="/signup" className="px-8 md:px-10 py-3 md:py-4 rounded-full bg-gradient-to-r from-[#3ac8ee] to-[#937ef1] text-white font-black tracking-wider flex items-center gap-2 shadow-[0_10px_30px_rgba(58,200,238,0.3)] hover:shadow-[0_15px_40px_rgba(58,200,238,0.5)] transition-all transform hover:-translate-y-1 active:scale-95 text-sm md:text-base">
+                <Button 
+                  className="px-8 md:px-10 py-3 md:py-4 rounded-full bg-gradient-to-r from-[#3ac8ee] to-[#937ef1] text-white font-black tracking-wider shadow-[0_10px_30px_rgba(58,200,238,0.3)] hover:shadow-[0_15px_40px_rgba(58,200,238,0.5)] border-none"
+                  onClick={() => setActiveModal('signup')}
+                >
                   <UserPlus size={20} /> JOIN NOW
-                </Link>
+                </Button>
               </div>
             </motion.div>
+
+            {/* Modals */}
+            <Modal
+              isOpen={activeModal === 'login'}
+              onClose={() => setActiveModal(null)}
+              title="Sign in to your account"
+              className="max-w-md p-6"
+            >
+              <LoginForm 
+                onSuccess={handleLoginSuccess}
+                onSignupClick={() => setActiveModal('signup')}
+              />
+            </Modal>
+
+            <Modal
+              isOpen={activeModal === 'signup'}
+              onClose={() => setActiveModal(null)}
+              title="Create an account"
+              className="max-w-md p-6"
+            >
+              <SignupForm 
+                onSuccess={handleSignupSuccess}
+                onLoginClick={() => setActiveModal('login')}
+              />
+            </Modal>
 
             {/* RIGHT COLUMN: Visuals Area */}
             <div className="relative flex justify-center items-center h-[350px] sm:h-[450px] md:h-[550px] lg:h-[650px] order-1 lg:order-2">

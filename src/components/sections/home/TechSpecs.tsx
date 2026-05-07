@@ -3,7 +3,9 @@
 
 import React from 'react';
 import { Wind, Zap, Droplets } from 'lucide-react';
-import { motion } from 'framer-motion'; // Animation ke liye import
+import { motion } from 'framer-motion';
+import Button from '../../ui/Button';
+import { SectionHeading } from '../../ui/SectionHeading';
 
 const FlavorAroma = () => {
   return (
@@ -13,25 +15,21 @@ const FlavorAroma = () => {
         Aroma
       </div>
 
-      <div className="container mx-auto px-6 relative z-10">
+      <div className="container mx-auto max-w-[1500px] px-6 relative z-10">
         <div className="flex flex-col lg:flex-row items-center gap-16">
           
           {/* Left: Content Area */}
-          <div className="w-full lg:w-1/2 space-y-8">
-          
-
-            <h2 className="text-5xl md:text-7xl font-bold text-black tracking-tighter leading-[0.9]">
-              Beyond <br /> 
-              <span className="text-[#937ef1]">Ordinary </span> 
-              Vapor.
-            </h2>
-
-            <p className="text-xl text-gray-600 leading-relaxed max-w-lg">
-              Our flavors are not just about taste, they are an experience. In every puff, you get the perfect balance of premium quality nicotine and natural extracts.
-            </p>
+          <div className="w-full lg:w-1/2">
+            <SectionHeading 
+              title="Beyond Ordinary Vapor."
+              subtitle="Our flavors are not just about taste, they are an experience. In every puff, you get the perfect balance of premium quality nicotine and natural extracts."
+              badge="Engineering"
+              mode="light"
+              className="mb-8"
+            />
 
             {/* Flavor Profile Stats */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 pt-6">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 pt-6 mb-6">
               <div className="space-y-2">
                 <div className="flex items-center gap-2 text-black font-bold uppercase text-xs">
                   <Zap size={14} className="text-[#3ac8ee]" /> Intensity
@@ -58,10 +56,9 @@ const FlavorAroma = () => {
               </div>
             </div>
 
-            <button className="group relative px-8 py-4 bg-transparent text-black border-2 border-black font-bold rounded-full overflow-hidden transition-all hover:text-white">
-              <span className="relative z-10">Discover All Flavors</span>
-              <div className="absolute inset-0 bg-black translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
-            </button>
+            <Button variant="secondary-outline" className="rounded-full px-8 py-4">
+              Discover All Flavors
+            </Button>
           </div>
 
           {/* Right: Abstract Visuals & Animated Image */}
@@ -75,12 +72,12 @@ const FlavorAroma = () => {
               <motion.img 
                 src="/images/two.png" 
                 className="relative z-20 w-4/5 h-auto object-contain"
-                initial={{ x: 300, opacity: 0 }} // Start position (bahar)
-                whileInView={{ x: 0, opacity: 1 }} // End position (fix)
-                viewport={{ once: true }} // Sirf ek baar animate hoga
+                initial={{ x: 300, opacity: 0 }}
+                whileInView={{ x: 0, opacity: 1 }} 
+                viewport={{ once: true }} 
                 transition={{ 
                   duration: 1.2, 
-                  ease: [0.22, 1, 0.36, 1], // Custom smooth ease
+                  ease: [0.22, 1, 0.36, 1], 
                   delay: 0.2 
                 }}
               />
@@ -89,27 +86,6 @@ const FlavorAroma = () => {
               {/* Decorative Elements */}
               <div className="absolute top-10 right-10 w-32 h-32 bg-[#3ac8ee]/20 rounded-full blur-2xl animate-pulse" />
               <div className="absolute bottom-10 left-10 w-40 h-40 bg-[#937ef1]/20 rounded-full blur-3xl animate-pulse delay-700" />
-              
-              {/* Floating Labels */}
-              <motion.div 
-                initial={{ x: 50, opacity: 0 }}
-                whileInView={{ x: 0, opacity: 1 }}
-                transition={{ delay: 0.8 }}
-                className="absolute top-[20%] -right-4 bg-white shadow-xl p-4 rounded-2xl z-30 rotate-6 hover:rotate-0 transition-transform"
-              >
-                <p className="text-xs font-bold text-gray-400 uppercase"></p>
-                <p className="text-lg font-black text-black"></p>
-              </motion.div>
-              
-              <motion.div 
-                initial={{ x: -50, opacity: 0 }}
-                whileInView={{ x: 0, opacity: 1 }}
-                transition={{ delay: 1 }}
-                className="absolute bottom-[20%] -left-4 bg-white shadow-xl p-4 rounded-2xl z-30 -rotate-6 hover:rotate-0 transition-transform"
-              >
-                <p className="text-xs font-bold text-gray-400 uppercase"></p>
-                <p className="text-lg font-black text-black"></p>
-              </motion.div>
             </div>
           </div>
 

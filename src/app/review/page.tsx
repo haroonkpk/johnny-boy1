@@ -4,6 +4,9 @@
 import { useRef, useState, useEffect, useLayoutEffect } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import Button from "@/components/ui/Button";
+import { Card } from "@/components/ui/card";
+import { SectionHeading } from "@/components/ui/SectionHeading";
 
 // TypeScript Interface for Testimonial data
 interface Testimonial {
@@ -71,11 +74,12 @@ function VideoCard({ t, isActive, onToggle }: VideoCardProps) {
   }, [isActive]);
 
   return (
-    <div
+    <Card
+      variant="primary"
       ref={cardRef}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      className="group relative w-full h-[450px] rounded-[2rem] overflow-hidden bg-[#1a1a1a] border border-white/10 shadow-2xl"
+      className="group relative w-full h-[450px] overflow-hidden border border-white/10 bg-[#1a1a1a]"
     >
       <video
         ref={videoRef}
@@ -93,7 +97,7 @@ function VideoCard({ t, isActive, onToggle }: VideoCardProps) {
       <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-black/20 p-8 flex flex-col justify-between">
         <span className="self-start px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white text-xs font-medium uppercase tracking-widest">{t.tag}</span>
         <div onClick={onToggle} className="cursor-pointer self-center transition-all group-hover:scale-110 ">
-           <div className="text-white bg-white/20 p-4 rounded-full">Play/Pause</div>
+           <Button variant="review">Play/Pause</Button>
         </div>
         {/* <div className="space-y-1">
           <h3 className="text-white text-xl font-bold">{t.name}</h3>
@@ -103,7 +107,7 @@ function VideoCard({ t, isActive, onToggle }: VideoCardProps) {
       <div className="absolute bottom-0 left-0 w-full h-1.5 bg-white/10">
         <div className="h-full bg-blue-500 transition-all duration-100" style={{ width: `${progress}%` }} />
       </div>
-    </div>
+    </Card>
   );
 }
 
@@ -149,13 +153,13 @@ export default function ReviewSection() {
 
   return (
     <section ref={containerRef} className="bg-[#0a0a0a] min-h-screen py-24 px-6 relative overflow-hidden">
-      <div className="max-w-7xl mx-auto relative z-10">
-        <header className="header-content text-center mb-20">
-           <h2 className="text-5xl md:text-7xl font-black text-white mb-6 tracking-tighter">
-             Trusted by <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500">Visionaries.</span>
-          </h2>
-          <p className="text-white/50 text-lg">Real stories from real people.</p>
-        </header>
+      <div className="max-w-[1500px] mx-auto relative z-10">
+        <SectionHeading 
+          title={<>Trusted by <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500">Visionaries.</span></>}
+          subtitle="Real stories from real people who bought our products."
+          badge="Reviews"
+          mode="dark"
+        />
 
         <div className="video-grid grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
           {TESTIMONIALS.map((t) => (

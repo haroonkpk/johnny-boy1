@@ -5,6 +5,7 @@ import { useState } from "react"; // State handle karne ke liye
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { ShoppingCart, Settings, Home, Package, Menu, X } from 'lucide-react'; // Menu icons
+import Button from "../ui/Button";
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -24,7 +25,7 @@ export default function Navbar() {
 
   return (
     <nav className="sticky top-0 z-1000 w-full glass">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-[1500px] mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           
           {/* Logo */}
@@ -64,12 +65,12 @@ export default function Navbar() {
           
           {/* Mobile menu button (Only Visible on Mobile) */}
           <div className="md:hidden flex items-center">
-            <button
+            <Button
+            variant={"primary-outline"}
               onClick={toggleMenu}
-              className="text-gray-300 hover:text-white focus:outline-none"
             >
               {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-            </button>
+            </Button>
           </div>
         </div>
       </div>
@@ -85,7 +86,7 @@ export default function Navbar() {
                 <Link
                   key={link.name}
                   href={link.href}
-                  onClick={() => setIsOpen(false)} // Click par menu close ho jaye
+                  onClick={() => setIsOpen(false)}
                   className={`flex items-center space-x-3 px-3 py-3 rounded-md text-base font-medium transition-colors ${
                     isActive 
                       ? 'bg-white/10 text-white' 

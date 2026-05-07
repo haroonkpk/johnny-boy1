@@ -3,6 +3,8 @@
 import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import Button from "../../ui/Button";
+import { SectionHeading } from "../../ui/SectionHeading";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -166,14 +168,16 @@ const Features = () => {
   return (
     <section
       ref={sectionRef}
-      className="relative min-h-screen py-20 flex flex-col items-center justify-center overflow-hidden bg-white"
+      className="relative min-h-screen py-20 px-6 flex flex-col items-center justify-center overflow-hidden bg-white"
     >
       {/* 1. Heading */}
-      <div className="relative z-20 text-center mb-3">
-        <h2 className="text-5xl md:text-6xl font-black text-[#222] tracking-tighter">
-          EXPLORE OUR PRODUCTS
-        </h2>
-        <div className="w-24 h-1 bg-black mx-auto mt-4 rounded-full" />
+      <div className="container mx-auto max-w-[1500px]">
+        <SectionHeading 
+          title="Explore Our Products"
+          subtitle="Choose from our premium local and regular series."
+          badge="Collection"
+          mode="light"
+        />
       </div>
 
       {/* 2. Cards Grid */}
@@ -186,17 +190,13 @@ const Features = () => {
       {/* 3. Series Toggle Buttons */}
       <div className="flex gap-6 mt-20 z-20">
         {(["local", "regular"] as SeriesKey[]).map((series) => (
-          <button
+          <Button
             key={series}
+            variant={activeSeries === series ? "secondary" : "secondary-outline"}
             onClick={() => setActiveSeries(series)}
-            className={`px-10 py-4 rounded-full font-bold text-sm tracking-widest transition-all duration-300 border-2 ${
-              activeSeries === series
-                ? "bg-black text-white border-black scale-110 shadow-xl"
-                : "bg-transparent text-black border-black hover:bg-black hover:text-white"
-            }`}
           >
             {series === "local" ? "LOCAL SERIES" : "REGULAR SERIES"}
-          </button>
+          </Button>
         ))}
       </div>
 

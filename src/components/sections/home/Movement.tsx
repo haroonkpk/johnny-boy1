@@ -10,6 +10,7 @@ import {
   useSpring,
   useScroll,
 } from "framer-motion";
+import Button from "../../ui/Button";
 
 const UltraModernVapeSection = () => {
   const containerRef = useRef<HTMLElement>(null);
@@ -75,7 +76,7 @@ const UltraModernVapeSection = () => {
         </motion.div>
       </div>
 
-      <div className="container mx-auto px-6 relative z-10">
+      <div className="container mx-auto max-w-[1500px] px-6 relative z-10">
         <div className="flex flex-col lg:flex-row items-center gap-16">
           
           {/* TEXT */}
@@ -106,16 +107,13 @@ const UltraModernVapeSection = () => {
 </p>
 
             <Link href="/contact">
-  <button className="group relative px-10 py-4 border border-[#ff2d55]/40 rounded-[2rem] font-bold uppercase tracking-widest overflow-hidden transition-all duration-500 hover:border-[#ff2d55]">
-    
-    <span className="relative z-10 text-white group-hover:text-white">
-      Get In Touch
-    </span>
-
-    <div className="absolute inset-0 bg-[#ff2d55] translate-y-full group-hover:translate-y-0 transition-transform duration-500" />
-  
-  </button>
-</Link>
+              <Button 
+                variant="primary-outline" 
+                className="px-10 py-4 border-[#ff2d55]/40 rounded-[2rem] font-bold uppercase tracking-widest hover:border-[#ff2d55] hover:bg-[#ff2d55]/10"
+              >
+                Get In Touch
+              </Button>
+            </Link>
             </motion.div>
           </div>
 
