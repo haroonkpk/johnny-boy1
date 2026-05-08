@@ -11,7 +11,7 @@ export const Card = forwardRef<HTMLDivElement, CardProps>(
     const variantStyles = {
       primary: "glass-card text-white",
       secondary: "bg-[var(--color-secondary-bg)] text-[#053B70]",
-      light: "bg-white text-gray-900 shadow-xl border border-gray-100",
+      light: "bg-white text-gray-900 border border-gray-100",
     };
 
     return (

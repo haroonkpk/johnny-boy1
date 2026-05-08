@@ -15,18 +15,54 @@ const seriesData: Record<
   { id: number; name: string; image: string; fruits: string; bg: string }[]
 > = {
   local: [
-    { id: 101, name: "Local Mint", image: "/images/vape6.png", fruits: "/images/fruit1.png", bg: "/images/bg1.jpeg" },
-    { id: 102, name: "Local Berry", image: "/images/vape6.png", fruits: "/images/fruit2.png", bg: "/images/bg2.jpeg" },
-    { id: 103, name: "Local Mango", image: "/images/vape6.png", fruits: "/images/fruit3.png", bg: "/images/bg3.jpeg" },
+    {
+      id: 101,
+      name: "Local Mint",
+      image: "/images/vape6.png",
+      fruits: "/images/fruit1.png",
+      bg: "/images/bg1.jpeg",
+    },
+    {
+      id: 102,
+      name: "Local Berry",
+      image: "/images/vape6.png",
+      fruits: "/images/fruit2.png",
+      bg: "/images/bg2.jpeg",
+    },
+    {
+      id: 103,
+      name: "Local Mango",
+      image: "/images/vape6.png",
+      fruits: "/images/fruit3.png",
+      bg: "/images/bg3.jpeg",
+    },
   ],
   regular: [
-    { id: 201, name: "Reg Classic", image: "/images/vape7.png", fruits: "/images/fruit3.png", bg: "/images/bg3.jpeg" },
-    { id: 202, name: "Reg Ice", image: "/images/vape9.png", fruits: "/images/fruit1.png", bg: "/images/bg1.jpeg" },
-    { id: 203, name: "Reg Gold", image: "/images/vape7.png", fruits: "/images/fruit2.png", bg: "/images/bg2.jpeg" },
+    {
+      id: 201,
+      name: "Reg Classic",
+      image: "/images/vape7.png",
+      fruits: "/images/fruit3.png",
+      bg: "/images/bg3.jpeg",
+    },
+    {
+      id: 202,
+      name: "Reg Ice",
+      image: "/images/vape9.png",
+      fruits: "/images/fruit1.png",
+      bg: "/images/bg1.jpeg",
+    },
+    {
+      id: 203,
+      name: "Reg Gold",
+      image: "/images/vape7.png",
+      fruits: "/images/fruit2.png",
+      bg: "/images/bg2.jpeg",
+    },
   ],
 };
 
-//  Single Card 
+//  Single Card
 const ProductCard = ({
   item,
   index,
@@ -48,8 +84,7 @@ const ProductCard = ({
       .forEach((t) => t.kill());
 
     const ctx = gsap.context(() => {
-
-      // Mount Animation: fruit & vape scale in on series switch 
+      // Mount Animation: fruit & vape scale in on series switch
       gsap.fromTo(
         [fruitRef.current],
         { scale: 0.3, opacity: 0 },
@@ -58,11 +93,11 @@ const ProductCard = ({
           opacity: 1,
           duration: 0.7,
           ease: "back.out(1.4)",
-          stagger: 0.1,       
-          delay: index * 0.08, 
-        }
+          stagger: 0.1,
+          delay: index * 0.08,
+        },
       );
-       gsap.fromTo(
+      gsap.fromTo(
         vapeRef.current,
         { scale: 0.4, opacity: 0 },
         {
@@ -70,13 +105,12 @@ const ProductCard = ({
           opacity: 1,
           duration: 0.7,
           ease: "back.out(1.4)",
-          stagger: 0.1,       
-          delay: index * 0.08, 
-        }
+          stagger: 0.1,
+          delay: index * 0.08,
+        },
       );
 
-
-      //  Fruit Image 
+      //  Fruit Image
       gsap.fromTo(
         fruitRef.current,
         { y: "25%", scale: 1.3 },
@@ -91,7 +125,7 @@ const ProductCard = ({
             end: "bottom top",
             scrub: 1,
           },
-        }
+        },
       );
 
       //  Vape / Product Image
@@ -108,7 +142,7 @@ const ProductCard = ({
             end: "bottom top",
             scrub: 0.6,
           },
-        }
+        },
       );
     }, card);
 
@@ -148,7 +182,7 @@ const ProductCard = ({
   );
 };
 
-//  Main Section 
+//  Main Section
 const Features = () => {
   const [activeSeries, setActiveSeries] = useState<SeriesKey>("regular");
   const sectionRef = useRef<HTMLElement>(null);
@@ -162,18 +196,27 @@ const Features = () => {
       ease: "none",
       repeat: -1,
     });
-    return () => { tween.kill(); };
+    return () => {
+      tween.kill();
+    };
   }, []);
 
   return (
     <section
       ref={sectionRef}
-      className="relative min-h-screen py-20 px-6 flex flex-col items-center justify-center overflow-hidden bg-white"
+      className="relative min-h-screen py-20 px-6 flex flex-col items-center justify-center overflow-hidden bg-[var(--color-cream)]"
     >
       {/* 1. Heading */}
       <div className="container mx-auto max-w-[1500px]">
-        <SectionHeading 
-          title="Explore Our Products"
+        <SectionHeading
+          title={
+            <>
+              Explore Our{" "}
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500">
+                Products
+              </span>
+            </>
+          }
           subtitle="Choose from our premium local and regular series."
           badge="Collection"
           mode="light"
@@ -183,7 +226,11 @@ const Features = () => {
       {/* 2. Cards Grid */}
       <div className="relative z-10 flex flex-wrap items-end justify-center gap-8 md:gap-12 px-4 h-auto md:h-[550px] mt-8">
         {seriesData[activeSeries].map((item, i) => (
-          <ProductCard key={`${activeSeries}-${item.id}`} item={item} index={i} />
+          <ProductCard
+            key={`${activeSeries}-${item.id}`}
+            item={item}
+            index={i}
+          />
         ))}
       </div>
 
@@ -192,7 +239,9 @@ const Features = () => {
         {(["local", "regular"] as SeriesKey[]).map((series) => (
           <Button
             key={series}
-            variant={activeSeries === series ? "secondary" : "secondary-outline"}
+            variant={
+              activeSeries === series ? "secondary" : "secondary-outline"
+            }
             onClick={() => setActiveSeries(series)}
           >
             {series === "local" ? "LOCAL SERIES" : "REGULAR SERIES"}

@@ -1,15 +1,14 @@
-
 "use client";
 
-import React from 'react';
-import { Wind, Zap, Droplets } from 'lucide-react';
-import { motion } from 'framer-motion';
-import Button from '@/components/ui/Button';
-import { SectionHeading } from '@/components/ui/SectionHeading';
+import React from "react";
+import { Wind, Zap, Droplets } from "lucide-react";
+import { motion } from "framer-motion";
+import Button from "@/components/ui/Button";
+import { SectionHeading } from "@/components/ui/SectionHeading";
 
 const FlavorAroma = () => {
   return (
-    <section className="relative bg-[#f8f8f8] py-24 overflow-hidden">
+    <section className="relative bg-[var(--color-cream)] py-24 overflow-hidden">
       {/* Background Text Decor */}
       <div className="absolute top-10 left-10 text-[15rem] font-black text-black/[0.02] select-none pointer-events-none uppercase">
         Aroma
@@ -17,11 +16,17 @@ const FlavorAroma = () => {
 
       <div className="container mx-auto max-w-[1500px] px-6 relative z-10">
         <div className="flex flex-col lg:flex-row items-center gap-16">
-          
           {/* Left: Content Area */}
           <div className="w-full lg:w-1/2">
-            <SectionHeading 
-              title="Beyond Ordinary Vapor."
+            <SectionHeading
+              title={
+                <>
+                  Beyond Ordinary{" "}
+                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500">
+                    Vapor.
+                  </span>
+                </>
+              }
               subtitle="Our flavors are not just about taste, they are an experience. In every puff, you get the perfect balance of premium quality nicotine and natural extracts."
               badge="Engineering"
               mode="light"
@@ -56,7 +61,10 @@ const FlavorAroma = () => {
               </div>
             </div>
 
-            <Button variant="secondary-outline" className="rounded-full px-8 py-4">
+            <Button
+              variant="secondary-outline"
+              className="rounded-full px-8 py-4"
+            >
               Discover All Flavors
             </Button>
           </div>
@@ -65,30 +73,28 @@ const FlavorAroma = () => {
           <div className="w-full lg:w-1/2 relative">
             {/* Spinning Circles */}
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[350px] h-[350px] md:w-[400px] md:h-[400px] rounded-full border-2 border-dashed border-black/10 animate-spin [animation-duration:25s]" />
-            
+
             <div className="relative aspect-square w-full max-w-lg mx-auto flex items-center justify-center">
-              
               {/* --- IMAGE ANIMATION START --- */}
-              <motion.img 
-                src="/images/two.png" 
+              <motion.img
+                src="/images/two.png"
                 className="relative z-20 w-4/5 h-auto object-contain"
                 initial={{ x: 300, opacity: 0 }}
-                whileInView={{ x: 0, opacity: 1 }} 
-                viewport={{ once: true }} 
-                transition={{ 
-                  duration: 1.2, 
-                  ease: [0.22, 1, 0.36, 1], 
-                  delay: 0.2 
+                whileInView={{ x: 0, opacity: 1 }}
+                viewport={{ once: true }}
+                transition={{
+                  duration: 1.2,
+                  ease: [0.22, 1, 0.36, 1],
+                  delay: 0.2,
                 }}
               />
               {/* --- IMAGE ANIMATION END --- */}
-              
+
               {/* Decorative Elements */}
               <div className="absolute top-10 right-10 w-32 h-32 bg-[#3ac8ee]/20 rounded-full blur-2xl animate-pulse" />
               <div className="absolute bottom-10 left-10 w-40 h-40 bg-[#937ef1]/20 rounded-full blur-3xl animate-pulse delay-700" />
             </div>
           </div>
-
         </div>
       </div>
     </section>

@@ -9,46 +9,33 @@ import { Card } from './ui/card';
 
 interface ProductCardProps {
   product: Product;
-  mode?: "light" | "dark";
 }
 
-export default function ProductCard({ product, mode = "dark" }: ProductCardProps) {
-  const isLight = mode === "light";
-
+export default function ProductCard({ product }: ProductCardProps) {
   return (
     <Card 
-      variant={isLight ? "light" : "primary"} 
-      className={`p-4 flex flex-col h-full group transition-all duration-300 ${
-        isLight ? "hover:shadow-xl hover:border-gray-200 border border-transparent" : "hover:border-white/20"
-      }`}
+      variant="light" 
+      className="p-4 flex flex-col h-full group transition-all duration-300 hover:shadow-xl hover:border-gray-200 border border-transparent"
     >
-      <div className={`relative w-full h-64 mb-6 rounded-xl overflow-hidden flex items-center justify-center ${
-        isLight ? "bg-[var(--color-cream)]" : "bg-white/5"
-      }`}>
+      <div className="relative w-full h-64 mb-6 rounded-xl overflow-hidden flex items-center justify-center bg-[var(--color-cream)]">
         <motion.div
           animate={{ y: [0, -15, 0], rotate: [0, 2, -2, 0] }}
           transition={{ repeat: Infinity, duration: 5, ease: 'easeInOut' }}
-          className={`relative w-full h-full p-4 ${isLight ? "drop-shadow-xl" : "drop-shadow-2xl"}`}
+          className="relative w-full h-full p-4 drop-shadow-xl"
         >
           <img 
             src={product.imageUrl} 
             alt={product.title}
-            className={`w-full h-full object-contain filter ${
-              isLight ? "drop-shadow-[0_15px_35px_rgba(0,0,0,0.15)]" : "drop-shadow-[0_20px_50px_rgba(0,0,0,0.5)]"
-            }`}
+            className="w-full h-full object-contain filter drop-shadow-[0_15px_35px_rgba(0,0,0,0.15)]"
           /> 
         </motion.div>
       </div>
       
       <div className="flex flex-col flex-grow">
-        <h3 className={`text-lg font-bold mb-2 transition-colors ${
-          isLight ? "text-gray-900 group-hover:text-blue-600" : "text-white font-semibold"
-        }`}>
+        <h3 className="text-lg font-bold mb-2 transition-colors text-[var(--gold)]">
           {product.title}
         </h3>
-        <p className={`font-mono mb-4 text-xl tracking-tight ${
-          isLight ? "text-blue-600 font-black" : "text-gray-400"
-        }`}>
+        <p className="font-mono mb-4 text-xl tracking-tight text-gray-800 font-black">
           ${product.price.toFixed(2)}
         </p>
         

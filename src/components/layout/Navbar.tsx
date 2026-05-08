@@ -1,40 +1,37 @@
-
 "use client";
 
-import { useState } from "react"; // State handle karne ke liye
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import { ShoppingCart, Settings, Home, Package, Menu, X } from 'lucide-react'; // Menu icons
+import { useState } from "react"; 
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { ShoppingCart, Settings, Home, Package, Menu, X } from "lucide-react"; 
 import Button from "../ui/Button";
 
 export default function Navbar() {
   const pathname = usePathname();
-  const [isOpen, setIsOpen] = useState(false); // Mobile menu state
+  const [isOpen, setIsOpen] = useState(false); 
 
   const navLinks = [
-    { name: 'Home', href: '/', icon: Home },
-    { name: 'Products', href: '/services', icon: Package },
-    { name: 'Review', href: '/review', icon: Package },
-    { name: 'Contact', href: '/contact', icon: Package },
-    { name: 'Cart', href: '/cart', icon: ShoppingCart },
-    { name: 'Admin', href: '/admin', icon: Settings },
+    { name: "Home", href: "/", icon: Home },
+    { name: "Products", href: "/services", icon: Package },
+    { name: "Review", href: "/review", icon: Package },
+    { name: "Contact", href: "/contact", icon: Package },
+    { name: "Cart", href: "/cart", icon: ShoppingCart },
+    { name: "Admin", href: "/admin", icon: Settings },
   ];
 
-  // Link click hone par menu band karne ke liye helper
   const toggleMenu = () => setIsOpen(!isOpen);
 
   return (
     <nav className="sticky top-0 z-1000 w-full glass">
       <div className="max-w-[1500px] mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
-          
           {/* Logo */}
           <div className="flex-shrink-0">
             <Link href="/" className="flex items-center">
-              <img 
-                src="/images/jhonny.png" 
-                alt="Logo" 
-                className="h-19 w-auto rounded-full" 
+              <img
+                src="/images/jhonny.png"
+                alt="Logo"
+                className="h-19 w-auto rounded-full"
               />
             </Link>
           </div>
@@ -50,9 +47,9 @@ export default function Navbar() {
                     key={link.name}
                     href={link.href}
                     className={`flex items-center space-x-2 px-3 py-2 rounded-md text-sm font-medium transition-colors ${
-                      isActive 
-                        ? 'bg-white/10 text-white' 
-                        : 'text-gray-300 hover:bg-white/5 hover:text-white'
+                      isActive
+                        ? "bg-white/10 text-white"
+                        : "text-gray-300 hover:bg-white/5 hover:text-white"
                     }`}
                   >
                     <Icon className="w-4 h-4" />
@@ -62,14 +59,15 @@ export default function Navbar() {
               })}
             </div>
           </div>
-          
+
           {/* Mobile menu button (Only Visible on Mobile) */}
           <div className="md:hidden flex items-center">
-            <Button
-            variant={"primary-outline"}
-              onClick={toggleMenu}
-            >
-              {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            <Button variant={"primary-outline"} onClick={toggleMenu}>
+              {isOpen ? (
+                <X className="w-6 h-6" />
+              ) : (
+                <Menu className="w-6 h-6" />
+              )}
             </Button>
           </div>
         </div>
@@ -88,9 +86,9 @@ export default function Navbar() {
                   href={link.href}
                   onClick={() => setIsOpen(false)}
                   className={`flex items-center space-x-3 px-3 py-3 rounded-md text-base font-medium transition-colors ${
-                    isActive 
-                      ? 'bg-white/10 text-white' 
-                      : 'text-gray-300 hover:bg-white/5 hover:text-white'
+                    isActive
+                      ? "bg-white/10 text-white"
+                      : "text-gray-300 hover:bg-white/5 hover:text-white"
                   }`}
                 >
                   <Icon className="w-5 h-5" />

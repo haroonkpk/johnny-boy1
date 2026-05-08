@@ -6,7 +6,7 @@ import { motion } from "framer-motion";
 import { FaEnvelope, FaMapMarkerAlt, FaPhoneAlt } from "react-icons/fa";
 import Button from "@/components/ui/Button";
 import { Card } from "@/components/ui/card";
-import { SectionHeading } from "@/components/ui/SectionHeading";
+import PageHero from "@/components/PageHero";
 
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -28,19 +28,19 @@ const InfoCard = ({ icon, title, val, delay = 0, accentColor }: InfoCardProps) =
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay }}
-            className="p-6 flex items-center space-x-5 bg-white/5 border border-white/10 backdrop-blur-lg rounded-3xl"
+            className="p-6 flex items-center space-x-5 bg-white border border-gray-100 shadow-sm rounded-3xl"
         >
             <div 
-                className="w-12 h-12 flex items-center justify-center rounded-2xl text-white shadow-lg"
+                className="w-12 h-12 flex items-center justify-center rounded-2xl text-white shadow-md"
                 style={{ backgroundColor: accentColor }}
             >
                 {icon}
             </div>
             <div>
-                <p className="text-gray-500 text-[10px] font-bold uppercase tracking-[2px]">
+                <p className="text-gray-400 text-[10px] font-bold uppercase tracking-[2px]">
                     {title}
                 </p>
-                <p className="text-white font-semibold text-base">
+                <p className="text-gray-900 font-bold text-base">
                     {val}
                 </p>
             </div>
@@ -51,20 +51,13 @@ const InfoCard = ({ icon, title, val, delay = 0, accentColor }: InfoCardProps) =
 /* ---------------- CONTACT PAGE ---------------- */
 const Contact = () => {
     return (
-        <div className="relative min-h-screen bg-[#0a0a0a] py-20 overflow-hidden">
-            
-            {/* Background Glows (Background ko boring hone se bachane ke liye) */}
-            <div className="absolute top-[10%] left-[-5%] w-[400px] h-[400px] bg-blue-600/20 rounded-full blur-[120px]" />
-            <div className="absolute bottom-[10%] right-[-5%] w-[400px] h-[400px] bg-purple-600/20 rounded-full blur-[120px]" />
-
-            <div className="relative z-10 max-w-6xl mx-auto px-6">
-                
-                <SectionHeading 
-                  title={<>Contact <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500">Us</span></>}
-                  subtitle="Have a question or want to get in touch? We'd love to hear from you."
-                  badge="Get in Touch"
-                  mode="dark"
-                />
+        <div className="relative min-h-screen bg-[var(--color-cream)] overflow-hidden">
+            <PageHero 
+              title={<>Contact <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500">Us</span></>}
+              subtitle="Have a question or want to get in touch? We'd love to hear from you."
+              badge="Get in Touch"
+            />
+            <div className="relative z-10 max-w-6xl mx-auto px-6 py-20">
 
                 <div className="grid   items-center">
                     
@@ -100,7 +93,7 @@ const Contact = () => {
                         viewport={{ once: true }}
                         className="lg:col-span-8"
                     >
-                        <Card variant="primary" className="p-8 md:p-12 border-none bg-white">
+                        <Card variant="light" className="p-8 md:p-12 border-none">
                             <h3 className="text-3xl font-bold text-black mb-8">Send Message</h3>
                             
                             <form className="space-y-6">
