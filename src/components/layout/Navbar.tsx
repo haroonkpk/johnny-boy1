@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react"; // State handle karne ke liye
+import { useState } from "react"; 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
@@ -11,9 +11,9 @@ import {
   Menu,
   X,
   UserPlus,
-} from "lucide-react"; // Menu icons
+} from "lucide-react"; 
+
 import Button from "../ui/Button";
-import Signup from "@/app/signup/page";
 import { useRouter } from "next/navigation";
 export default function Navbar() {
   const router = useRouter();
@@ -22,11 +22,12 @@ export default function Navbar() {
   const [activeModal, setActiveModal] = useState(null);
   const navLinks = [
     { name: "Home", href: "/", icon: Home },
-    { name: "Local series", href: "/services", icon: Package },
-    { name: "Regular Series", href: "/review", icon: Package },
+    { name: "Local series", href: "/regularseries", icon: Package },
+    { name: "Regular Series", href: "/localseries", icon: Package },
+    { name: "Review", href: "/review", icon: Package },
     { name: "Orde", href: "/cart", icon: ShoppingCart },
     { name: "Contact", href: "/contact", icon: Package },
-    { name: "Admin", href: "/admin", icon: Settings },
+    // { name: "Admin", href: "/admin", icon: Settings },
   ];
   const toggleMenu = () => setIsOpen(!isOpen);
   const handleLoginSuccess = () => {

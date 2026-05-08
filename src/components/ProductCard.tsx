@@ -13,31 +13,37 @@ interface ProductCardProps {
 
 export default function ProductCard({ product }: ProductCardProps) {
   return (
-    <Card variant="primary" className="p-4 flex flex-col h-full group transition-all duration-300 hover:border-white/20">
-      <div className="relative w-full h-64 mb-6 rounded-xl overflow-hidden bg-white/5 flex items-center justify-center">
-        {/* Anti-Gravity Animation on the Image Wrapper */}
+    <Card 
+      variant="light" 
+      className="p-4 flex flex-col h-full group transition-all duration-300 hover:shadow-xl hover:border-gray-200 border border-transparent"
+    >
+      <div className="relative w-full h-64 mb-6 rounded-xl overflow-hidden flex items-center justify-center bg-[var(--color-cream)]">
         <motion.div
           animate={{ y: [0, -15, 0], rotate: [0, 2, -2, 0] }}
           transition={{ repeat: Infinity, duration: 5, ease: 'easeInOut' }}
-          className="relative w-full h-full p-4 drop-shadow-2xl"
+          className="relative w-full h-full p-4 drop-shadow-xl"
         >
-          {/* Using img for simplicity with external domains to avoid Next.js Image config for now, 
-              or if we configure next.config.js we can use next/image. 
-              Given the dynamic URLs, standard img with good object-fit is safer here without config. */}
           <img 
             src={product.imageUrl} 
             alt={product.title}
-            className="w-full h-full object-contain filter drop-shadow-[0_20px_50px_rgba(0,0,0,0.5)]"
-          />
+            className="w-full h-full object-contain filter drop-shadow-[0_15px_35px_rgba(0,0,0,0.15)]"
+          /> 
         </motion.div>
       </div>
       
       <div className="flex flex-col flex-grow">
-        <h3 className="text-lg font-semibold text-white mb-2">{product.title}</h3>
-        <p className="text-gray-400 font-mono mb-4 text-xl tracking-tight">${product.price.toFixed(2)}</p>
+        <h3 className="text-lg font-bold mb-2 transition-colors text-[var(--gold)]">
+          {product.title}
+        </h3>
+        <p className="font-mono mb-4 text-xl tracking-tight text-gray-800 font-black">
+          ${product.price.toFixed(2)}
+        </p>
         
         <div className="mt-auto pt-4">
-          <Button variant="primary" className="w-full">
+          <Button 
+            variant="secondary" 
+            className="w-full transition-all transform"
+          >
             <ShoppingCart className="w-4 h-4" />
             <span>Add to Cart</span>
           </Button>
