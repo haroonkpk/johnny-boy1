@@ -1,150 +1,112 @@
+
+
 "use client";
 
-import React, { useState } from "react";
-import { ShoppingBag, Star, Zap } from "lucide-react";
+import React from "react";
+import Image from "next/image";
+import { ArrowRight } from "lucide-react";
 import Button from "@/components/ui/Button";
-import { Card } from "@/components/ui/card";
-import { SectionHeading } from "@/components/ui/SectionHeading";
 
-const ProductShowcase = () => {
-  const flavorData = [
-    { name: "Blue Razz", img: "/images/vape6.png", color: "#3ac8ee" },
-    { name: "Lush Ice", img: "/images/vape9.png", color: "#ff4f81" },
-    { name: "Mango Bomb", img: "/images/vape5.png", color: "#ffb800" },
-    { name: "Mint Chill", img: "/images/vape7.png", color: "#2dd4bf" },
+const WholesaleShowcase = () => {
+  const products = [
+    "/images/retailerfruit.png",
+    "/images/ice.webp",
+    "/images/vape2.png",
+    "/images/pack.png",
   ];
 
-  const [activeFlavor, setActiveFlavor] = useState(flavorData[0]);
-
   return (
-    <section className="bg-[var(--color-cream)] py-24 px-6">
-      <div className="container mx-auto max-w-[1500px]">
-        <SectionHeading
-          title={
-            <>
-              The Next{" "}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500">
-                Generation
+    <section className="w-full py-24 bg-[var(--color-cream)] flex justify-center px-4">
+      <div className="w-[80%] rounded-[50px] overflow-hidden bg-black relative">
+        
+        <div className="absolute top-0 left-0 w-72 h-72 bg-cyan-500/20 blur-[120px]" />
+        <div className="absolute bottom-0 right-0 w-72 h-72 bg-purple-500/20 blur-[120px]" />
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 min-h-[700px] relative z-10">
+
+          {/* LEFT */}
+          <div className="flex flex-col justify-center px-8 md:px-16 py-16 text-white">
+            <span className="uppercase tracking-[5px] text-cyan-400 text-sm font-semibold mb-6">
+              Wholesale Program
+            </span>
+
+            <h2 className="text-4xl md:text-6xl font-black leading-tight mb-8">
+              Interested in <br />
+              carrying our <br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-500">
+                product?
               </span>
-            </>
-          }
-          subtitle="Experience the fusion of flavor and technology with our flagship Series-X line."
-          badge="Showcase"
-          mode="light"
-        />
+            </h2>
 
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-6 h-auto md:h-[700px]">
-          <Card
-            variant="primary"
-            className="md:col-span-8 relative overflow-hidden group border-none bg-gray-900"
-          >
-            <div
-              className="absolute inset-0 opacity-20 transition-all duration-700"
-              style={{ backgroundColor: activeFlavor.color }}
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent z-10" />
+            <p className="text-white/70 text-lg leading-relaxed max-w-[550px] mb-10">
+              JOHNNY BOY provides certain retailers across the
+              country the opportunity to carry its products subject to
+              certain requirements. Simply begin the application and
+              we'll be in touch.
+            </p>
 
-            {/* --- Dynamic Image --- */}
-            <img
-              key={activeFlavor.name}
-              src={activeFlavor.img}
-              alt={activeFlavor.name}
-              className="w-full h-full object-contain p-10 group-hover:scale-105 transition-all duration-700 animate-in fade-in zoom-in"
-            />
-
-            <div className="absolute bottom-10 left-10 z-20 space-y-4">
-              <div className="flex gap-2">
-                <span className="bg-white text-black px-3 py-1 rounded-full text-xs font-bold uppercase">
-                  {activeFlavor.name}
-                </span>
-                <span className="bg-white/20 backdrop-blur-md text-white px-3 py-1 rounded-full text-xs font-bold uppercase">
-                  Series X
-                </span>
-              </div>
-              <h3 className="text-white text-4xl md:text-5xl font-bold italic">
-                Titanium Cloud Edition
-              </h3>
-              <Button
-                className="px-8 py-3 rounded-full font-bold flex items-center gap-2 transition-all"
-                style={{ backgroundColor: activeFlavor.color, color: "#000" }}
-              >
-                <ShoppingBag size={18} /> shopping
-              </Button>
-            </div>
-          </Card>
-
-          {/* Side Column Cards */}
-          <div className="md:col-span-4 grid grid-rows-2 gap-6">
-            <Card className="bg-(--heading-bg) p-8 flex flex-col justify-between border border-white/15 hover:border-[#3ac8ee]/40 transition-all group">
-              <div className="w-12 h-12 bg-white/18 rounded-2xl flex items-center justify-center text-[#3ac8ee]">
-                <Zap fill="currentColor" />
-              </div>
-              <div>
-                <h4 className="text-xl font-bold text-white mb-2 italic">
-                  8000+ Puffs
-                </h4>
-                <p className="text-white/65 text-sm leading-relaxed">
-                  Longest lasting mesh coil technology.
-                </p>
-              </div>
-              <div className="pt-4 border-t border-white/20 mt-4 flex justify-between items-center text-white/90 font-bold uppercase text-xs tracking-widest">
-                <span>Performance</span>
-                <Star size={14} className="text-[#937ef1]" />
-              </div>
-            </Card>
-            <Card className="bg-gradient-to-br from-[#937ef1] to-[#3ac8ee] p-8 relative overflow-hidden group border-none">
-              <div className="relative z-10 text-white h-full flex flex-col justify-center">
-                <h4 className="text-3xl font-black italic leading-none mb-2">
-                  NEON
-                  <br />
-                  PUNCH
-                </h4>
-                <p className="text-white/80 text-sm">
-                  Available in 12 vibrant flavors.
-                </p>
-              </div>
-              <div className="absolute top-1/2 right-[-20%] w-48 h-48 bg-white/20 rounded-full blur-3xl group-hover:scale-150 transition-transform duration-700" />
-            </Card>
+            <Button className="bg-white text-black hover:bg-cyan-400 transition-all duration-300 px-8 py-4 rounded-full text-sm font-bold uppercase tracking-widest flex items-center gap-3">
+              Apply Now
+              <ArrowRight size={18} />
+            </Button>
           </div>
-        </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-6">
-          {flavorData.map((flavor, i) => {
-            const isActive = activeFlavor.name === flavor.name;
+          {/* RIGHT */}
+         {/* RIGHT SIDE IMAGES */}
+<div className="relative flex items-center justify-center p-10">
 
-            return (
-              <div
-                key={i}
-                onMouseEnter={() => setActiveFlavor(flavor)}
-                className={`group relative py-4 px-6 rounded-4xl border-2 transition-all cursor-pointer flex items-center justify-center text-sm font-bold uppercase tracking-widest overflow-hidden
-          ${
-            isActive
-              ? "border-black scale-105 shadow-lg"
-              : "border-gray-200 hover:border-black"
-          }`}
-              >
-                <span
-                  className={`relative z-10 transition-colors duration-300 
-          ${isActive ? "text-white" : "text-black group-hover:text-white"}`}
-                >
-                  {flavor.name}
-                </span>
+  {/* BACKGROUND LEFT */}
+  <div className="absolute left-[5%] top-[18%] rotate-[-18deg] opacity-60 z-10 transition-all duration-500">
+    <Image
+      src={products[1]}
+      alt="Product"
+      width={320}
+      height={500}
+      className="object-contain drop-shadow-[0_0_30px_rgba(255,255,255,0.25)]"
+    />
+  </div>
 
-                <div
-                  className={`absolute inset-0 bg-black transition-transform duration-300
-            ${
-              isActive
-                ? "translate-y-0"
-                : "translate-y-full group-hover:translate-y-0"
-            }`}
-                />
-              </div>
-            );
-          })}
+  {/* BACKGROUND CENTER */}
+  <div className="relative z-10">
+    <Image
+      src={products[0]}
+      alt="Product"
+      width={320}
+      height={600}
+      className="object-contain drop-shadow-[0_0_40px_rgba(58,200,238,0.5)] hover:scale-105 transition-all duration-500"
+    />
+  </div>
+
+  {/* BACKGROUND RIGHT (pack) */}
+  <div className="absolute right-[5%] bottom-[12%] rotate-[18deg] opacity-60 z-10 transition-all duration-500">
+    <Image
+      src={products[3]}
+      alt="Product"
+      width={220}
+      height={500}
+      className="object-contain drop-shadow-[0_0_30px_rgba(255,255,255,0.25)]"
+    />
+  </div>
+
+  {/*  VAPE2 - TOP LAYER */}
+  <div className="absolute right-[5%] top-[18%] rotate-[-18deg] z-50 opacity-100 hover:scale-110 transition-all duration-500">
+    <Image
+      src={products[2]}
+      alt="Product"
+      width={580}
+      height={660}
+      className="object-contain drop-shadow-[0_0_50px_rgba(255,255,255,0.4)]"
+    />
+  </div>
+
+  {/* Glow */}
+  <div className="absolute w-80 h-80 bg-cyan-400/20 rounded-full blur-[120px]" />
+
+</div>
         </div>
       </div>
     </section>
   );
 };
 
-export default ProductShowcase;
+export default WholesaleShowcase;
