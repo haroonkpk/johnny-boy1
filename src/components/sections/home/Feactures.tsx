@@ -15,51 +15,29 @@ const seriesData: Record<
   { id: number; name: string; image: string; fruits: string; bg: string }[]
 > = {
   local: [
-    {
-      id: 101,
-      name: "Local Mint",
-      image: "/images/vape6.png",
-      fruits: "/images/fruit1.png",
-      bg: "/images/bg1.jpeg",
-    },
-    {
-      id: 102,
-      name: "Local Berry",
-      image: "/images/vape6.png",
-      fruits: "/images/fruit2.png",
-      bg: "/images/bg2.jpeg",
-    },
-    {
-      id: 103,
-      name: "Local Mango",
-      image: "/images/vape6.png",
-      fruits: "/images/fruit3.png",
-      bg: "/images/bg3.jpeg",
-    },
+    { id: 101, name: "Local Mint", image: "/images/vape1.png", fruits: "/images/fruit1.png", bg: "/images/bg1.jpeg" },
+    { id: 102, name: "Local Berry", image: "/images/vape2.png", fruits: "/images/fruit2.png", bg: "/images/bg2.jpeg" },
+    { id: 103, name: "Local Mango", image: "/images/vape3.png", fruits: "/images/fruit3.png", bg: "/images/bg3.jpeg" },
+    { id: 104, name: "Local Mango 2", image: "/images/vape4.png", fruits: "/images/fruit3.png", bg: "/images/bg3.jpeg" }, 
+    { id: 105, name: "Local Mango 3", image: "/images/vape5.png", fruits: "/images/fruit3.png", bg: "/images/bg3.jpeg" }, 
+    { id: 106, name: "Local Mango 4", image: "/images/vape6.png", fruits: "/images/fruit3.png", bg: "/images/bg3.jpeg" }, 
+    { id: 107, name: "Local Mango 5", image: "/images/vape7.png", fruits: "/images/fruit3.png", bg: "/images/bg3.jpeg" }, 
+    { id: 108, name: "Local Mango 6", image: "/images/vape8.png", fruits: "/images/fruit3.png", bg: "/images/bg3.jpeg" }, 
+    { id: 109, name: "Local Mango 7", image: "/images/vape9.png", fruits: "/images/fruit3.png", bg: "/images/bg3.jpeg" }, 
+    { id: 110, name: "Local Mango 8", image: "/images/vape10.png", fruits: "/images/fruit3.png", bg: "/images/bg3.jpeg" }, 
   ],
-  regular: [
-    {
-      id: 201,
-      name: "Reg Classic",
-      image: "/images/vape7.png",
-      fruits: "/images/fruit3.png",
-      bg: "/images/bg3.jpeg",
-    },
-    {
-      id: 202,
-      name: "Reg Ice",
-      image: "/images/vape9.png",
-      fruits: "/images/fruit1.png",
-      bg: "/images/bg1.jpeg",
-    },
-    {
-      id: 203,
-      name: "Reg Gold",
-      image: "/images/vape7.png",
-      fruits: "/images/fruit2.png",
-      bg: "/images/bg2.jpeg",
-    },
-  ],
+ regular:  [
+  { id: 201, name: "Reg Classic", image: "/images/vape1.png", fruits: "/images/fruit3.png", bg: "/images/bg3.jpeg"},
+  { id: 202, name: "Reg Ice", image: "/images/vape2.png", fruits: "/images/fruit1.png", bg: "/images/bg1.jpeg"},
+  { id: 203, name: "Reg Gold", image: "/images/vape3.png", fruits: "/images/fruit2.png", bg: "/images/bg2.jpeg"},
+  { id: 204, name: "Reg Platinum", image: "/images/vape4.png", fruits: "/images/fruit2.png", bg: "/images/bg2.jpeg"},
+  { id: 205, name: "Reg Silver", image: "/images/vape5.png", fruits: "/images/fruit2.png", bg: "/images/bg2.jpeg"},
+  { id: 206, name: "Reg Bronze", image: "/images/vape6.png", fruits: "/images/fruit2.png", bg: "/images/bg2.jpeg"},
+  { id: 207, name: "Reg Diamond", image: "/images/vape7.png", fruits: "/images/fruit2.png", bg: "/images/bg2.jpeg" },
+  { id: 208, name: "Reg Premium", image: "/images/vape8.png", fruits: "/images/fruit2.png", bg: "/images/bg2.jpeg"},
+  { id: 209, name: "Reg Elite", image: "/images/vape9.png", fruits: "/images/fruit2.png",bg: "/images/bg2.jpeg"},
+  { id: 210, name: "Reg Limited", image: "/images/vape10.png", fruits: "/images/fruit2.png",bg: "/images/bg2.jpeg"},
+],
 };
 
 //  Single Card
@@ -148,6 +126,7 @@ const ProductCard = ({
 
     return () => ctx.revert();
   }, [item.id, index]);
+  
 
   return (
     <div
@@ -200,7 +179,17 @@ const Features = () => {
       tween.kill();
     };
   }, []);
+const scrollContainerRef = useRef<HTMLDivElement>(null);
 
+const scroll = (direction: "left" | "right") => {
+  if (scrollContainerRef.current) {
+    const scrollAmount = 350; // Ek card ki width + gap
+    scrollContainerRef.current.scrollBy({
+      left: direction === "left" ? -scrollAmount : scrollAmount,
+      behavior: "smooth",
+    });
+  }
+};
   return (
     <section
       ref={sectionRef}
@@ -224,15 +213,55 @@ const Features = () => {
       </div>
 
       {/* 2. Cards Grid */}
-      <div className="relative z-10 flex flex-wrap items-end justify-center gap-8 md:gap-12 px-4 h-auto md:h-[550px] mt-8">
-        {seriesData[activeSeries].map((item, i) => (
-          <ProductCard
-            key={`${activeSeries}-${item.id}`}
-            item={item}
-            index={i}
-          />
-        ))}
+     
+      {/* 2. Cards Grid Container */}
+{/* 2. Cards Grid Container with Arrows */}
+<div className="relative z-10 w-full px-4 md:px-12 mt-8 group">
+  
+  {/* Left Arrow */}
+  <Button 
+    onClick={() => scroll("left")}
+    className="absolute  left-0 top-1/2 -translate-y-1/2 z-30 bg-white/10 hover:bg-black backdrop-blur-md p-3 rounded-full border border-white/20 transition-all opacity-0 group-hover:opacity-100 hidden md:block"
+  >
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-black"><path d="m15 18-6-6 6-6"/></svg>
+  </Button>
+
+  {/* Right Arrow */}
+  <Button 
+    onClick={() => scroll("right")}
+    className="absolute right-0 top-1/2 -translate-y-1/2 z-30 bg-white/10 hover:bg-white/20 backdrop-blur-md p-3 rounded-full border border-white/20 transition-all opacity-0 group-hover:opacity-100 hidden md:block"
+  >
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+  </Button>
+
+  {/* Scrollable Area */}
+  <div 
+    ref={scrollContainerRef}
+    className="
+      flex flex-nowrap items-end 
+      gap-6 md:gap-10 
+      overflow-x-auto 
+      hide-scrollbar 
+      snap-x snap-mandatory 
+      py-10 
+      mx-auto
+      max-w-full lg:max-w-[1200px]
+      scroll-smooth
+    "
+  >
+    {seriesData[activeSeries].map((item, i) => (
+      <div 
+        key={`${activeSeries}-${item.id}-${i}`} 
+        className="snap-center shrink-0"
+      >
+        <ProductCard
+          item={item}
+          index={i}
+        />
       </div>
+    ))}
+  </div>
+</div>
 
       {/* 3. Series Toggle Buttons */}
       <div className="flex gap-6 mt-20 z-20">

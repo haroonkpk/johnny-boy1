@@ -1,136 +1,137 @@
 "use client";
 
-import { useState } from "react";
-import { useAuthStore } from "@/store/authStore";
-import api from "@/lib/api";
-import { Input } from "@/components/ui/input";
+import React, { useState } from "react";
+import { motion } from "framer-motion";
+
+import { Card } from "@/components/ui/card";
+import PageHero from "@/components/PageHero";
 import Button from "@/components/ui/Button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import Link from "next/link";
 
-interface SignupFormProps {
-  onSuccess?: () => void;
-  onLoginClick?: () => void;
-}
+export default function SignupForm() {
+  const [intro, setIntro] = useState("");
 
-export function SignupForm({ onSuccess, onLoginClick }: SignupFormProps) {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
-
-  const setCredentials = useAuthStore((state) => state.setCredentials);
-
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setError("");
-
-    if (password !== confirmPassword) {
-      setError("Passwords do not match");
-      return;
-    }
-
-    setLoading(true);
-
-    try {
-      const { data } = await api.post("/users", {
-        name,
-        email,
-        password,
-      });
-
-      setCredentials({
-        user: data.user,
-        token: data.token,
-      });
-
-      if (onSuccess) onSuccess();
-    } catch (err: any) {
-      setError(
-        err.response?.data?.message || "Error creating account"
-      );
-    } finally {
-      setLoading(false);
-    }
+    console.log("Signup form submitted");
   };
 
   return (
-    <div className="p-2">
-      <p className="text-center text-sm text-gray-600 mb-8">
-        Or{" "}
-        <button
-          onClick={onLoginClick}
-          className="font-medium text-black hover:underline"
+    <div className="relative min-h-screen bg-[var(--color-cream)] overflow-hidden">
+      {/* HERO */}
+      <PageHero
+        title={
+          <>
+            Wholesale{" "}
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500">
+              Signup
+            </span>
+          </>
+        }
+        subtitle="Apply for a wholesale account and start ordering with custom pricing."
+        badge="Get Started"
+      />
+
+      {/* FORM WRAPPER */}
+      <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 py-16">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.96 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
         >
-          sign in to existing account
-        </button>
-      </p>
+          <Card className="w-full p-6 sm:p-8 md:p-12 rounded-3xl border border-gray-100 shadow-xl bg-white">
+            
+            <div className="mb-10 text-center">
+              <h2 className="text-3xl md:text-4xl font-bold text-black">
+                Create Wholesale Account
+              </h2>
+              <p className="text-gray-500 mt-3 text-sm md:text-base">
+                Fill out the form below to request access to wholesale pricing.
+              </p>
+             <p className="text-sm text-gray-600 mt-4">
+  Already have an account?{" "}
+  <Link
+    href="/login"
+    className="font-semibold text-black hover:underline"
+  >
+    Login here
+  </Link>
+</p>
+              
+            </div >
 
-      {error && (
-        <div className="bg-red-50 text-red-500 p-3 rounded-md text-sm text-center mb-6">
-          {error}
-        </div>
-      )}
+            {/* FORM */}
+            <form className="space-y-7" onSubmit={handleSubmit}>
 
-      <form className="space-y-6" onSubmit={handleSubmit}>
-        <div className="space-y-4">
-          <Input
-            label="Full Name"
-            id="signup-name"
-            name="name"
-            type="text"
-            required
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            placeholder="Enter your full name"
-          />
+              {/* NAME */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <Input label="First Name *" type="text" placeholder="Enter first name" />
+                <Input label="Last Name *" type="text" placeholder="Enter last name" />
+              </div>
 
-          <Input
-            label="Email address"
-            id="signup-email"
-            name="email"
-            type="email"
-            autoComplete="email"
-            required
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="Enter your email"
-          />
+              {/* EMAIL + PHONE */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <Input label="Email Address *" type="email" placeholder="email@example.com" />
+                <Input label="Phone *" type="tel" placeholder="+92 300 1234567" />
+              </div>
 
-          <Input
-            label="Password"
-            id="signup-password"
-            name="password"
-            type="password"
-            required
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            placeholder="Create a password"
-          />
+              {/* PASSWORD + BUSINESS */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <Input label="User Password *" type="password" placeholder="Enter password" />
+                <Input label="Business Name *" type="text" placeholder="Your business name" />
+              </div>
 
-          <Input
-            label="Confirm Password"
-            id="signup-confirmPassword"
-            name="confirmPassword"
-            type="password"
-            required
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            placeholder="Confirm your password"
-          />
-        </div>
+              {/* ADDRESS */}
+              <Input label="Store Address" type="text" placeholder="Enter store address" />
 
-        <div>
-          <Button
-            type="submit"
-            variant="secondary"
-            disabled={loading}
-            className="w-full py-2 px-4 text-sm rounded-md shadow-sm disabled:bg-gray-400"
-          >
-            {loading ? "Creating account..." : "Sign up"}
-          </Button>
-        </div>
-      </form>
+              {/* SALES + WEBSITE */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <Input label="Monthly Unit Sales *" type="number" placeholder="e.g. 500" />
+                <Input label="Website" type="url" placeholder="https://yourwebsite.com" />
+              </div>
+
+              {/* INTRO */}
+              <div>
+                <Textarea
+                  label="A Brief Intro *"
+                  rows={6}
+                  placeholder="Tell us about your business..."
+                  className="resize-none"
+                  value={intro}
+                  onChange={(e) => setIntro(e.target.value)}
+                />
+
+                <p className="text-right text-sm text-gray-400 mt-2">
+                  {intro.length} characters
+                </p>
+              </div>
+
+              {/* TERMS */}
+              <div className="flex items-start gap-3">
+                <input type="checkbox" className="mt-1 w-4 h-4" />
+                <p className="text-sm text-gray-600">
+                  <span className="font-semibold text-black">Terms of Use *</span>
+                  <br />
+                  By sending this form you agree to Privacy Policy and Terms of Service.
+                </p>
+              </div>
+
+              {/* BUTTON */}
+              <Button
+                type="submit"
+                variant="secondary"
+                className="w-full h-14 text-base font-semibold rounded-2xl"
+              >
+                Submit →
+              </Button>
+
+            </form>
+          </Card>
+        </motion.div>
+      </div>
     </div>
   );
 }

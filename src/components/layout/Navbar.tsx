@@ -3,24 +3,42 @@
 import { useState } from "react"; 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { ShoppingCart, Settings, Home, Package, Menu, X } from "lucide-react"; 
+import {
+  ShoppingCart,
+  Settings,
+  Home,
+  Package,
+  Menu,
+  X,
+  UserPlus,
+} from "lucide-react"; 
+
 import Button from "../ui/Button";
-
+import { useRouter } from "next/navigation";
 export default function Navbar() {
+  const router = useRouter();
   const pathname = usePathname();
-  const [isOpen, setIsOpen] = useState(false); 
-
+  const [isOpen, setIsOpen] = useState(false);
+  const [activeModal, setActiveModal] = useState(null);
   const navLinks = [
     { name: "Home", href: "/", icon: Home },
-    { name: "Products", href: "/services", icon: Package },
+    { name: "Local series", href: "/regularseries", icon: Package },
+    { name: "Regular Series", href: "/localseries", icon: Package },
     { name: "Review", href: "/review", icon: Package },
+    { name: "Orde", href: "/cart", icon: ShoppingCart },
     { name: "Contact", href: "/contact", icon: Package },
-    { name: "Cart", href: "/cart", icon: ShoppingCart },
-    { name: "Admin", href: "/admin", icon: Settings },
+    // { name: "Admin", href: "/admin", icon: Settings },
   ];
-
   const toggleMenu = () => setIsOpen(!isOpen);
+  const handleLoginSuccess = () => {
+    setActiveModal(null);
+    router.refresh();
+  };
 
+  const handleSignupSuccess = () => {
+    setActiveModal(null);
+    router.refresh();
+  };
   return (
     <nav className="sticky top-0 z-1000 w-full glass">
       <div className="max-w-[1500px] mx-auto px-4 sm:px-6 lg:px-8">
@@ -37,6 +55,7 @@ export default function Navbar() {
           </div>
 
           {/* Desktop Links (Hidden on Mobile) */}
+          {/* Desktop Links */}
           <div className="hidden md:block">
             <div className="ml-10 flex items-baseline space-x-8">
               {navLinks.map((link) => {
@@ -58,6 +77,15 @@ export default function Navbar() {
                 );
               })}
             </div>
+          </div>
+
+          <div className="hidden md:block ml-6">
+            <Button
+              className="px-8 md:px-10 py-3 md:py-4 rounded-full bg-gradient-to-r from-[#3ac8ee] to-[#937ef1] text-white font-black"
+              onClick={() => router.push("/signup")}
+            >
+              <UserPlus size={20} /> JOIN NOW
+            </Button>
           </div>
 
           {/* Mobile menu button (Only Visible on Mobile) */}
