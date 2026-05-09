@@ -14,11 +14,11 @@ export default function ProductCard({ product }: ProductCardProps) {
   const [isHovered, setIsHovered] = useState(false);
 
   // Floating animation configuration
-  const floatingTransition = {
-    repeat: Infinity,
-    duration: 4,
-    ease: 'easeInOut',
-  };
+const floatingTransition = {
+  repeat: Infinity,
+  duration: 4,
+  ease: "easeInOut" as const,
+};
 
   return (
     <Card
