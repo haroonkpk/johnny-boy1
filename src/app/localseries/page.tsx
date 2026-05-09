@@ -30,7 +30,7 @@ export default function RegularSeries() {
             </p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
             {products.map((product) => (
               <div key={product.id} className="transform hover:scale-105 transition-transform duration-300">
                 <ProductCard product={product} />

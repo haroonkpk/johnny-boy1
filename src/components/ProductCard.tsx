@@ -1,126 +1,178 @@
-
 "use client";
 
-import { motion, AnimatePresence } from 'framer-motion';
-import { Product } from '@/store/useProductStore';
-import { Card } from './ui/card';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { Card } from "@/components/ui/card";
+import { Product } from "@/store/useProductStore";
+import { ChevronDown, ChevronUp } from "lucide-react";
+
+gsap.registerPlugin(ScrollTrigger);
 
 interface ProductCardProps {
   product: Product;
 }
 
 export default function ProductCard({ product }: ProductCardProps) {
-  const [isHovered, setIsHovered] = useState(false);
+  const cardRef = useRef<HTMLDivElement>(null);
+  const infoRef = useRef<HTMLDivElement>(null);
+  const waterRef = useRef<HTMLDivElement>(null);
+  const fruitRef = useRef<HTMLImageElement>(null);
+  const bottleRef = useRef<HTMLImageElement>(null);
+  const descRef = useRef<HTMLDivElement>(null);
+  const [isExpanded, setIsExpanded] = useState(false);
 
-  // Floating animation configuration
-  const floatingTransition = {
-    repeat: Infinity,
-    duration: 4,
-    ease: 'easeInOut',
+  useEffect(() => {
+    const card = cardRef.current;
+    const info = infoRef.current;
+    const water = waterRef.current;
+    const fruit = fruitRef.current;
+    const bottle = bottleRef.current;
+    const desc = descRef.current;
+
+    if (!card || !info || !desc) return;
+
+    const mm = gsap.matchMedia();
+    const ctx = gsap.context(() => {
+      // Initialize states
+      gsap.set(info, { y: "65%" });
+      gsap.set(desc, { opacity: 0 });
+
+      //Product 
+      gsap.fromTo(bottle,
+        { yPercent: 20, scale: 1.5 },
+        {
+          yPercent: -60,
+          scale: 1.5,
+          ease: "none",
+          scrollTrigger: {
+            trigger: card,
+            start: "top bottom",
+            end: "bottom top",
+            scrub: 0.6,
+          },
+        }
+      );
+
+      // Hover Interaction (Desktop)
+      const hoverTl = gsap.timeline({ paused: true });
+      hoverTl
+        .to(info, { y: "0%", duration: 0.5, ease: "power2.out" }, 0)
+        .to(water, { scale: 1.1, opacity: 0.6, duration: 0.7, ease: "power2.out" }, 0)
+        .to(desc, { opacity: 1, duration: 0.3 }, 0.2);
+
+      const onMouseEnter = () => { if (window.innerWidth > 768) hoverTl.play(); };
+      const onMouseLeave = () => { if (window.innerWidth > 768) hoverTl.reverse(); };
+
+      card.addEventListener("mouseenter", onMouseEnter);
+      card.addEventListener("mouseleave", onMouseLeave);
+
+      // Mobile Scroll Animation
+      mm.add("(max-width: 768px)", () => {
+        ScrollTrigger.create({
+          trigger: card,
+          start: "center 65%",
+          end: "center 35%",
+          onEnter: () => {
+            setIsExpanded(true);
+            gsap.to(info, { y: "0%", duration: 0.5, ease: "power2.out" });
+            gsap.to(desc, { opacity: 1, duration: 0.3, delay: 0.2 });
+          },
+          onLeave: () => {
+            setIsExpanded(false);
+            gsap.to(info, { y: "65%", duration: 0.5, ease: "power2.in" });
+            gsap.to(desc, { opacity: 0, duration: 0.2 });
+          },
+          onEnterBack: () => {
+            setIsExpanded(true);
+            gsap.to(info, { y: "0%", duration: 0.5, ease: "power2.out" });
+            gsap.to(desc, { opacity: 1, duration: 0.3, delay: 0.2 });
+          },
+          onLeaveBack: () => {
+            setIsExpanded(false);
+            gsap.to(info, { y: "65%", duration: 0.5, ease: "power2.in" });
+            gsap.to(desc, { opacity: 0, duration: 0.2 });
+          },
+        });
+      });
+    }, cardRef);
+
+    return () => {
+      ctx.revert();
+      mm.revert();
+    };
+  }, []);
+
+  const togglePanel = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    const newState = !isExpanded;
+    setIsExpanded(newState);
+    
+    gsap.to(infoRef.current, { 
+      y: newState ? "0%" : "65%", 
+      duration: 0.5, 
+      ease: "power2.out" 
+    });
+    
+    gsap.to(descRef.current, { 
+      opacity: newState ? 1 : 0, 
+      duration: 0.3 
+    });
   };
 
   return (
     <Card
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-      variant="light"
-      className="p-4 flex flex-col h-full group transition-all duration-500 hover:shadow-2xl border border-transparent relative overflow-hidden bg-white"
+      ref={cardRef}
+      className="relative w-full h-[520px] p-0 overflow-hidden shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_20px_40px_rgb(0,0,0,0.12)] transition-shadow duration-500 cursor-pointer group rounded-2xl"
     >
-      {/* Product Display Area */}
-      <div className="relative w-full h-72 mb-4 rounded-xl overflow-hidden flex items-center justify-center bg-[var(--color-cream)]">
-        {/* <div className="absolute inset-0 z-0"> */}
-        <div className="absolute inset-0 z-0">
-    <img 
-      src="/images/water.png" 
-      alt="background"
-      className="w-full h-full object-cover opacity-50" 
-    />
-  </div>
-        {/* ---  OVERLAY  --- */}
-        <AnimatePresence>
-          {isHovered && (
-            <motion.div
-              initial={{ opacity: 0, scale: 0.2 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.2 }}
-              className="absolute inset-4 z-10 bg-white/40 backdrop-blur-md rounded-full flex flex-col items-start justify-center p-8 border border-white/60 shadow-xl"
-            >
-              <motion.div
-                initial={{ x: -20, opacity: 0 }}
-                animate={{ x: 0, opacity: 1 }}
-                transition={{ delay: 0.2 }}
-                className="max-w-[140px]" // Content ko left side par rakhne ke liye width limit
-              >
-                <p className="text-[10px] uppercase tracking-widest text-gray-800 font-bold mb-1">Flavor Notes</p>
-                <p className="text-[11px] font-medium text-gray-700 leading-tight text-left">
-                  {product.description || "Sweet, tangy and incredibly smooth."}
-                </p>
-              </motion.div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-
-        {/* --- 2. ASSETS CONTAINER --- */}
-        <div className="relative w-full h-full flex items-center justify-center">
-          
-          {/* Bottle Parent (Floating + Tilt on Hover) */}
-          <motion.div
-            animate={{ 
-              y: [0, -10, 0],
-              rotate: isHovered ? 15 : 0, 
-              x: isHovered ? 20 : 0       
-            }}
-            transition={{ 
-              y: floatingTransition,
-              rotate: { type: "spring", stiffness: 100 },
-              x: { type: "spring", stiffness: 100 }
-            }}
-            className="absolute z-30 flex items-center justify-center w-full h-full pointer-events-none"
-          >
-            <img
-              src={product.imageUrl}
-              alt={product.title}
-              className="w-auto h-[85%] object-contain filter drop-shadow-[0_20px_30px_rgba(0,0,0,0.15)] transition-transform duration-500 group-hover:scale-105"
-            />
-          </motion.div>
-
-          {/* Fruits Parent (Floating + Pop out) */}
-          <motion.div
-            animate={{ y: [0, 10, 0] }}
-            transition={{ ...floatingTransition, delay: 0.5 }}
-            className="absolute inset-0 z-40 pointer-events-none"
-          >
-            <motion.img
-              initial={{ rotate: 0, scale: 1 }}
-              animate={isHovered ? { 
-                rotate: 35, 
-                scale: 1.4, 
-                x: 30, 
-                y: -20,
-                filter: "drop-shadow(0px 15px 20px rgba(0,0,0,0.25))"
-              } : { 
-                rotate: 0, 
-                scale: 1, 
-                x: 0, 
-                y: 0 
-              }}
-              transition={{ type: "spring", stiffness: 120 }}
-              src="/images/fruit1.png" 
-              className="absolute bottom-8 right-2 w-32 h-32 object-contain"
-            />
-          </motion.div>
-          
-        </div>
+      <div
+        ref={waterRef}
+        className="absolute inset-0 z-0"
+      >
+        <img
+          src="/images/bg2ex.png"
+          alt="Water Background"
+          className="w-full h-full object-cover"
+        />
       </div>
 
-      {/* --- 3. BOTTOM INFO --- */}
-      <div className="flex flex-col flex-grow z-50 bg-white pt-2 relative"> 
-        <div className="mt-auto">
-          <h3 className="text-center font-black text-gray-800 text-lg uppercase tracking-tighter">
+      {/* --- 3. MAIN PRODUCT BOTTLE --- */}
+      <img
+        ref={bottleRef}
+        src={product.imageUrl}
+        alt={product.title}
+        className="absolute translate-x-[-25%] scale-150 z-20 w-full h-auto object-contain "
+      />
+
+      <div
+        ref={infoRef}
+        className="absolute bottom-0 left-0 right-0 z-30 bg-black px-6 pt-6 pb-18 rounded-t-2xl "
+      >
+        {/* Toggle Button */}
+        <button  
+          onClick={togglePanel}
+          className="absolute top-4 right-4 p-1 rounded-full bg-white/10 text-white/70 hover:bg-white/20 transition-colors md:hidden"
+        >
+          {isExpanded ? <ChevronDown size={20} /> : <ChevronUp size={20} />}
+        </button>
+
+        <div className="flex flex-col h-full items-center text-center">
+          
+          {/* Always Visible Title */}
+          <h3 className="text-xl font-black text-white uppercase italic tracking-wider">
             {product.title}
           </h3>
-          <div className="w-8 h-1 bg-[var(--color-primary)] mx-auto mt-1 rounded-full" />
+
+          {/* Description */}
+          <div ref={descRef} className="mt-2">
+            <p className="text-[10px] text-white/50 font-bold uppercase tracking-[0.2em] mb-2">
+              Flavor Notes
+            </p>
+            <p className="text-sm text-white/80 leading-relaxed font-medium px-2">
+              {product.description || "Sweet, tangy and incredibly smooth. Crafted for the perfect refreshing experience."}
+            </p>
+          </div>
+
         </div>
       </div>
     </Card>
