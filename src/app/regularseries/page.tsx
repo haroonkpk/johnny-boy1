@@ -5,7 +5,7 @@ import { useProductStore } from '@/store/useProductStore';
 import ProductCard from '@/components/ProductCard';
 import PageHero from '@/components/PageHero';
 
-export default function ServicesPage() {
+export default function RegularSeries() {
   const products = useProductStore((state) => state.products);
 
   return (
@@ -15,6 +15,11 @@ export default function ServicesPage() {
         subtitle="Premium clouds ultimate flavor. Explore the exclusive JohnnyBoy collection where cutting-edge tech meets bold aesthetics."
         badge="Products"
       />
+      <div className="min-h-screen flex justify-center items-center">
+  <h1 className="text-black text-5xl md:text-7xl font-extrabold text-center">
+    20 Flavours
+  </h1>
+</div>
       <div className="max-w-[1500px] mx-auto px-4 sm:px-6 lg:px-8 py-20">
 
 

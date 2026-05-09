@@ -6,9 +6,6 @@ import { LogIn, UserPlus } from "lucide-react";
 import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 import Button from "@/components/ui/Button";
 import { Modal } from "@/components/ui/modal";
-import { LoginForm } from "@/components/auth/LoginForm";
-import Signup from "@/app/signup/page";
-import { SignupForm } from "@/components/auth/SignupForm";
 import { useRouter } from "next/navigation";
 
 // --- Particle Background Component ---
@@ -182,7 +179,7 @@ export default function Home() {
                 <Button
                   variant="primary-outline"
                   className="rounded-full px-8 md:px-10 py-3 md:py-4"
-                  onClick={() => setActiveModal("login")}
+                   onClick={() => router.push("/login")}
                 >
                   <LogIn size={20} /> LOGIN
                 </Button>
@@ -196,30 +193,7 @@ export default function Home() {
               </div>
             </motion.div>
 
-            {/* Modals */}
-            <Modal
-              isOpen={activeModal === "login"}
-              onClose={() => setActiveModal(null)}
-              title="Sign in to your account"
-              className="max-w-md p-6"
-            >
-              <LoginForm
-                onSuccess={handleLoginSuccess}
-                onSignupClick={() => setActiveModal("signup")}
-              />
-            </Modal>
-
-            <Modal
-              isOpen={activeModal === "signup"}
-              onClose={() => setActiveModal(null)}
-              title="Create an account"
-              className="max-w-md p-6"
-            >
-              <SignupForm
-                onSuccess={handleSignupSuccess}
-                onLoginClick={() => setActiveModal("login")}
-              />
-            </Modal>
+           
 
             {/* RIGHT COLUMN: Visuals Area */}
             <div className="relative flex justify-center items-center h-[350px] sm:h-[450px] md:h-[550px] lg:h-[650px] order-1 lg:order-2">

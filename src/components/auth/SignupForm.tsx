@@ -1,147 +1,137 @@
 "use client";
 
-import { useState } from "react";
-import { useAuthStore } from "@/store/authStore";
-import api from "@/lib/api";
-import { Input } from "@/components/ui/input";
+import React, { useState } from "react";
+import { motion } from "framer-motion";
+
+import { Card } from "@/components/ui/card";
+import PageHero from "@/components/PageHero";
 import Button from "@/components/ui/Button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import Link from "next/link";
 
-interface SignupFormProps {
-  onSuccess?: () => void;
-  onLoginClick?: () => void;
-}
-
-export function SignupForm({ onSuccess, onLoginClick }: SignupFormProps) {
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [businessName, setBusinessName] = useState("");
-  const [storeAddress, setStoreAddress] = useState("");
-  const [monthlySales, setMonthlySales] = useState("");
-  const [website, setWebsite] = useState("");
+export default function SignupForm() {
   const [intro, setIntro] = useState("");
-  const [terms, setTerms] = useState(false);
 
-  const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
-
-  const setCredentials = useAuthStore((state) => state.setCredentials);
-
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setError("");
-
-    if (password !== confirmPassword) {
-      setError("Passwords do not match");
-      return;
-    }
-
-    if (!terms) {
-      setError("You must accept Terms of Use");
-      return;
-    }
-
-    setLoading(true);
-
-    try {
-      const { data } = await api.post("/users", {
-        firstName,
-        lastName,
-        email,
-        phone,
-        password,
-        businessName,
-        storeAddress,
-        monthlySales,
-        website,
-        intro,
-      });
-
-      setCredentials({
-        user: data.user,
-        token: data.token,
-      });
-
-      if (onSuccess) onSuccess();
-    } catch (err: any) {
-      setError(err.response?.data?.message || "Error creating account");
-    } finally {
-      setLoading(false);
-    }
+    console.log("Signup form submitted");
   };
 
   return (
-    <div className="p-2">
-      <p className="text-center text-sm text-gray-600 mb-6">
-        Or{" "}
-        <button
-          onClick={onLoginClick}
-          className="font-medium text-black hover:underline"
+    <div className="relative min-h-screen bg-[var(--color-cream)] overflow-hidden">
+      {/* HERO */}
+      <PageHero
+        title={
+          <>
+            Wholesale{" "}
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500">
+              Signup
+            </span>
+          </>
+        }
+        subtitle="Apply for a wholesale account and start ordering with custom pricing."
+        badge="Get Started"
+      />
+
+      {/* FORM WRAPPER */}
+      <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 py-16">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.96 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
         >
-          sign in to existing account
-        </button>
-      </p>
+          <Card className="w-full p-6 sm:p-8 md:p-12 rounded-3xl border border-gray-100 shadow-xl bg-white">
+            
+            <div className="mb-10 text-center">
+              <h2 className="text-3xl md:text-4xl font-bold text-black">
+                Create Wholesale Account
+              </h2>
+              <p className="text-gray-500 mt-3 text-sm md:text-base">
+                Fill out the form below to request access to wholesale pricing.
+              </p>
+             <p className="text-sm text-gray-600 mt-4">
+  Already have an account?{" "}
+  <Link
+    href="/login"
+    className="font-semibold text-black hover:underline"
+  >
+    Login here
+  </Link>
+</p>
+              
+            </div >
 
-      {error && (
-        <div className="bg-red-50 text-red-500 p-3 rounded-md text-sm text-center mb-4">
-          {error}
-        </div>
-      )}
+            {/* FORM */}
+            <form className="space-y-7" onSubmit={handleSubmit}>
 
-      <form className="space-y-4" onSubmit={handleSubmit}>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {/* NAME */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <Input label="First Name *" type="text" placeholder="Enter first name" />
+                <Input label="Last Name *" type="text" placeholder="Enter last name" />
+              </div>
 
-          <Input label="First Name *" value={firstName} onChange={(e) => setFirstName(e.target.value)} />
-          <Input label="Last Name *" value={lastName} onChange={(e) => setLastName(e.target.value)} />
+              {/* EMAIL + PHONE */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <Input label="Email Address *" type="email" placeholder="email@example.com" />
+                <Input label="Phone *" type="tel" placeholder="+92 300 1234567" />
+              </div>
 
-          <Input label="Email Address *" type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
-          <Input label="Phone *" value={phone} onChange={(e) => setPhone(e.target.value)} />
+              {/* PASSWORD + BUSINESS */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <Input label="User Password *" type="password" placeholder="Enter password" />
+                <Input label="Business Name *" type="text" placeholder="Your business name" />
+              </div>
 
-          <Input label="User Password *" type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
-          <Input label="Confirm Password *" type="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
+              {/* ADDRESS */}
+              <Input label="Store Address" type="text" placeholder="Enter store address" />
 
-          <Input label="Business Name *" value={businessName} onChange={(e) => setBusinessName(e.target.value)} />
-          <Input label="Store Address" value={storeAddress} onChange={(e) => setStoreAddress(e.target.value)} />
+              {/* SALES + WEBSITE */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <Input label="Monthly Unit Sales *" type="number" placeholder="e.g. 500" />
+                <Input label="Website" type="url" placeholder="https://yourwebsite.com" />
+              </div>
 
-          <Input label="Anticipated Monthly Unit Sales *" value={monthlySales} onChange={(e) => setMonthlySales(e.target.value)} />
-          <Input label="Website" value={website} onChange={(e) => setWebsite(e.target.value)} />
+              {/* INTRO */}
+              <div>
+                <Textarea
+                  label="A Brief Intro *"
+                  rows={6}
+                  placeholder="Tell us about your business..."
+                  className="resize-none"
+                  value={intro}
+                  onChange={(e) => setIntro(e.target.value)}
+                />
 
-        </div>
+                <p className="text-right text-sm text-gray-400 mt-2">
+                  {intro.length} characters
+                </p>
+              </div>
 
-        <div>
-          <label className="text-sm font-medium">A brief Intro *</label>
-          <textarea
-            className="w-full border rounded-md p-2 mt-1"
-            rows={3}
-            value={intro}
-            onChange={(e) => setIntro(e.target.value)}
-            placeholder="0 characters"
-          />
-        </div>
+              {/* TERMS */}
+              <div className="flex items-start gap-3">
+                <input type="checkbox" className="mt-1 w-4 h-4" />
+                <p className="text-sm text-gray-600">
+                  <span className="font-semibold text-black">Terms of Use *</span>
+                  <br />
+                  By sending this form you agree to Privacy Policy and Terms of Service.
+                </p>
+              </div>
 
-        <div className="flex items-start gap-2 text-sm">
-          <input
-            type="checkbox"
-            checked={terms}
-            onChange={(e) => setTerms(e.target.checked)}
-          />
-          <p>
-            By sending this form you agree to our Privacy Policy and Terms of Service.
-          </p>
-        </div>
+              {/* BUTTON */}
+              <Button
+                type="submit"
+                variant="secondary"
+                className="w-full h-14 text-base font-semibold rounded-2xl"
+              >
+                Submit →
+              </Button>
 
-        <Button
-          type="submit"
-          variant="secondary"
-          disabled={loading}
-          className="w-full py-2"
-        >
-          {loading ? "Creating account..." : "Submit"}
-        </Button>
-      </form>
+            </form>
+          </Card>
+        </motion.div>
+      </div>
     </div>
   );
 }
