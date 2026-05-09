@@ -2,172 +2,13 @@
 
 import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Button from "../../ui/Button";
 import { SectionHeading } from "../../ui/SectionHeading";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { seriesData, SeriesKey } from "@/data/featuresData";
+import FeatureCard from "@/components/shared/FeatureCard";
+import CarouselArrow from "@/components/shared/CarouselArrow";
+import DotIndicators from "@/components/shared/DotIndicators";
 
-gsap.registerPlugin(ScrollTrigger);
-
-import { seriesData, SeriesKey, FeatureItem } from "@/data/featuresData";
-
-//  Single Card
-const ProductCard = ({
-  item,
-  index,
-}: {
-  item: FeatureItem;
-  index: number;
-}) => {
-  const cardRef = useRef<HTMLDivElement>(null);
-  const bgRef = useRef<HTMLImageElement>(null);
-  const fruitRef = useRef<HTMLImageElement>(null);
-  const vapeRef = useRef<HTMLImageElement>(null);
-
-  useEffect(() => {
-    const card = cardRef.current;
-    if (!card) return;
-
-    ScrollTrigger.getAll()
-      .filter((t) => t.vars.id?.startsWith(`card-${item.id}`))
-      .forEach((t) => t.kill());
-
-    const ctx = gsap.context(() => {
-      gsap.fromTo(
-        [fruitRef.current],
-        { scale: 0.3, opacity: 0 },
-        {
-          scale: 1.3,
-          opacity: 1,
-          duration: 0.7,
-          ease: "back.out(1.4)",
-          stagger: 0.1,
-          delay: index * 0.08,
-        },
-      );
-
-      gsap.fromTo(
-        fruitRef.current,
-        { y: "25%", scale: 1.3 },
-        {
-          y: "-30%",
-          scale: 1.8,
-          ease: "none",
-          scrollTrigger: {
-            id: `card-${item.id}-fruit`,
-            trigger: card,
-            start: "top bottom",
-            end: "bottom top",
-            scrub: 1,
-          },
-        },
-      );
-
-      gsap.fromTo(
-        vapeRef.current,
-        { yPercent: 50 },
-        {
-          yPercent: -80,
-          ease: "none",
-          scrollTrigger: {
-            id: `card-${item.id}-vape`,
-            trigger: card,
-            start: "top bottom",
-            end: "bottom top",
-            scrub: 0.6,
-          },
-        },
-      );
-    }, card);
-
-    return () => ctx.revert();
-  }, [item.id, index]);
-
-  return (
-    <div
-      ref={cardRef}
-      className="relative w-[260px] h-[420px] flex items-end group overflow-hidden rounded-t-[130px] rounded-b-2xl border-4 border-white"
-    >
-      {/* Layer 1 — Background */}
-      <img
-        ref={bgRef}
-        src={item.bg}
-        alt="background"
-        className="absolute inset-0 w-full h-[120%] object-cover brightness-95 group-hover:scale-110 transition-transform duration-700 z-0 will-change-transform"
-        style={{ top: "-10%" }}
-      />
-
-      {/* Layer 2 — Fruits Image */}
-      <img
-        ref={fruitRef}
-        src={item.fruits}
-        alt="fruits"
-        className="absolute bottom-4 left-1/2 scale-[1.3] -translate-x-1/2 z-[5] w-[80%] h-auto object-contain pointer-events-none will-change-transform"
-      />
-
-      {/* Layer 3 — Product / Vape Image */}
-      <img
-        ref={vapeRef}
-        src={item.image}
-        alt={item.name}
-        className="relative scale-150 z-[10] -translate-x-15 w-full h-auto object-contain cursor-pointer will-change-transform"
-      />
-    </div>
-  );
-};
-
-// ─── Arrow Button Component ──────────────────────────────────────────────────
-const ArrowBtn = ({
-  direction,
-  onClick,
-}: {
-  direction: "left" | "right";
-  onClick: () => void;
-}) => (
-  <Button
-    variant="secondary"
-    onClick={onClick}
-    className="!p-4"
-    aria-label={direction === "left" ? "Previous" : "Next"}
-  >
-    {direction === "left" ? (
-      <ChevronLeft size={18} strokeWidth={2.2} />
-    ) : (
-      <ChevronRight size={18} strokeWidth={2.2} />
-      )}
-  </Button>
-);
-
-// ─── Dot Indicators ──────────────────────────────────────────────────────────
-const DotIndicators = ({
-  total,
-  active,
-  onDotClick,
-}: {
-  total: number;
-  active: number;
-  onDotClick: (i: number) => void;
-}) => (
-  <div className="flex items-center gap-[6px] justify-center mt-6">
-    {Array.from({ length: total }).map((_, i) => (
-      <button
-        key={i}
-        onClick={() => onDotClick(i)}
-        aria-label={`Go to card ${i + 1}`}
-        className={`
-          rounded-full transition-all duration-300 cursor-pointer border-0 p-0
-          ${
-            i === active
-              ? "w-6 h-2 bg-black"
-              : "w-2 h-2 bg-black/20 hover:bg-black/40"
-          }
-        `}
-      />
-    ))}
-  </div>
-);
-
-//  Main Section
 const Features = () => {
   const [activeSeries, setActiveSeries] = useState<SeriesKey>("regular");
   const [activeCard, setActiveCard] = useState(0);
@@ -259,10 +100,12 @@ const Features = () => {
       <div className="relative z-10 w-full mt-8">
         {/* ── Arrow Row + Scrollable Area ── */}
         <div className="flex items-center gap-3 justify-center px-4 md:px-12 max-w-[1580px] mx-auto">
-          {/* Left Arrow */}
-          <div className="hidden md:flex shrink-0">
-            <ArrowBtn direction="left" onClick={() => scroll("left")} />
-          </div>
+          {/* Left Arrow — desktop */}
+          <CarouselArrow
+            direction="left"
+            onClick={() => scroll("left")}
+            className="hidden md:flex shrink-0"
+          />
 
           {/* Scrollable Cards */}
           <div
@@ -284,21 +127,23 @@ const Features = () => {
                 key={`${activeSeries}-${item.id}-${i}`}
                 className="snap-center shrink-0"
               >
-                <ProductCard item={item} index={i} />
+                <FeatureCard item={item} index={i} />
               </div>
             ))}
           </div>
 
-          {/* Right Arrow */}
-          <div className="hidden md:flex shrink-0">
-            <ArrowBtn direction="right" onClick={() => scroll("right")} />
-          </div>
+          {/* Right Arrow — desktop */}
+          <CarouselArrow
+            direction="right"
+            onClick={() => scroll("right")}
+            className="hidden md:flex shrink-0"
+          />
         </div>
 
         {/* ── Mobile Arrows (below cards) ── */}
         <div className="flex md:hidden items-center justify-center gap-4 mt-2">
-          <ArrowBtn direction="left" onClick={() => scroll("left")} />
-          <ArrowBtn direction="right" onClick={() => scroll("right")} />
+          <CarouselArrow direction="left" onClick={() => scroll("left")} />
+          <CarouselArrow direction="right" onClick={() => scroll("right")} />
         </div>
 
         {/* ── Dot Indicators ── */}
