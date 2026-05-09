@@ -3,6 +3,9 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
+import { z } from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 import { useAuthStore } from "@/store/authStore";
 import api from "@/lib/api";
@@ -11,6 +14,15 @@ import { Card } from "@/components/ui/card";
 import PageHero from "@/components/PageHero";
 import Button from "@/components/ui/Button";
 import { Input } from "@/components/ui/input";
+
+// LOGIN VALIDATION SCHEMA
+const loginSchema = z.object({
+  email: z.string().email("Please enter a valid email address"),
+  password: z.string().min(1, "Password is required"),
+  rememberMe: z.boolean().optional(),
+});
+
+type LoginFormData = z.infer<typeof loginSchema>;
 
 interface LoginFormProps {
   onSuccess?: () => void;
@@ -21,37 +33,46 @@ export default function LoginForm({
   onSuccess,
   onSignupClick,
 }: LoginFormProps) {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [serverError, setServerError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const setCredentials = useAuthStore((state) => state.setCredentials);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<LoginFormData>({
+    resolver: zodResolver(loginSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+      rememberMe: false,
+    },
+  });
 
-    setError("");
-    setLoading(true);
+  const onSubmit = async (data: LoginFormData) => {
+    setServerError("");
+    setIsLoading(true);
 
     try {
-      const { data } = await api.post("/users/login", {
-        email,
-        password,
+      const response = await api.post("/users/login", {
+        email: data.email,
+        password: data.password,
       });
 
       setCredentials({
-        user: data.user,
-        token: data.token,
+        user: response.data.user,
+        token: response.data.token,
       });
 
       if (onSuccess) onSuccess();
     } catch (err: any) {
-      setError(
+      setServerError(
         err.response?.data?.message || "Invalid email or password"
       );
     } finally {
-      setLoading(false);
+      setIsLoading(false);
     }
   };
 
@@ -81,7 +102,7 @@ export default function LoginForm({
         >
           <Card
             variant="light"
-            className="w-full p-6 sm:p-8 md:p-12 rounded-3xl border border-gray-100 shadow-xl bg-white"
+            className="w-full p-6 sm:p-8 md:p-12 rounded-3xl bg-white"
           >
             {/* HEADING */}
             <div className="mb-10 text-center">
@@ -97,36 +118,32 @@ export default function LoginForm({
                 Don&apos;t have an account?{" "}
                
                 <button
-  type="button"
-  onClick={onSignupClick || (() => (window.location.href = "/signup"))}
-  className="font-semibold text-black hover:underline"
->
-  Create a new account
-</button>
+                  type="button"
+                  onClick={onSignupClick || (() => (window.location.href = "/signup"))}
+                  className="font-semibold text-black hover:underline"
+                >
+                  Create a new account
+                </button>
               </p>
             </div>
 
             {/* ERROR */}
-            {error && (
+            {serverError && (
               <div className="bg-red-50 border border-red-100 text-red-500 p-4 rounded-2xl text-sm text-center mb-8">
-                {error}
+                {serverError}
               </div>
             )}
 
             {/* FORM */}
-            <form className="space-y-7" onSubmit={handleSubmit}>
+            <form className="space-y-7" onSubmit={handleSubmit(onSubmit)}>
               {/* EMAIL */}
               <div>
                 <Input
                   label="Email Address *"
-                  id="login-email"
-                  name="email"
                   type="email"
-                  autoComplete="email"
-                  required
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
                   placeholder="email@example.com"
+                  {...register("email")}
+                  error={errors.email?.message}
                 />
               </div>
 
@@ -134,23 +151,20 @@ export default function LoginForm({
               <div>
                 <Input
                   label="Password *"
-                  id="login-password"
-                  name="password"
                   type="password"
-                  autoComplete="current-password"
-                  required
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
                   placeholder="Enter your password"
+                  {...register("password")}
+                  error={errors.password?.message}
                 />
               </div>
 
               {/* EXTRA OPTIONS */}
               <div className="flex items-center justify-between gap-4 flex-wrap">
-                <label className="flex items-center gap-2 text-sm text-gray-600">
+                <label className="flex items-center gap-2 text-sm text-gray-600 cursor-pointer">
                   <input
                     type="checkbox"
-                    className="w-4 h-4 rounded border-gray-300"
+                    className="w-4 h-4 rounded border-gray-300 accent-black cursor-pointer"
+                    {...register("rememberMe")}
                   />
                   Remember me
                 </label>
@@ -167,16 +181,10 @@ export default function LoginForm({
               <Button
                 type="submit"
                 variant="secondary"
-                disabled={loading}
-                className="w-full h-14 text-base font-semibold rounded-2xl disabled:bg-gray-400"
+                isLoading={isLoading}
+                className="w-full h-14 text-base font-semibold rounded-2xl"
               >
-                <span>
-                  {loading ? "Signing in..." : "Sign In"}
-                </span>
-
-                {!loading && (
-                  <span className="text-xl ml-2">→</span>
-                )}
+                Sign In →
               </Button>
             </form>
           </Card>
