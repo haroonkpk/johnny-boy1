@@ -5,47 +5,18 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Button from "../../ui/Button";
 import { SectionHeading } from "../../ui/SectionHeading";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 gsap.registerPlugin(ScrollTrigger);
 
-type SeriesKey = "local" | "regular";
-
-const seriesData: Record<
-  SeriesKey,
-  { id: number; name: string; image: string; fruits: string; bg: string }[]
-> = {
-  local: [
-    { id: 101, name: "Local Mint", image: "/images/vape1.png", fruits: "/images/fruit1.png", bg: "/images/bg1.jpeg" },
-    { id: 102, name: "Local Berry", image: "/images/vape2.png", fruits: "/images/fruit2.png", bg: "/images/bg2.jpeg" },
-    { id: 103, name: "Local Mango", image: "/images/vape3.png", fruits: "/images/fruit3.png", bg: "/images/bg3.jpeg" },
-    { id: 104, name: "Local Mango 2", image: "/images/vape4.png", fruits: "/images/fruit3.png", bg: "/images/bg3.jpeg" }, 
-    { id: 105, name: "Local Mango 3", image: "/images/vape5.png", fruits: "/images/fruit3.png", bg: "/images/bg3.jpeg" }, 
-    { id: 106, name: "Local Mango 4", image: "/images/vape6.png", fruits: "/images/fruit3.png", bg: "/images/bg3.jpeg" }, 
-    { id: 107, name: "Local Mango 5", image: "/images/vape7.png", fruits: "/images/fruit3.png", bg: "/images/bg3.jpeg" }, 
-    { id: 108, name: "Local Mango 6", image: "/images/vape8.png", fruits: "/images/fruit3.png", bg: "/images/bg3.jpeg" }, 
-    { id: 109, name: "Local Mango 7", image: "/images/vape9.png", fruits: "/images/fruit3.png", bg: "/images/bg3.jpeg" }, 
-    { id: 110, name: "Local Mango 8", image: "/images/vape10.png", fruits: "/images/fruit3.png", bg: "/images/bg3.jpeg" }, 
-  ],
- regular:  [
-  { id: 201, name: "Reg Classic", image: "/images/vape1.png", fruits: "/images/fruit3.png", bg: "/images/bg3.jpeg"},
-  { id: 202, name: "Reg Ice", image: "/images/vape2.png", fruits: "/images/fruit1.png", bg: "/images/bg1.jpeg"},
-  { id: 203, name: "Reg Gold", image: "/images/vape3.png", fruits: "/images/fruit2.png", bg: "/images/bg2.jpeg"},
-  { id: 204, name: "Reg Platinum", image: "/images/vape4.png", fruits: "/images/fruit2.png", bg: "/images/bg2.jpeg"},
-  { id: 205, name: "Reg Silver", image: "/images/vape5.png", fruits: "/images/fruit2.png", bg: "/images/bg2.jpeg"},
-  { id: 206, name: "Reg Bronze", image: "/images/vape6.png", fruits: "/images/fruit2.png", bg: "/images/bg2.jpeg"},
-  { id: 207, name: "Reg Diamond", image: "/images/vape7.png", fruits: "/images/fruit2.png", bg: "/images/bg2.jpeg" },
-  { id: 208, name: "Reg Premium", image: "/images/vape8.png", fruits: "/images/fruit2.png", bg: "/images/bg2.jpeg"},
-  { id: 209, name: "Reg Elite", image: "/images/vape9.png", fruits: "/images/fruit2.png",bg: "/images/bg2.jpeg"},
-  { id: 210, name: "Reg Limited", image: "/images/vape10.png", fruits: "/images/fruit2.png",bg: "/images/bg2.jpeg"},
-],
-};
+import { seriesData, SeriesKey, FeatureItem } from "@/data/featuresData";
 
 //  Single Card
 const ProductCard = ({
   item,
   index,
 }: {
-  item: { id: number; name: string; image: string; fruits: string; bg: string };
+  item: FeatureItem;
   index: number;
 }) => {
   const cardRef = useRef<HTMLDivElement>(null);
@@ -62,7 +33,6 @@ const ProductCard = ({
       .forEach((t) => t.kill());
 
     const ctx = gsap.context(() => {
-      // Mount Animation: fruit & vape scale in on series switch
       gsap.fromTo(
         [fruitRef.current],
         { scale: 0.3, opacity: 0 },
@@ -75,20 +45,7 @@ const ProductCard = ({
           delay: index * 0.08,
         },
       );
-      gsap.fromTo(
-        vapeRef.current,
-        { scale: 0.4, opacity: 0 },
-        {
-          scale: 1,
-          opacity: 1,
-          duration: 0.7,
-          ease: "back.out(1.4)",
-          stagger: 0.1,
-          delay: index * 0.08,
-        },
-      );
 
-      //  Fruit Image
       gsap.fromTo(
         fruitRef.current,
         { y: "25%", scale: 1.3 },
@@ -106,12 +63,11 @@ const ProductCard = ({
         },
       );
 
-      //  Vape / Product Image
       gsap.fromTo(
         vapeRef.current,
-        { y: "30%" },
+        { yPercent: 50 },
         {
-          y: `-${40 + index * 8}%`,
+          yPercent: -80,
           ease: "none",
           scrollTrigger: {
             id: `card-${item.id}-vape`,
@@ -126,12 +82,11 @@ const ProductCard = ({
 
     return () => ctx.revert();
   }, [item.id, index]);
-  
 
   return (
     <div
       ref={cardRef}
-      className="relative w-[260px] h-[420px] flex items-end group overflow-hidden rounded-t-[130px] rounded-b-2xl shadow-2xl border-4 border-white/20"
+      className="relative w-[260px] h-[420px] flex items-end group overflow-hidden rounded-t-[130px] rounded-b-2xl border-4 border-white"
     >
       {/* Layer 1 — Background */}
       <img
@@ -155,19 +110,83 @@ const ProductCard = ({
         ref={vapeRef}
         src={item.image}
         alt={item.name}
-        className="relative z-[10] w-full h-auto object-contain  cursor-pointer will-change-transform"
+        className="relative scale-150 z-[10] -translate-x-15 w-full h-auto object-contain cursor-pointer will-change-transform"
       />
     </div>
   );
 };
 
+// ─── Arrow Button Component ──────────────────────────────────────────────────
+const ArrowBtn = ({
+  direction,
+  onClick,
+}: {
+  direction: "left" | "right";
+  onClick: () => void;
+}) => (
+  <Button
+    variant="secondary"
+    onClick={onClick}
+    className="!p-4"
+    aria-label={direction === "left" ? "Previous" : "Next"}
+  >
+    {direction === "left" ? (
+      <ChevronLeft size={18} strokeWidth={2.2} />
+    ) : (
+      <ChevronRight size={18} strokeWidth={2.2} />
+      )}
+  </Button>
+);
+
+// ─── Dot Indicators ──────────────────────────────────────────────────────────
+const DotIndicators = ({
+  total,
+  active,
+  onDotClick,
+}: {
+  total: number;
+  active: number;
+  onDotClick: (i: number) => void;
+}) => (
+  <div className="flex items-center gap-[6px] justify-center mt-6">
+    {Array.from({ length: total }).map((_, i) => (
+      <button
+        key={i}
+        onClick={() => onDotClick(i)}
+        aria-label={`Go to card ${i + 1}`}
+        className={`
+          rounded-full transition-all duration-300 cursor-pointer border-0 p-0
+          ${
+            i === active
+              ? "w-6 h-2 bg-black"
+              : "w-2 h-2 bg-black/20 hover:bg-black/40"
+          }
+        `}
+      />
+    ))}
+  </div>
+);
+
 //  Main Section
 const Features = () => {
   const [activeSeries, setActiveSeries] = useState<SeriesKey>("regular");
+  const [activeCard, setActiveCard] = useState(0);
   const sectionRef = useRef<HTMLElement>(null);
-
   const marqueeRef = useRef<HTMLDivElement>(null);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
 
+  const items = seriesData[activeSeries];
+  const CARD_WIDTH = 260 + 40;
+
+  // Reset active card when series changes
+  useEffect(() => {
+    setActiveCard(0);
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollTo({ left: 0, behavior: "smooth" });
+    }
+  }, [activeSeries]);
+
+  // Marquee animation
   useEffect(() => {
     const tween = gsap.to(marqueeRef.current, {
       x: "-50%",
@@ -179,17 +198,41 @@ const Features = () => {
       tween.kill();
     };
   }, []);
-const scrollContainerRef = useRef<HTMLDivElement>(null);
 
-const scroll = (direction: "left" | "right") => {
-  if (scrollContainerRef.current) {
-    const scrollAmount = 350; // Ek card ki width + gap
-    scrollContainerRef.current.scrollBy({
-      left: direction === "left" ? -scrollAmount : scrollAmount,
-      behavior: "smooth",
-    });
-  }
-};
+  // Scroll & sync dot
+  const scroll = (direction: "left" | "right") => {
+    const container = scrollContainerRef.current;
+    if (!container) return;
+    const next =
+      direction === "left"
+        ? Math.max(0, activeCard - 1)
+        : Math.min(items.length - 1, activeCard + 1);
+    setActiveCard(next);
+    container.scrollTo({ left: next * CARD_WIDTH, behavior: "smooth" });
+  };
+
+  const goToCard = (i: number) => {
+    setActiveCard(i);
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollTo({
+        left: i * CARD_WIDTH,
+        behavior: "smooth",
+      });
+    }
+  };
+
+  // Track scroll position → update active dot
+  useEffect(() => {
+    const container = scrollContainerRef.current;
+    if (!container) return;
+    const onScroll = () => {
+      const idx = Math.round(container.scrollLeft / CARD_WIDTH);
+      setActiveCard(Math.min(idx, items.length - 1));
+    };
+    container.addEventListener("scroll", onScroll, { passive: true });
+    return () => container.removeEventListener("scroll", onScroll);
+  }, [items.length, CARD_WIDTH]);
+
   return (
     <section
       ref={sectionRef}
@@ -212,65 +255,66 @@ const scroll = (direction: "left" | "right") => {
         />
       </div>
 
-      {/* 2. Cards Grid */}
-     
-      {/* 2. Cards Grid Container */}
-{/* 2. Cards Grid Container with Arrows */}
-<div className="relative z-10 w-full px-4 md:px-12 mt-8 group">
-  
-  {/* Left Arrow */}
-  <Button 
-    onClick={() => scroll("left")}
-    className="absolute  left-0 top-1/2 -translate-y-1/2 z-30 bg-white/10 hover:bg-black backdrop-blur-md p-3 rounded-full border border-white/20 transition-all opacity-0 group-hover:opacity-100 hidden md:block"
-  >
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-black"><path d="m15 18-6-6 6-6"/></svg>
-  </Button>
+      {/* 2. Cards + Arrows */}
+      <div className="relative z-10 w-full mt-8">
+        {/* ── Arrow Row + Scrollable Area ── */}
+        <div className="flex items-center gap-3 justify-center px-4 md:px-12 max-w-[1580px] mx-auto">
+          {/* Left Arrow */}
+          <div className="hidden md:flex shrink-0">
+            <ArrowBtn direction="left" onClick={() => scroll("left")} />
+          </div>
 
-  {/* Right Arrow */}
-  <Button 
-    onClick={() => scroll("right")}
-    className="absolute right-0 top-1/2 -translate-y-1/2 z-30 bg-white/10 hover:bg-white/20 backdrop-blur-md p-3 rounded-full border border-white/20 transition-all opacity-0 group-hover:opacity-100 hidden md:block"
-  >
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="m9 18 6-6-6-6"/></svg>
-  </Button>
+          {/* Scrollable Cards */}
+          <div
+            ref={scrollContainerRef}
+            className="
+              flex flex-nowrap items-end
+              gap-6 md:gap-10
+              overflow-x-auto
+              hide-scrollbar
+              snap-x snap-mandatory
+              py-10
+              flex-1
+              max-w-full lg:max-w-[1500px]
+              scroll-smooth
+            "
+          >
+            {items.map((item, i) => (
+              <div
+                key={`${activeSeries}-${item.id}-${i}`}
+                className="snap-center shrink-0"
+              >
+                <ProductCard item={item} index={i} />
+              </div>
+            ))}
+          </div>
 
-  {/* Scrollable Area */}
-  <div 
-    ref={scrollContainerRef}
-    className="
-      flex flex-nowrap items-end 
-      gap-6 md:gap-10 
-      overflow-x-auto 
-      hide-scrollbar 
-      snap-x snap-mandatory 
-      py-10 
-      mx-auto
-      max-w-full lg:max-w-[1200px]
-      scroll-smooth
-    "
-  >
-    {seriesData[activeSeries].map((item, i) => (
-      <div 
-        key={`${activeSeries}-${item.id}-${i}`} 
-        className="snap-center shrink-0"
-      >
-        <ProductCard
-          item={item}
-          index={i}
+          {/* Right Arrow */}
+          <div className="hidden md:flex shrink-0">
+            <ArrowBtn direction="right" onClick={() => scroll("right")} />
+          </div>
+        </div>
+
+        {/* ── Mobile Arrows (below cards) ── */}
+        <div className="flex md:hidden items-center justify-center gap-4 mt-2">
+          <ArrowBtn direction="left" onClick={() => scroll("left")} />
+          <ArrowBtn direction="right" onClick={() => scroll("right")} />
+        </div>
+
+        {/* ── Dot Indicators ── */}
+        <DotIndicators
+          total={items.length}
+          active={activeCard}
+          onDotClick={goToCard}
         />
       </div>
-    ))}
-  </div>
-</div>
 
       {/* 3. Series Toggle Buttons */}
-      <div className="flex gap-6 mt-20 z-20">
+      <div className="flex gap-6 mt-12 z-20">
         {(["local", "regular"] as SeriesKey[]).map((series) => (
           <Button
             key={series}
-            variant={
-              activeSeries === series ? "secondary" : "secondary-outline"
-            }
+            variant={activeSeries === series ? "secondary" : "secondary-outline"}
             onClick={() => setActiveSeries(series)}
           >
             {series === "local" ? "LOCAL SERIES" : "REGULAR SERIES"}
