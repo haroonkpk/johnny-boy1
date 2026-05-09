@@ -8,10 +8,33 @@
   --border: #262626;
   --heading-bg: #7A7D8F;
   --color-cream: #f5f0e8;
+  --color-brown: #f6d7a5;
   --gold: #e2bf32;
   --heading-accent: #030404;
 }
+@keyframes floatUpDown {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
 
+.float-slow {
+  animation: floatUpDown 6s ease-in-out infinite;
+}
+
+.float-medium {
+  animation: floatUpDown 4.5s ease-in-out infinite;
+}
+
+.float-fast {
+  animation: floatUpDown 3.8s ease-in-out infinite;
+}
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);

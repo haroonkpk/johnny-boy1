@@ -48,7 +48,7 @@ export default function RegularSeries() {
                   key={product.id} 
                   className={`transform hover:scale-110 transition-all duration-700 ease-out ${smStaggerClass} ${staggerClass}`}
                 >
-                  <ProductCard product={product} />
+                 <ProductCard product={product} type="regular" />
                 </div>
               );
             })}
