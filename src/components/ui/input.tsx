@@ -5,16 +5,17 @@ import { Eye, EyeOff } from 'lucide-react';
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   label?: string;
+  error?: string;
 }
 
 export const Input = forwardRef<HTMLInputElement, InputProps>(
-  ({ label, id, className = '', type, ...props }, ref) => {
+  ({ label, id, className = '', type, error, ...props }, ref) => {
     const [showPassword, setShowPassword] = useState(false);
     const isPassword = type === 'password';
     const inputType = isPassword ? (showPassword ? 'text' : 'password') : type;
 
     return (
-      <div className="flex flex-col gap-[clamp(0.3rem,1vw,0.5rem)] w-full relative">
+      <div className="flex flex-col gap-[clamp(0.2rem,0.5vw,0.3rem)] w-full relative">
         
         {label && (
           <label 
@@ -33,8 +34,9 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
             type={inputType}
             className={`
               w-full bg-(--heading-bg)/10 text-[#1E293B] placeholder-[#94A3B8]
-              rounded-md outline-none transition-all duration-200 border border-transparent
-              focus:border-[var(--gold)] focus:bg-white/20 focus:shadow-sm
+              rounded-md outline-none transition-all duration-200 border
+              ${error ? 'border-red-500 bg-red-50/10' : 'border-transparent focus:border-[var(--gold)]'}
+              focus:bg-white/20 focus:shadow-sm
               p-[clamp(0.6rem,1.5vw,0.875rem)]
               text-[clamp(0.875rem,1vw+0.2rem,1rem)]
               ${isPassword ? 'pr-10' : ''}
@@ -58,6 +60,11 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
             </button>
           )}
         </div>
+        {error && (
+          <p className="text-xs text-red-500 font-medium mt-0.5 animate-in fade-in slide-in-from-top-1">
+            {error}
+          </p>
+        )}
       </div>
     );
   }

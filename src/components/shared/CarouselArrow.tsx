@@ -7,10 +7,6 @@ interface CarouselArrowProps {
   className?: string;
 }
 
-/**
- * Reusable carousel arrow button.
- * Use `className` to control wrapper visibility (e.g. "hidden md:flex").
- */
 const CarouselArrow = ({ direction, onClick, className = "" }: CarouselArrowProps) => (
   <div className={className}>
     <Button

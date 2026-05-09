@@ -5,9 +5,6 @@ interface DotIndicatorsProps {
   className?: string;
 }
 
-/**
- * Reusable pagination dot indicators for any carousel or slider.
- */
 const DotIndicators = ({
   total,
   active,

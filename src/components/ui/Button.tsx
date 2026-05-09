@@ -9,17 +9,20 @@ interface ButtonProps extends Omit<HTMLMotionProps<"button">, "children"> {
   variant?: ButtonVariant;
   className?: string;
   children: React.ReactNode;
+  isLoading?: boolean;
 }
 
 const Button = ({ 
   variant = 'primary', 
   className = '', 
   children, 
+  isLoading,
+  disabled,
   ...props 
 }: ButtonProps) => {
   // Base classes 
-  const baseClasses = `inline-flex items-center justify-center font-medium rounded-full transition-all duration-200 cursor-pointer outline-none
-    hover:opacity-90 active:scale-95
+  const baseClasses = `inline-flex items-center justify-center font-medium rounded-full transition-all duration-200 outline-none
+    ${(disabled || isLoading) ? 'opacity-50 cursor-not-allowed' : 'hover:opacity-90 active:scale-95 cursor-pointer'}
     text-[clamp(0.875rem,1vw+0.5rem,1rem)]
     px-[clamp(1rem,2.5vw,1.5rem)]
     py-[clamp(0.6rem,1.5vw,0.875rem)]
@@ -37,11 +40,18 @@ const Button = ({
 
   return (
     <motion.button
-      whileHover={{ y: -2 }}
-      whileTap={{ scale: 0.98 }}
+      whileHover={(!disabled && !isLoading) ? { y: -2 } : {}}
+      whileTap={(!disabled && !isLoading) ? { scale: 0.98 } : {}}
       className={combinedClasses}
+      disabled={disabled || isLoading}
       {...props}
     >
+      {isLoading && (
+        <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-current" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+          <path className="opacity-75" fill="currentColor" d="4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+        </svg>
+      )}
       {children}
     </motion.button>
   );

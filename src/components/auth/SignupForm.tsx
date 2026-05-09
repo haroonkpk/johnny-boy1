@@ -1,22 +1,106 @@
 "use client";
 
 import React, { useState } from "react";
-import { motion } from "framer-motion";
+import { z } from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import Link from "next/link";
 
 import { Card } from "@/components/ui/card";
 import PageHero from "@/components/PageHero";
 import Button from "@/components/ui/Button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import Link from "next/link";
+
+// INDUSTRY LEVEL VALIDATION SCHEMA
+const signupSchema = z.object({
+  firstName: z.string().min(2, "First name must be at least 2 characters"),
+  lastName: z.string().min(2, "Last name must be at least 2 characters"),
+  email: z.string().email("Please enter a valid email address"),
+  phone: z.string().min(10, "Phone number must be at least 10 digits"),
+  password: z
+    .string()
+    .min(8, "Password must be at least 8 characters")
+    .regex(/[A-Z]/, "Password must contain at least one uppercase letter")
+    .regex(/[a-z]/, "Password must contain at least one lowercase letter")
+    .regex(/[0-9]/, "Password must contain at least one number")
+    .regex(/[^A-Za-z0-9]/, "Password must contain at least one special character"),
+  businessName: z.string().min(2, "Business name is required"),
+  storeAddress: z.string().optional(),
+  monthlySales: z
+    .string()
+    .min(1, "Monthly sales is required")
+    .regex(/^\d+$/, "Please enter a valid number"),
+  website: z.string().url("Invalid URL (e.g. https://example.com)").optional().or(z.literal("")),
+  intro: z.string().min(20, "Please provide a brief intro (min 20 characters)"),
+  terms: z.boolean().refine((val) => val === true, "You must accept the terms of use"),
+});
+
+type SignupFormData = z.infer<typeof signupSchema>;
 
 export default function SignupForm() {
-  const [intro, setIntro] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log("Signup form submitted");
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm<SignupFormData>({
+    resolver: zodResolver(signupSchema),
+    defaultValues: {
+      firstName: "",
+      lastName: "",
+      email: "",
+      phone: "",
+      password: "",
+      businessName: "",
+      storeAddress: "",
+      monthlySales: "",
+      website: "",
+      intro: "",
+      terms: false,
+    },
+  });
+
+  const introValue = watch("intro") || "";
+
+  const onSubmit = async (data: SignupFormData) => {
+    setIsSubmitting(true);
+    // Simulate API call
+    console.log("Signup form data:", data);
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+    setIsSubmitting(false);
+    setIsSuccess(true);
   };
+
+  if (isSuccess) {
+    return (
+      <div className="relative min-h-screen bg-[var(--color-cream)] flex items-center justify-center px-4">
+        <div
+          className="max-w-md w-full"
+        >
+          <Card className="bg-white p-8 text-center space-y-6">
+            <div className="w-20 h-20 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto">
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+              </svg>
+            </div>
+            <h2 className="text-3xl font-bold text-black">Application Received!</h2>
+            <p className="text-gray-600">
+              Thank you for applying for a wholesale account. Our team will review your application and get back to you within 24-48 hours.
+            </p>
+            <Link href="/" className="block">
+              <Button variant="secondary" className="w-full">
+                Back to Home
+              </Button>
+            </Link>
+          </Card>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="relative min-h-screen bg-[var(--color-cream)] overflow-hidden">
@@ -36,14 +120,8 @@ export default function SignupForm() {
 
       {/* FORM WRAPPER */}
       <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 py-16">
-        <motion.div
-          initial={{ opacity: 0, scale: 0.96 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-        >
-          <Card className="w-full p-6 sm:p-8 md:p-12 rounded-3xl border border-gray-100 shadow-xl bg-white">
-            
+        <div>
+          <Card className="bg-white p-8 md:p-12">
             <div className="mb-10 text-center">
               <h2 className="text-3xl md:text-4xl font-bold text-black">
                 Create Wholesale Account
@@ -51,46 +129,91 @@ export default function SignupForm() {
               <p className="text-gray-500 mt-3 text-sm md:text-base">
                 Fill out the form below to request access to wholesale pricing.
               </p>
-             <p className="text-sm text-gray-600 mt-4">
-  Already have an account?{" "}
-  <Link
-    href="/login"
-    className="font-semibold text-black hover:underline"
-  >
-    Login here
-  </Link>
-</p>
-              
-            </div >
+              <p className="text-sm text-gray-600 mt-4">
+                Already have an account?{" "}
+                <Link href="/login" className="font-semibold text-black hover:underline">
+                  Login here
+                </Link>
+              </p>
+            </div>
 
             {/* FORM */}
-            <form className="space-y-7" onSubmit={handleSubmit}>
-
+            <form className="space-y-7" onSubmit={handleSubmit(onSubmit)}>
               {/* NAME */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <Input label="First Name *" type="text" placeholder="Enter first name" />
-                <Input label="Last Name *" type="text" placeholder="Enter last name" />
+                <Input
+                  label="First Name *"
+                  placeholder="Enter first name"
+                  {...register("firstName")}
+                  error={errors.firstName?.message}
+                />
+                <Input
+                  label="Last Name *"
+                  placeholder="Enter last name"
+                  {...register("lastName")}
+                  error={errors.lastName?.message}
+                />
               </div>
 
               {/* EMAIL + PHONE */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <Input label="Email Address *" type="email" placeholder="email@example.com" />
-                <Input label="Phone *" type="tel" placeholder="+92 300 1234567" />
+                <Input
+                  label="Email Address *"
+                  type="email"
+                  placeholder="email@example.com"
+                  {...register("email")}
+                  error={errors.email?.message}
+                />
+                <Input
+                  label="Phone *"
+                  type="tel"
+                  placeholder="+92 300 1234567"
+                  {...register("phone")}
+                  error={errors.phone?.message}
+                />
               </div>
 
               {/* PASSWORD + BUSINESS */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <Input label="User Password *" type="password" placeholder="Enter password" />
-                <Input label="Business Name *" type="text" placeholder="Your business name" />
+                <Input
+                  label="User Password *"
+                  type="password"
+                  placeholder="Enter password"
+                  {...register("password")}
+                  error={errors.password?.message}
+                />
+                <Input
+                  label="Business Name *"
+                  placeholder="Your business name"
+                  {...register("businessName")}
+                  error={errors.businessName?.message}
+                />
               </div>
 
               {/* ADDRESS */}
-              <Input label="Store Address" type="text" placeholder="Enter store address" />
+              <Input
+                label="Store Address"
+                placeholder="Enter store address"
+                {...register("storeAddress")}
+                error={errors.storeAddress?.message}
+              />
 
               {/* SALES + WEBSITE */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <Input label="Monthly Unit Sales *" type="number" placeholder="e.g. 500" />
-                <Input label="Website" type="url" placeholder="https://yourwebsite.com" />
+                <Input
+                  label="Monthly Unit Sales *"
+                  type="number"
+                  placeholder="e.g. 500"
+                  {...register("monthlySales")}
+                  error={errors.monthlySales?.message}
+                />
+                <Input
+                  label="Website"
+                  type="url"
+                  placeholder="https://yourwebsite.com"
+                  {...register("website")}
+                  error={errors.website?.message}
+                />
               </div>
 
               {/* INTRO */}
@@ -100,23 +223,35 @@ export default function SignupForm() {
                   rows={6}
                   placeholder="Tell us about your business..."
                   className="resize-none"
-                  value={intro}
-                  onChange={(e) => setIntro(e.target.value)}
+                  {...register("intro")}
+                  error={errors.intro?.message}
                 />
 
                 <p className="text-right text-sm text-gray-400 mt-2">
-                  {intro.length} characters
+                  {introValue.length} characters
                 </p>
               </div>
 
               {/* TERMS */}
-              <div className="flex items-start gap-3">
-                <input type="checkbox" className="mt-1 w-4 h-4" />
-                <p className="text-sm text-gray-600">
-                  <span className="font-semibold text-black">Terms of Use *</span>
-                  <br />
-                  By sending this form you agree to Privacy Policy and Terms of Service.
-                </p>
+              <div className="flex flex-col gap-1">
+                <div className="flex items-start gap-3">
+                  <input
+                    type="checkbox"
+                    id="terms"
+                    className={`mt-1 w-4 h-4 cursor-pointer accent-black ${errors.terms ? 'outline outline-2 outline-red-500' : ''}`}
+                    {...register("terms")}
+                  />
+                  <label htmlFor="terms" className="text-sm text-gray-600 cursor-pointer">
+                    <span className="font-semibold text-black">Terms of Use *</span>
+                    <br />
+                    By sending this form you agree to Privacy Policy and Terms of Service.
+                  </label>
+                </div>
+                {errors.terms && (
+                  <p className="text-xs text-red-500 font-medium ml-7 mt-1">
+                    {errors.terms.message}
+                  </p>
+                )}
               </div>
 
               {/* BUTTON */}
@@ -124,13 +259,13 @@ export default function SignupForm() {
                 type="submit"
                 variant="secondary"
                 className="w-full h-14 text-base font-semibold rounded-2xl"
+                isLoading={isSubmitting}
               >
-                Submit →
+                Submit Application →
               </Button>
-
             </form>
           </Card>
-        </motion.div>
+        </div>
       </div>
     </div>
   );
