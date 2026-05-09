@@ -40,10 +40,10 @@ export default function ProductCard({ product }: ProductCardProps) {
 
       //Product 
       gsap.fromTo(bottle,
-        { yPercent: 20, scale: 1.5 },
+        { yPercent: 80, scale: 1.8 },
         {
           yPercent: -60,
-          scale: 1.5,
+          scale: 1.8,
           ease: "none",
           scrollTrigger: {
             trigger: card,
@@ -123,7 +123,7 @@ export default function ProductCard({ product }: ProductCardProps) {
   return (
     <Card
       ref={cardRef}
-      className="relative w-full h-[520px] p-0 overflow-hidden shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_20px_40px_rgb(0,0,0,0.12)] transition-shadow duration-500 cursor-pointer group rounded-2xl"
+      className="relative w-[clamp(280px,100%,400px)] h-[clamp(450px,75vh,550px)] mx-auto p-0 overflow-hidden shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_20px_40px_rgb(0,0,0,0.12)] transition-shadow duration-500 cursor-pointer group rounded-3xl"
     >
       <div
         ref={waterRef}
@@ -141,12 +141,12 @@ export default function ProductCard({ product }: ProductCardProps) {
         ref={bottleRef}
         src={product.imageUrl}
         alt={product.title}
-        className="absolute translate-x-[-25%] scale-150 z-20 w-full h-auto object-contain "
+        className="absolute translate-x-[-25%] scale-180 z-20 w-full h-auto object-contain "
       />
 
       <div
         ref={infoRef}
-        className="absolute bottom-0 left-0 right-0 z-30 bg-black px-6 pt-6 pb-18 rounded-t-2xl "
+        className="absolute bottom-0 left-0 right-0 z-30 bg-black px-[clamp(1rem,3vw,1.5rem)] pt-[clamp(1.5rem,3vw,2rem)] pb-[clamp(3.5rem,10vw,5rem)] rounded-t-2xl "
       >
         {/* Toggle Button */}
         <button  
@@ -159,16 +159,16 @@ export default function ProductCard({ product }: ProductCardProps) {
         <div className="flex flex-col h-full items-center text-center">
           
           {/* Always Visible Title */}
-          <h3 className="text-xl font-black text-white uppercase italic tracking-wider">
+          <h3 className="text-[clamp(1.25rem,4vw,1.75rem)] font-black text-white uppercase italic tracking-wider leading-tight">
             {product.title}
           </h3>
 
           {/* Description */}
-          <div ref={descRef} className="mt-2">
-            <p className="text-[10px] text-white/50 font-bold uppercase tracking-[0.2em] mb-2">
+          <div ref={descRef} className="mt-[clamp(0.5rem,1.5vw,1rem)]">
+            <p className="text-[clamp(9px,1.2vw,11px)] text-white/50 font-bold uppercase tracking-[0.2em] mb-2">
               Flavor Notes
             </p>
-            <p className="text-sm text-white/80 leading-relaxed font-medium px-2">
+            <p className="text-[clamp(0.85rem,1.5vw,0.95rem)] text-white/80 leading-relaxed font-medium px-2">
               {product.description || "Sweet, tangy and incredibly smooth. Crafted for the perfect refreshing experience."}
             </p>
           </div>

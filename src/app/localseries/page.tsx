@@ -5,7 +5,7 @@ import { useProductStore } from '@/store/useProductStore';
 import ProductCard from '@/components/ProductCard';
 import PageHero from '@/components/PageHero';
 
-export default function RegularSeries() {
+export default function LocalSeries() {
   const products = useProductStore((state) => state.products);
 
   return (
@@ -30,12 +30,27 @@ export default function RegularSeries() {
             </p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
-            {products.map((product) => (
-              <div key={product.id} className="transform hover:scale-105 transition-transform duration-300">
-                <ProductCard product={product} />
-              </div>
-            ))}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-16 pb-32">
+            {products.map((product, index) => {
+              const staggerClass = index % 3 === 0 
+                ? "lg:translate-y-0" 
+                : index % 3 === 1 
+                  ? "lg:translate-y-32" 
+                  : "lg:translate-y-16";
+              
+              const smStaggerClass = index % 2 === 0 
+                ? "sm:translate-y-0" 
+                : "sm:translate-y-20";
+
+              return (
+                <div 
+                  key={product.id} 
+                  className={`transform hover:scale-110 transition-all duration-700 ease-out ${smStaggerClass} ${staggerClass}`}
+                >
+                  <ProductCard product={product} />
+                </div>
+              );
+            })}
           </div>
         )}
       </div>
