@@ -82,7 +82,7 @@ const Footer = () => {
               <FaPaperPlane className="w-5 h-5 text-white group-hover:text-[#937ef1] transition-colors mt-1" />
               <p className="text-sm text-white/80">
                 Old city Street, USA <br /> 1212 New York-3500
-              </p>
+              </p> 
             </div>
             <div className="flex items-center space-x-4 group">
               <FaPhone className="w-5 h-5 text-white group-hover:text-[#3ac8ee] transition-colors" />
