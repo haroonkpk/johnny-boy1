@@ -5,8 +5,8 @@ export interface Product {
   title: string;
   price: number;
   imageUrl: string;
-
-  fruitImage: string;    
+fruitImage?: string;
+  // fruitImage: string;    
 }
 
 interface ProductState {
@@ -70,6 +70,7 @@ const initialProducts: Product[] = [
     price: 2500,
     imageUrl: "/images/vape7.png",
     fruitImage: "/images/watermelon.png",
+    
    
   },
   {
@@ -78,6 +79,7 @@ const initialProducts: Product[] = [
     price: 2500,
     imageUrl: "/images/vape8.png",
     fruitImage: "/images/watermelon.png",
+    
     
   },
   {
