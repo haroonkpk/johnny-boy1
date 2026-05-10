@@ -131,7 +131,9 @@ export default function ProductCard({ product, type }: ProductCardProps) {
     >
      <div ref={waterRef} className="absolute inset-0">
 
-  {/* 1. BACKGROUND (LOWEST LAYER) */}
+  
+  {/* --- BACKGROUND + FRUITS --- */}
+<div className={`absolute inset-0 transition-all duration-700 ${product.comingSoon ? "grayscale brightness-75 contrast-125" : ""}`}>
   <img
     src={product?.bg || "/images/default-bg.png"}
     alt="background"
@@ -150,6 +152,7 @@ export default function ProductCard({ product, type }: ProductCardProps) {
                  drop-shadow-2xl"
     />
   )}
+</div>
 
   {/* 3. WATER EFFECT (ON TOP OF BG + FRUIT) */}
   <img
@@ -159,15 +162,35 @@ export default function ProductCard({ product, type }: ProductCardProps) {
                z-20 opacity-60 mix-blend-screen pointer-events-none"
   />
 
+{/* --- 4. COMING SOON OVERLAY (Rotated & Styled) --- */}
+{product.comingSoon && (
+  <div className="absolute inset-0 z-40 flex items-center justify-center bg-black/20 backdrop-blur-[2px]">
+    <div className="relative transform -rotate-12 scale-110"> 
+      {/* -rotate-12 text ka angle change kar dega taake wo straight na lage */}
+      
+      {/* Background Glow for Premium Look */}
+      <div className="absolute inset-0 bg-red-600/20 blur-2xl rounded-full"></div>
+      
+      <h2 className="relative text-white text-4xl md:text-5xl font-black tracking-tighter uppercase border-y-4 border-white/90 py-1 px-6 shadow-2xl text-center leading-none">
+        Coming <br /> 
+        <span className="text-white">Soon</span>
+      </h2>
+    </div>
+  </div>
+)}
+
 </div>
 
-      {/* --- 3. MAIN PRODUCT BOTTLE --- */}
-      <img
-        ref={bottleRef}
-        src={product.image}
-        alt={product.name}
-        className="absolute translate-x-[-25%] scale-180 z-20 w-full h-auto object-contain "
-      />
+   
+       {/* --- 3. MAIN PRODUCT BOTTLE --- */}
+{!product.comingSoon && (
+  <img
+    ref={bottleRef}
+    src={product.image}
+    alt={product.name}
+    className="absolute translate-x-[-25%] scale-180 z-20 w-full h-auto object-contain "
+  />
+)}
 
       <div
         ref={infoRef}
@@ -193,9 +216,19 @@ export default function ProductCard({ product, type }: ProductCardProps) {
             <p className="text-[clamp(9px,1.2vw,11px)] text-white/50 font-bold uppercase tracking-[0.2em] mb-2">
               Flavor Notes
             </p>
-            <p className="text-[clamp(0.85rem,1.5vw,0.95rem)] text-white/80 leading-relaxed font-medium px-2">
-               {`${product.name} delivers a smooth, refreshing experience crafted for perfection.`}
-            </p>
+         
+ 
+<p className="text-[clamp(0.85rem,1.5vw,0.95rem)] text-white/80 leading-relaxed font-medium px-2">
+  {product.comingSoon ? (
+    <span className="inline-block bg-yellow-500/20 text-yellow-400 px-3 py-1 rounded-md transform rotate-[-3deg] border border-yellow-500/30">
+      Coming Soon
+    </span>
+  ) : (
+    `${product.name} delivers a smooth, refreshing experience crafted for perfection.`
+  )}
+
+
+</p>
           </div>
 
         </div>
