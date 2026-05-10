@@ -121,6 +121,12 @@ const FeatureCard = ({ item, index }: FeatureCardProps) => {
         alt={item.name}
         className="relative z-[10] -translate-x-15 w-full h-auto object-contain cursor-pointer will-change-transform"
       />
+   <h3
+  className={`absolute top-5 left-1/2 -translate-x-1/2 z-[20] text-white text-center font-bold text-xs leading-tight px-4 py-2 rounded-full backdrop-blur-md shadow-lg max-w-[85%] `}
+>
+  {item.name}
+</h3>
+      
     </div>
   );
 };

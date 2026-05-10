@@ -6,11 +6,13 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Card } from "@/components/ui/card";
 import { Product } from "@/store/useProductStore";
 import { ChevronDown, ChevronUp } from "lucide-react";
+import { seriesData } from "@/data/featuresData";
 
 gsap.registerPlugin(ScrollTrigger);
 
 interface ProductCardProps {
   product: Product;
+    type: "local" | "regular";
 }
 
 export default function ProductCard({ product }: ProductCardProps) {
@@ -22,6 +24,12 @@ export default function ProductCard({ product }: ProductCardProps) {
   const descRef = useRef<HTMLDivElement>(null);
   const [isExpanded, setIsExpanded] = useState(false);
 
+
+  const allFeatures = [...seriesData.local, ...seriesData.regular];
+
+  const feature =
+    allFeatures.find((item) => item.id === Number(product.id)) ||
+    allFeatures[Number(product.id) - 1]; // fallback safe
   useEffect(() => {
     const card = cardRef.current;
     const info = infoRef.current;
@@ -125,16 +133,37 @@ export default function ProductCard({ product }: ProductCardProps) {
       ref={cardRef}
       className="relative w-[clamp(280px,100%,400px)] h-[clamp(450px,75vh,550px)] mx-auto p-0 overflow-hidden shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_20px_40px_rgb(0,0,0,0.12)] transition-shadow duration-500 cursor-pointer group rounded-3xl"
     >
-      <div
-        ref={waterRef}
-        className="absolute inset-0 z-0"
-      >
-        <img
-          src="/images/bg2ex.png"
-          alt="Water Background"
-          className="w-full h-full object-cover"
-        />
-      </div>
+     <div ref={waterRef} className="absolute inset-0">
+
+  {/* 1. BACKGROUND (LOWEST LAYER) */}
+  <img
+    src={feature?.bg || "/images/default-bg.png"}
+    alt="background"
+    className="absolute inset-0 w-full h-full object-cover z-0"
+  />
+
+  {/* 2. FRUIT (MIDDLE LAYER) */}
+  {feature?.fruits && (
+    <img
+      src={feature.fruits}
+      alt="fruit"
+      className="absolute top-1/2 left-1/2 
+                 -translate-x-1/2 -translate-y-1/2
+                 w-[90%] md:w-[100%]
+                 z-10
+                 drop-shadow-2xl"
+    />
+  )}
+
+  {/* 3. WATER EFFECT (ON TOP OF BG + FRUIT) */}
+  <img
+    src="/images/ice.webp"
+    alt="water effect"
+    className="absolute inset-0 w-full h-full object-cover
+               z-20 opacity-60 mix-blend-screen pointer-events-none"
+  />
+
+</div>
 
       {/* --- 3. MAIN PRODUCT BOTTLE --- */}
       <img
@@ -159,8 +188,8 @@ export default function ProductCard({ product }: ProductCardProps) {
         <div className="flex flex-col h-full items-center text-center">
           
           {/* Always Visible Title */}
-          <h3 className="text-[clamp(1.25rem,4vw,1.75rem)] font-black text-white uppercase italic tracking-wider leading-tight">
-            {product.title}
+          <h3 className="text-[clamp(1.25rem,4vw,1.75rem)] pb-22 font-black text-white uppercase italic tracking-wider leading-tight">
+          {feature?.name || product.title}
           </h3>
 
           {/* Description */}
@@ -169,7 +198,7 @@ export default function ProductCard({ product }: ProductCardProps) {
               Flavor Notes
             </p>
             <p className="text-[clamp(0.85rem,1.5vw,0.95rem)] text-white/80 leading-relaxed font-medium px-2">
-              {product.description || "Sweet, tangy and incredibly smooth. Crafted for the perfect refreshing experience."}
+               {`${feature?.name || product.title} delivers a smooth, refreshing experience crafted for perfection.`}
             </p>
           </div>
 
@@ -178,3 +207,6 @@ export default function ProductCard({ product }: ProductCardProps) {
     </Card>
   );
 }
+
+    
+     

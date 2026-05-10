@@ -5,8 +5,8 @@ export interface Product {
   title: string;
   price: number;
   imageUrl: string;
-  description: string;   
-  fruitImage: string;    
+fruitImage?: string;
+  // fruitImage: string;    
 }
 
 interface ProductState {
@@ -22,7 +22,7 @@ const initialProducts: Product[] = [
     price: 2500,
     imageUrl: "/images/vape1.png",
     fruitImage: "/images/mango-slice.png",
-    description: "A tropical explosion of sweet mangoes with a refreshing icy finish.",
+   
   },
   {
     id: "2",
@@ -30,7 +30,7 @@ const initialProducts: Product[] = [
     price: 2800,
     imageUrl: "/images/vape2.png",
     fruitImage: "/images/blueberries.png",
-    description: "Hand-picked mountain blueberries blended with a cool menthol breeze.",
+ 
   },
   {
     id: "3",
@@ -38,7 +38,7 @@ const initialProducts: Product[] = [
     price: 2400,
     imageUrl: "/images/vape3.png",
     fruitImage: "/images/strawberry.png",
-    description: "Creamy strawberry delight that tastes like a summer afternoon.",
+  
   },
   {
     id: "4",
@@ -46,7 +46,7 @@ const initialProducts: Product[] = [
     price: 2600,
     imageUrl: "/images/vape4.png",
     fruitImage: "/images/apple-red.png",
-    description: "The classic shisha style double apple with a crisp, sweet bite.",
+   
   },
   {
     id: "5",
@@ -54,7 +54,7 @@ const initialProducts: Product[] = [
     price: 2700,
     imageUrl: "/images/vape5.png",
     fruitImage: "/images/grapes.png",
-    description: "Rich purple grapes crushed into a smooth, flavorful all-day vape.",
+  
   },
   {
     id: "6",
@@ -62,7 +62,7 @@ const initialProducts: Product[] = [
     price: 2500,
     imageUrl: "/images/vape6.png",
     fruitImage: "/images/watermelon.png",
-    description: "Juicy watermelon slices with a hint of candy sweetness.",
+  
   },
   {
     id: "7",
@@ -70,7 +70,8 @@ const initialProducts: Product[] = [
     price: 2500,
     imageUrl: "/images/vape7.png",
     fruitImage: "/images/watermelon.png",
-    description: "Juicy watermelon slices with a hint of candy sweetness.",
+    
+   
   },
   {
     id: "8",
@@ -78,7 +79,8 @@ const initialProducts: Product[] = [
     price: 2500,
     imageUrl: "/images/vape8.png",
     fruitImage: "/images/watermelon.png",
-    description: "Juicy watermelon slices with a hint of candy sweetness.",
+    
+    
   },
   {
     id: "9",
@@ -86,7 +88,7 @@ const initialProducts: Product[] = [
     price: 2500,
     imageUrl: "/images/vape9.png",
     fruitImage: "/images/watermelon.png",
-    description: "Juicy watermelon slices with a hint of candy sweetness.",
+    
   },
   {
     id: "10",
@@ -94,7 +96,7 @@ const initialProducts: Product[] = [
     price: 2500,
     imageUrl: "/images/vape10.png",
     fruitImage: "/images/watermelon.png",
-    description: "Juicy watermelon slices with a hint of candy sweetness.",
+    
   },
 ];
 
