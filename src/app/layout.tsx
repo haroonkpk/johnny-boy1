@@ -19,6 +19,8 @@ export const metadata: Metadata = {
   description: "Experience weightless shopping",
 };
 
+import { Providers } from "@/components/Providers";
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -31,10 +33,12 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col relative">
         <div className="fixed inset-0 pointer-events-none bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-gray-900 via-black to-black opacity-80 -z-10"></div>
-        <Navbar />
-        <main className="flex-grow">{children}
-          <Footer/>
-        </main>
+        <Providers>
+          <Navbar />
+          <main className="flex-grow">{children}
+            <Footer/>
+          </main>
+        </Providers>
       </body>
     </html>
   );
