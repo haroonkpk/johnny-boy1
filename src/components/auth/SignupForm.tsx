@@ -11,8 +11,8 @@ import PageHero from "@/components/PageHero";
 import Button from "@/components/ui/Button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { signupAction } from "@/actions/auth";
 
-// INDUSTRY LEVEL VALIDATION SCHEMA
 const signupSchema = z.object({
   firstName: z.string().min(2, "First name must be at least 2 characters"),
   lastName: z.string().min(2, "Last name must be at least 2 characters"),
@@ -66,13 +66,39 @@ export default function SignupForm() {
 
   const introValue = watch("intro") || "";
 
+  const [serverError, setServerError] = useState("");
+
   const onSubmit = async (data: SignupFormData) => {
     setIsSubmitting(true);
-    // Simulate API call
-    console.log("Signup form data:", data);
-    await new Promise((resolve) => setTimeout(resolve, 2000));
-    setIsSubmitting(false);
-    setIsSuccess(true);
+    setServerError("");
+    
+    try {
+      // Map form data to model fields
+      const formattedData = {
+        firstName: data.firstName,
+        lastName: data.lastName,
+        email: data.email,
+        phone: data.phone,
+        password: data.password,
+        businessName: data.businessName,
+        storeAddress: data.storeAddress,
+        monthlyUnitSales: data.monthlySales,
+        website: data.website,
+        briefIntro: data.intro,
+      };
+
+      const result = await signupAction(formattedData);
+
+      if (result?.error) {
+        setServerError(result.error);
+      } else {
+        setIsSuccess(true);
+      }
+    } catch (err: any) {
+      setServerError("An unexpected error occurred. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   if (isSuccess) {
@@ -136,6 +162,13 @@ export default function SignupForm() {
                 </Link>
               </p>
             </div>
+
+            {/* ERROR */}
+            {serverError && (
+              <div className="bg-red-50 border border-red-100 text-red-500 p-4 rounded-2xl text-sm text-center mb-8">
+                {serverError}
+              </div>
+            )}
 
             {/* FORM */}
             <form className="space-y-7" onSubmit={handleSubmit(onSubmit)}>

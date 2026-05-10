@@ -3,16 +3,16 @@
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { FeatureItem } from "@/data/featuresData";
+import { Product } from "@/data/products";
 
 gsap.registerPlugin(ScrollTrigger);
 
-interface FeatureCardProps {
-  item: FeatureItem;
+interface ProductHighlightCardProps {
+  product: Product;
   index: number;
 }
 
-const FeatureCard = ({ item, index }: FeatureCardProps) => {
+const ProductHighlightCard = ({ product, index }: ProductHighlightCardProps) => {
   const cardRef = useRef<HTMLDivElement>(null);
   const fruitRef = useRef<HTMLImageElement>(null);
   const vapeRef = useRef<HTMLImageElement>(null);
@@ -22,7 +22,7 @@ const FeatureCard = ({ item, index }: FeatureCardProps) => {
     if (!card) return;
 
     ScrollTrigger.getAll()
-      .filter((t) => t.vars.id?.startsWith(`card-${item.id}`))
+      .filter((t) => t.vars.id?.startsWith(`card-${product.id}`))
       .forEach((t) => t.kill());
 
     const entryDelay = index * 0.08;
@@ -63,7 +63,7 @@ const FeatureCard = ({ item, index }: FeatureCardProps) => {
           scale: 1.8,
           ease: "none",
           scrollTrigger: {
-            id: `card-${item.id}-fruit`,
+            id: `card-${product.id}-fruit`,
             trigger: card,
             start: "top bottom",
             end: "bottom top",
@@ -80,7 +80,7 @@ const FeatureCard = ({ item, index }: FeatureCardProps) => {
           yPercent: -80,
           ease: "none",
           scrollTrigger: {
-            id: `card-${item.id}-vape`,
+            id: `card-${product.id}-vape`,
             trigger: card,
             start: "top bottom",
             end: "bottom top",
@@ -91,7 +91,7 @@ const FeatureCard = ({ item, index }: FeatureCardProps) => {
     }, card);
 
     return () => ctx.revert();
-  }, [item.id, index]);
+  }, [product.id, index]);
 
   return (
     <div
@@ -100,7 +100,7 @@ const FeatureCard = ({ item, index }: FeatureCardProps) => {
     >
       {/* Layer 1 — Background */}
       <img
-        src={item.bg}
+        src={product.bg}
         alt="background"
         className="absolute inset-0 w-full h-[120%] object-cover brightness-95 group-hover:scale-110 transition-transform duration-700 z-0 will-change-transform"
         style={{ top: "-10%" }}
@@ -109,7 +109,7 @@ const FeatureCard = ({ item, index }: FeatureCardProps) => {
       {/* Layer 2 — Fruits Image */}
       <img
         ref={fruitRef}
-        src={item.fruits}
+        src={product.fruits}
         alt="fruits"
         className="absolute bottom-4 left-1/2 -translate-x-1/2 z-[5] w-[80%] h-auto object-contain pointer-events-none will-change-transform"
       />
@@ -117,18 +117,18 @@ const FeatureCard = ({ item, index }: FeatureCardProps) => {
       {/* Layer 3 — Product / Vape Image */}
       <img
         ref={vapeRef}
-        src={item.image}
-        alt={item.name}
+        src={product.image}
+        alt={product.name}
         className="relative z-[10] -translate-x-15 w-full h-auto object-contain cursor-pointer will-change-transform"
       />
    <h3
   className={`absolute top-5 left-1/2 -translate-x-1/2 z-[20] text-white text-center font-bold text-xs leading-tight px-4 py-2 rounded-full backdrop-blur-md shadow-lg max-w-[85%] `}
 >
-  {item.name}
+  {product.name}
 </h3>
       
     </div>
   );
 };
 
-export default FeatureCard;
+export default ProductHighlightCard;

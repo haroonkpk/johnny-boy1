@@ -6,9 +6,9 @@ import Link from "next/link";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
-import { useAuthStore } from "@/store/authStore";
-import api from "@/lib/api";
 
 import { Card } from "@/components/ui/card";
 import PageHero from "@/components/PageHero";
@@ -36,8 +36,6 @@ export default function LoginForm({
   const [serverError, setServerError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-  const setCredentials = useAuthStore((state) => state.setCredentials);
-
   const {
     register,
     handleSubmit,
@@ -45,32 +43,30 @@ export default function LoginForm({
   } = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
-      email: "",
-      password: "",
       rememberMe: false,
     },
   });
+  const router = useRouter();
 
   const onSubmit = async (data: LoginFormData) => {
     setServerError("");
     setIsLoading(true);
 
     try {
-      const response = await api.post("/users/login", {
+      const result = await signIn("credentials", {
+        redirect: false,
         email: data.email,
         password: data.password,
       });
 
-      setCredentials({
-        user: response.data.user,
-        token: response.data.token,
-      });
-
-      if (onSuccess) onSuccess();
+      if (result?.error) {
+        setServerError("Invalid email or password");
+      } else {
+        router.push("/");
+        if (onSuccess) onSuccess();
+      }
     } catch (err: any) {
-      setServerError(
-        err.response?.data?.message || "Invalid email or password"
-      );
+      setServerError("An unexpected error occurred. Please try again.");
     } finally {
       setIsLoading(false);
     }
