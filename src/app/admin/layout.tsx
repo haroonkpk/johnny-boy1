@@ -24,7 +24,6 @@ export default function AdminDashboardLayout({
     <div className="flex h-screen overflow-hidden bg-(--color-cream)">
       <Sidebar
         items={adminNavItems}
-        showLogout
       />
 
       <main className="flex-1 overflow-y-auto pb-10 bg-(--color-cream) md:pb-0 md:pl-14">

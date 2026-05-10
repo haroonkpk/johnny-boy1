@@ -39,17 +39,17 @@ export function Sidebar({
       onMouseLeave={() => setHovered(false)}
       className={cn(
         // MOBILE — bottom nav
-        "fixed bottom-0 left-0 right-0 w-full z-50 bg-white border-t border-gray-200/80",
+        "fixed bottom-0 left-0 right-0 w-full z-50 glass border-t border-white/10",
         // DESKTOP — left sidebar
         "md:fixed md:left-0 md:top-0 md:bottom-0 md:right-auto md:h-screen md:z-50",
-        "md:bg-white md:border-r md:border-gray-200/80",
+        "md:glass md:border-r md:border-white/10",
         "md:flex md:flex-col md:overflow-hidden",
         "md:transition-[width] md:duration-300 md:ease-in-out",
         expanded ? "md:w-[clamp(14rem,18vw,18rem)]" : "md:w-16",
       )}
     >
       {/* Brand */}
-      <div className="hidden md:flex items-center h-16 border-b border-gray-200/50 overflow-hidden">
+      <div className="hidden md:flex items-center h-16 border-b border-white/10 overflow-hidden">
         <div
           className={cn(
             "flex items-center gap-3 px-4 transition-opacity duration-200 whitespace-nowrap",
@@ -57,7 +57,7 @@ export function Sidebar({
           )}
         >
           <div className="flex flex-col min-w-0">
-            <p className="text-[clamp(1rem,1.25vw,1.125rem)] font-bold text-gray-900 truncate">
+            <p className="text-[clamp(1rem,1.25vw,1.125rem)] font-bold text-white truncate">
               {brandName}
             </p>
             {brandTier && (
@@ -93,8 +93,8 @@ export function Sidebar({
                 "md:flex-row md:justify-start md:w-full md:rounded-lg md:px-3 md:py-2.5",
                 "md:text-[clamp(0.875rem,1vw,0.95rem)] md:font-medium md:capitalize md:tracking-normal",
                 active
-                  ? "text-[var(--color-primary)]"
-                  : "text-gray-400 hover:text-gray-900 md:text-gray-600 md:hover:bg-gray-100 md:hover:text-gray-900",
+                  ? "text-(--gold)"
+                  : "text-gray-400 hover:text-white md:text-gray-400 md:hover:bg-white/5 md:hover:text-white",
               )}
             >
               {/* Icon */}
@@ -103,8 +103,8 @@ export function Sidebar({
                   "flex-shrink-0 flex items-center justify-center",
                   "[&>svg]:w-5 [&>svg]:h-5",
                   active
-                    ? "text-[var(--color-primary)]"
-                    : "text-gray-400 group-hover:text-gray-700 md:text-gray-500 md:group-hover:text-gray-900",
+                    ? "text-(--gold)"
+                    : "text-gray-400 group-hover:text-white md:text-gray-500 md:group-hover:text-white",
                 )}
               >
                 {icon}

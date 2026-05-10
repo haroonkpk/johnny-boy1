@@ -8,19 +8,24 @@ export async function getRetailers() {
     await dbConnect();
 
     const retailers = await User.find({ role: "retailer" })
-      .select("firstName lastName email phone businessName status createdAt")
+      .select("firstName lastName email phone businessName status createdAt storeAddress monthlyUnitSales website briefIntro")
       .sort({ createdAt: -1 })
       .lean();
 
     // Serialize MongoDB documents
     return retailers.map((r: any) => ({
       id: r._id.toString(),
-      name: `${r.firstName} ${r.lastName}`,
+      firstName: r.firstName,
+      lastName: r.lastName,
       email: r.email,
       phone: r.phone,
-      business: r.businessName,
+      businessName: r.businessName,
+      storeAddress: r.storeAddress,
+      monthlyUnitSales: r.monthlyUnitSales,
+      website: r.website,
+      briefIntro: r.briefIntro,
       status: r.status || "pending",
-      date: new Date(r.createdAt).toLocaleDateString("en-US", {
+      createdAt: new Date(r.createdAt).toLocaleDateString("en-US", {
         year: "numeric",
         month: "short",
         day: "numeric",

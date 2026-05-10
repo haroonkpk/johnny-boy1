@@ -111,7 +111,6 @@ export default function Navbar() {
                   onClick={handleDashboardClick}
                 >
                   <LayoutDashboard size={18} />
-                  <span className="text-sm">Dashboard</span>
                 </Button>
                 {/* Logout Button */}
                 <Button

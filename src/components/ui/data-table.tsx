@@ -26,6 +26,7 @@ interface DataTableProps<T extends { id: string }> {
   totalPages: number;
   onPageChange: (page: number) => void;
   HeaderBgColor?: string;
+  HeaderTextColor?: string;
   BorderColor?: string;
   pageSize?: number;
   totalEntries?: number;
@@ -41,6 +42,7 @@ export const DataTable = <T extends { id: string }>({
   totalPages,
   onPageChange,
   HeaderBgColor = "bg-[#FFE8D7]",
+  HeaderTextColor = "text-gray-900",
   BorderColor = "border-gray-200",
   pageSize = 10,
   totalEntries,
@@ -57,7 +59,7 @@ export const DataTable = <T extends { id: string }>({
       {/* Table */}
       <div className="w-full overflow-x-auto">
         <table className={`w-full border-collapse border ${BorderColor}`}>
-          <thead className={`${HeaderBgColor} font-bold text-gray-900`}>
+          <thead className={`${HeaderBgColor} font-bold ${HeaderTextColor}`}>
             <tr>
               {/* Universal Serial Number Column */}
               <th
