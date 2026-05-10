@@ -1,0 +1,57 @@
+"use server";
+
+import dbConnect from "@/lib/mongodb";
+import User from "@/models/User";
+
+export async function getRetailers() {
+  try {
+    await dbConnect();
+
+    const retailers = await User.find({ role: "retailer" })
+      .select("firstName lastName email phone businessName status createdAt")
+      .sort({ createdAt: -1 })
+      .lean();
+
+    // Serialize MongoDB documents
+    return retailers.map((r: any) => ({
+      id: r._id.toString(),
+      name: `${r.firstName} ${r.lastName}`,
+      email: r.email,
+      phone: r.phone,
+      business: r.businessName,
+      status: r.status || "pending",
+      date: new Date(r.createdAt).toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+      }),
+    }));
+  } catch (error: any) {
+    console.error("Get Retailers Error:", error);
+    return [];
+  }
+}
+
+export async function updateRetailerStatus(
+  retailerId: string,
+  status: "approved" | "rejected"
+) {
+  try {
+    await dbConnect();
+
+    const user = await User.findByIdAndUpdate(
+      retailerId,
+      { status },
+      { new: true }
+    );
+
+    if (!user) {
+      return { error: "Retailer not found" };
+    }
+
+    return { success: true, message: `Retailer ${status} successfully` };
+  } catch (error: any) {
+    console.error("Update Retailer Status Error:", error);
+    return { error: error.message || "Something went wrong" };
+  }
+}

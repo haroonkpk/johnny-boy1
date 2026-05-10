@@ -17,17 +17,14 @@ export const authOptions: NextAuthOptions = {
           throw new Error("Invalid credentials");
         }
 
-        console.log("Login attempt for:", credentials.email);
         await dbConnect();
 
-        const user = await User.findOne({ 
-          email: credentials.email.toLowerCase().trim() 
+        const user = await User.findOne({
+          email: credentials.email.toLowerCase().trim(),
         });
-        
-        console.log("User found:", user ? "Yes" : "No");
 
         if (!user) {
-          throw new Error("No user found");
+          throw new Error("No user found with this email");
         }
 
         const isPasswordCorrect = await bcrypt.compare(
@@ -39,11 +36,25 @@ export const authOptions: NextAuthOptions = {
           throw new Error("Invalid password");
         }
 
+        // Check account status for retailers
+        if (user.role === "retailer") {
+          if (user.status === "pending") {
+            throw new Error("Your account is pending approval. Please wait for admin to approve your account.");
+          }
+          if (user.status === "rejected") {
+            throw new Error("Your account has been rejected. Please contact support.");
+          }
+        }
+
         return {
           id: user._id.toString(),
           email: user.email,
           role: user.role,
-          name: user.role === "admin" ? user.username : `${user.firstName} ${user.lastName}`,
+          status: user.status,
+          name:
+            user.role === "admin"
+              ? user.username
+              : `${user.firstName} ${user.lastName}`,
         };
       },
     }),
@@ -53,6 +64,7 @@ export const authOptions: NextAuthOptions = {
       if (user) {
         token.role = (user as any).role;
         token.id = user.id;
+        token.status = (user as any).status;
       }
       return token;
     },
@@ -60,6 +72,7 @@ export const authOptions: NextAuthOptions = {
       if (token) {
         (session.user as any).role = token.role;
         (session.user as any).id = token.id;
+        (session.user as any).status = token.status;
       }
       return session;
     },

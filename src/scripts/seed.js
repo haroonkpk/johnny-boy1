@@ -17,6 +17,7 @@ const UserSchema = new mongoose.Schema({
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
   role: { type: String, required: true },
+  status: { type: String, default: "pending" },
   firstName: String,
   lastName: String,
   phone: String,
@@ -36,27 +37,29 @@ async function seed() {
     console.log("Connected to MongoDB for seeding...");
     // Hash passwords
     const adminPassword = await bcrypt.hash("admin123", 10);
-    const wholesalerPassword = await bcrypt.hash("wholesaler123", 10);
+    const retailerPassword = await bcrypt.hash("retailer123", 10);
 
     const users = [
       {
         email: "admin@example.com",
         password: adminPassword,
         role: "admin",
+        status: "approved",
         username: "admin_user",
       },
       {
-        email: "wholesaler@example.com",
-        password: wholesalerPassword,
-        role: "wholesaler",
+        email: "retailer@example.com",
+        password: retailerPassword,
+        role: "retailer",
+        status: "pending",
         firstName: "John",
         lastName: "Doe",
         phone: "+92 300 1234567",
-        businessName: "JD Wholesale",
+        businessName: "JD Retail",
         storeAddress: "123 Market St, Karachi",
         monthlyUnitSales: "500",
-        website: "https://jdwholesale.com",
-        briefIntro: "A leading wholesaler of electronics.",
+        website: "https://jdretail.com",
+        briefIntro: "A leading retailer of electronics.",
       },
     ];
 

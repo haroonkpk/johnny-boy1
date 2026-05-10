@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import Navbar from "@/components/layout/Navbar";
-import Footer from "@/components/layout/Footer";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -20,6 +18,7 @@ export const metadata: Metadata = {
 };
 
 import { Providers } from "@/components/Providers";
+import { LayoutShell } from "@/components/layout/LayoutShell";
 
 export default function RootLayout({
   children,
@@ -34,10 +33,7 @@ export default function RootLayout({
       <body className="min-h-full flex flex-col relative">
         <div className="fixed inset-0 pointer-events-none bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-gray-900 via-black to-black opacity-80 -z-10"></div>
         <Providers>
-          <Navbar />
-          <main className="flex-grow">{children}
-            <Footer/>
-          </main>
+          <LayoutShell>{children}</LayoutShell>
         </Providers>
       </body>
     </html>

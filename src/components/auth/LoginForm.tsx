@@ -6,7 +6,7 @@ import Link from "next/link";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { signIn } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
 
@@ -60,9 +60,22 @@ export default function LoginForm({
       });
 
       if (result?.error) {
-        setServerError("Invalid email or password");
+        // Show the exact error message from the server
+        setServerError(result.error);
       } else {
-        router.push("/");
+        // Fetch the session to determine role for redirect
+        const res = await fetch("/api/auth/session");
+        const session = await res.json();
+        const role = session?.user?.role;
+
+        if (role === "admin") {
+          router.push("/admin");
+        } else if (role === "retailer") {
+          router.push("/retailer");
+        } else {
+          router.push("/");
+        }
+
         if (onSuccess) onSuccess();
       }
     } catch (err: any) {

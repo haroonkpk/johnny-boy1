@@ -21,7 +21,8 @@ export async function signupAction(formData: any) {
     const newUser = new User({
       ...formData,
       password: hashedPassword,
-      role: "wholesaler", // Default for signup
+      role: "retailer",
+      status: "pending",
     });
 
     await newUser.save();

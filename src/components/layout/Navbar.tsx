@@ -1,8 +1,9 @@
 "use client";
 
-import { useState, useEffect } from "react"; 
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useSession, signOut } from "next-auth/react";
 import {
   ShoppingCart,
   Settings,
@@ -12,27 +13,35 @@ import {
   X,
   UserPlus,
   LogIn,
-} from "lucide-react"; 
+  LogOut,
+  User,
+  LayoutDashboard,
+} from "lucide-react";
 
 import Button from "../ui/Button";
 import { useRouter } from "next/navigation";
+
 export default function Navbar() {
   const router = useRouter();
   const pathname = usePathname();
-   const [isOpen, setIsOpen] = useState(false);
-  const [activeModal, setActiveModal] = useState(null);
+  const { data: session, status } = useSession();
+  const [isOpen, setIsOpen] = useState(false);
+
+  const isLoggedIn = status === "authenticated" && !!session;
+  const userRole = (session?.user as any)?.role;
 
   useEffect(() => {
     if (isOpen) {
-      document.body.style.overflow = 'hidden';
+      document.body.style.overflow = "hidden";
     } else {
-      document.body.style.overflow = 'unset';
+      document.body.style.overflow = "unset";
     }
-    
+
     return () => {
-      document.body.style.overflow = 'unset';
+      document.body.style.overflow = "unset";
     };
   }, [isOpen]);
+
   const navLinks = [
     { name: "Home", href: "/", icon: Home },
     { name: "Local series", href: "/localseries", icon: Package },
@@ -40,18 +49,18 @@ export default function Navbar() {
     { name: "Review", href: "/review", icon: Package },
     { name: "Orders", href: "/cart", icon: ShoppingCart },
     { name: "Contact", href: "/contact", icon: Package },
-    // { name: "Admin", href: "/admin", icon: Settings },
   ];
+
   const toggleMenu = () => setIsOpen(!isOpen);
-  const handleLoginSuccess = () => {
-    setActiveModal(null);
-    router.refresh();
+
+  const handleDashboardClick = () => {
+    if (userRole === "admin") {
+      router.push("/admin");
+    } else if (userRole === "retailer") {
+      router.push("/retailer");
+    }
   };
 
-  const handleSignupSuccess = () => {
-    setActiveModal(null);
-    router.refresh();
-  };
   return (
     <nav className="sticky top-0 z-[100] w-full glass">
       <div className="max-w-[1600px] mx-auto px-[clamp(1rem,4vw,4rem)]">
@@ -68,7 +77,6 @@ export default function Navbar() {
           </div>
 
           {/* Desktop Links (Hidden on Mobile) */}
-          {/* Desktop Links */}
           <div className="hidden lg:block">
             <div className="flex items-center gap-[clamp(0.25rem,1vw,1.5rem)]">
               {navLinks.map((link) => {
@@ -92,20 +100,43 @@ export default function Navbar() {
             </div>
           </div>
 
-          <div className="hidden lg:block ml-2">
-            <Button
-              variant={"primary-outline"}
-              className="border-none rounded-lg"
-              onClick={() => router.push("/login")}
-            >
-              <LogIn size={18} />
-            </Button>
+          {/* Desktop Auth Buttons */}
+          <div className="hidden lg:flex items-center gap-2 ml-2">
+            {isLoggedIn ? (
+              <>
+                {/* Dashboard Button */}
+                <Button
+                  variant={"primary-outline"}
+                  className="border-none rounded-lg"
+                  onClick={handleDashboardClick}
+                >
+                  <LayoutDashboard size={18} />
+                  <span className="text-sm">Dashboard</span>
+                </Button>
+                {/* Logout Button */}
+                <Button
+                  variant={"primary-outline"}
+                  className="border-none rounded-lg"
+                  onClick={() => signOut({ callbackUrl: "/" })}
+                >
+                  <LogOut size={18} />
+                </Button>
+              </>
+            ) : (
+              <Button
+                variant={"primary-outline"}
+                className="border-none rounded-lg"
+                onClick={() => router.push("/login")}
+              >
+                <LogIn size={18} />
+              </Button>
+            )}
           </div>
 
           {/* Mobile menu button (Only Visible on Mobile) */}
           <div className="lg:hidden flex items-center">
-            <Button 
-              variant={"primary-outline"} 
+            <Button
+              variant={"primary-outline"}
               onClick={toggleMenu}
               className="p-2 border-none hover:bg-white/10"
             >
@@ -119,10 +150,12 @@ export default function Navbar() {
         </div>
       </div>
 
-      {/* Mobile Menu Dropdown (Logic) */}
-      <div 
+      {/* Mobile Menu Dropdown */}
+      <div
         className={`lg:hidden bg-black/95 backdrop-blur-2xl border-t border-white/10 transition-all duration-500 ease-in-out ${
-          isOpen ? "max-h-[calc(100vh-4rem)] opacity-100 overflow-y-auto" : "max-h-0 opacity-0 overflow-hidden"
+          isOpen
+            ? "max-h-[calc(100vh-4rem)] opacity-100 overflow-y-auto"
+            : "max-h-0 opacity-0 overflow-hidden"
         }`}
       >
         <div className="px-4 pt-4 pb-8 space-y-3">
@@ -141,25 +174,59 @@ export default function Navbar() {
                 }`}
                 style={{ transitionDelay: `${index * 50}ms` }}
               >
-                <div className={`p-2 rounded-lg ${isActive ? "bg-white/10" : "bg-white/5"}`}>
+                <div
+                  className={`p-2 rounded-lg ${
+                    isActive ? "bg-white/10" : "bg-white/5"
+                  }`}
+                >
                   <Icon className="w-5 h-5" />
                 </div>
                 <span>{link.name}</span>
               </Link>
             );
           })}
+
           <div className="pt-4 border-t border-white/5">
-            <Button
-              variant={"primary"}
-              className="w-full justify-center py-4 text-lg"
-              onClick={() => {
-                setIsOpen(false);
-                router.push("/login");
-              }}
-            >
-              <LogIn size={20} className="mr-2" />
-              Sign In
-            </Button>
+            {isLoggedIn ? (
+              <div className="space-y-3">
+                {/* Dashboard */}
+                <Button
+                  variant={"primary"}
+                  className="w-full justify-center py-4 text-lg"
+                  onClick={() => {
+                    setIsOpen(false);
+                    handleDashboardClick();
+                  }}
+                >
+                  <LayoutDashboard size={20} className="mr-2" />
+                  Dashboard
+                </Button>
+                {/* Logout */}
+                <Button
+                  variant={"primary-outline"}
+                  className="w-full justify-center py-4 text-lg"
+                  onClick={() => {
+                    setIsOpen(false);
+                    signOut({ callbackUrl: "/" });
+                  }}
+                >
+                  <LogOut size={20} className="mr-2" />
+                  Logout
+                </Button>
+              </div>
+            ) : (
+              <Button
+                variant={"primary"}
+                className="w-full justify-center py-4 text-lg"
+                onClick={() => {
+                  setIsOpen(false);
+                  router.push("/login");
+                }}
+              >
+                <LogIn size={20} className="mr-2" />
+                Sign In
+              </Button>
+            )}
           </div>
         </div>
       </div>

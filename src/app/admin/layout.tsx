@@ -1,11 +1,11 @@
 import { ReactNode } from "react";
 import {
-  LayoutDashboard,
   Users,
-  Store,
 } from "lucide-react";
 import { Sidebar } from "@/components/layout/sidebar";
-interface OwnerDashboardLayoutProps {
+import { PanelHeader } from "@/components/layout/PanelHeader";
+
+interface AdminDashboardLayoutProps {
   children: ReactNode;
 }
 
@@ -17,16 +17,18 @@ const adminNavItems = [
   },
 ];
 
-export default function OwnerDashboardLayout({
+export default function AdminDashboardLayout({
   children,
-}: OwnerDashboardLayoutProps) {
+}: AdminDashboardLayoutProps) {
   return (
-    <div className="flex h-screen overflow-hidden bg-gray-50">
+    <div className="flex h-screen overflow-hidden bg-(--color-cream)">
       <Sidebar
         items={adminNavItems}
+        showLogout
       />
 
-      <main className="flex-1 overflow-y-auto pb-10 bg-(--color-page-bg) md:pb-0 md:pl-14">
+      <main className="flex-1 overflow-y-auto pb-10 bg-(--color-cream) md:pb-0 md:pl-14">
+        <PanelHeader title="Admin Panel" />
         <div className="max-w-400 mx-auto w-full">
           {children}
         </div>

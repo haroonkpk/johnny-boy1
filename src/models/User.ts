@@ -16,34 +16,39 @@ const UserSchema = new Schema(
     },
     role: {
       type: String,
-      enum: ["admin", "wholesaler"],
+      enum: ["admin", "retailer"],
       required: true,
-      default: "wholesaler",
+      default: "retailer",
+    },
+    status: {
+      type: String,
+      enum: ["pending", "approved", "rejected"],
+      default: "pending",
     },
 
-    // Wholesaler specific fields
+    // Retailer specific fields
     firstName: {
       type: String,
       required: function (this: any) {
-        return this.role === "wholesaler";
+        return this.role === "retailer";
       },
     },
     lastName: {
       type: String,
       required: function (this: any) {
-        return this.role === "wholesaler";
+        return this.role === "retailer";
       },
     },
     phone: {
       type: String,
       required: function (this: any) {
-        return this.role === "wholesaler";
+        return this.role === "retailer";
       },
     },
     businessName: {
       type: String,
       required: function (this: any) {
-        return this.role === "wholesaler";
+        return this.role === "retailer";
       },
     },
     storeAddress: {
@@ -52,7 +57,7 @@ const UserSchema = new Schema(
     monthlyUnitSales: {
       type: String,
       required: function (this: any) {
-        return this.role === "wholesaler";
+        return this.role === "retailer";
       },
     },
     website: {
@@ -61,7 +66,7 @@ const UserSchema = new Schema(
     briefIntro: {
       type: String,
       required: function (this: any) {
-        return this.role === "wholesaler";
+        return this.role === "retailer";
       },
     },
 
