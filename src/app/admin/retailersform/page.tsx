@@ -105,6 +105,7 @@ export default function RetailersPage() {
       <Sidebar active={active} setActive={setActive} />
 
       {/* MAIN CONTENT */}
+      {/* <div className="flex-1 py-12 px-4"> */}
       <div className="flex-1 py-12 px-4">
 
         <div className="max-w-[1500px] mx-auto">
