@@ -1,5 +1,7 @@
 import { ReactNode } from "react";
 import { PanelHeader } from "@/components/layout/PanelHeader";
+import Footer from "@/components/layout/Footer";
+import Navbar from "@/components/layout/Navbar";
 
 interface RetailerDashboardLayoutProps {
   children: ReactNode;
@@ -14,7 +16,10 @@ export default function RetailerDashboardLayout({
 
       <main className="flex-1 overflow-y-auto">
         <div className="max-w-7xl mx-auto w-full p-6 md:p-10">
+          
+    
           {children}
+  
         </div>
       </main>
     </div>

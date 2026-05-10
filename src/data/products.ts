@@ -42,19 +42,7 @@ const initialRegular: Product[] = [
 ];
 
 // 3. Dynamic Coming Soon List
-// const comingSoonList: Product[] = [
-//   "Banana Taffy Freeze", "Blackberry B-Pop", "Sour Mango Pineapple",
-//   "Strawberry Colada", "Lemon Heads", "Grapefruit Refresher",
-//   "Blackberry Blueberry", "Dragon Fruit ice", "Cool Mint", "Sour Apple ice"
-// ].map((name, index) => ({
-//   id: 301 + index,
-//   name: name.toUpperCase(),
-//   image: "", 
-//   fruits: "", 
-//   bg: "/images/coming-soon-bg.png", // Use a placeholder or black/white bg
-//   textBg: "bg-zinc-800", // Darker theme for coming soon
-//   comingSoon: true
-// }));
+
 const comingSoonList: Product[] = [
   "Banana Taffy Freeze", "Blackberry B-Pop", "Sour Mango Pineapple",
   "Strawberry Colada", "Lemon Heads", "Grapefruit Refresher",
