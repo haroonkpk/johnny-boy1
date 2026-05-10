@@ -73,10 +73,10 @@ export default function AdminPage() {
     setPrice("");
     setImageUrl("");
 
-import AdminLayout from "@/components/admin/adminlayout/page";
-import StatCard from "@/components/admin/StatCard/page";
+    const input = document.getElementById("image-upload") as HTMLInputElement | null;
+    if (input) input.value = "";
+  };
 
-export default function AdminDashboard() {
   return (
     <div className="min-h-screen bg-[var(--color-cream)] py-12">
       <div className="max-w-[1500px] mx-auto px-4">
@@ -136,12 +136,13 @@ export default function AdminDashboard() {
             </Card>
           </div>
 
-      {/* STATS */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6 text-black">
-        <StatCard title="Total Products" value={120} color="text-blue-600" />
-        <StatCard title="Retailers" value={45} color="text-green-600" />
-        <StatCard title="Messages" value={18} color="text-purple-600" />
-      </div>
+          {/* LIST SECTION */}
+          <div className="md:col-span-2">
+            <Card variant="light" className="p-6 h-full">
+              <div className="flex items-center space-x-2 mb-6 text-gray-900 font-medium">
+                <Package className="w-5 h-5" />
+                <h2 className="text-xl font-bold">Current Products ({products.length})</h2>
+              </div>
 
               <div className="space-y-4 max-h-[600px] overflow-y-auto pr-2">
                 {products.length === 0 ? (
@@ -170,6 +171,6 @@ export default function AdminDashboard() {
           </div>
         </div>
       </div>
-    </AdminLayout>
+    </div>
   );
 }
