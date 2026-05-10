@@ -1,15 +1,16 @@
 export type SeriesKey = "local" | "regular";
 
-export interface FeatureItem {
+export interface Product {
   id: number;
   name: string;
   image: string;
   fruits: string;
   bg: string;
   textBg: string;
+  price?: number;
 }
 
-export const seriesData: Record<SeriesKey, FeatureItem[]> = {
+export const seriesData: Record<SeriesKey, Product[]> = {
   local: [
     { id: 101, name: "VAN CITY WILD BLUE RAZE ICE", image: "/images/vape1.png", fruits: "/images/fruit1.png", bg: "/images/bg1.png", textBg: "bg-blue-500", },
     { id: 102, name: "SIMILKAMEEN PEACH ICE", image: "/images/vape2.png", fruits: "/images/fruit2.png", bg: "/images/bg2.png" , textBg: "bg-peach-500"},

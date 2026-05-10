@@ -9,8 +9,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
-import { useAuthStore } from "@/store/authStore";
-import api from "@/lib/api";
 
 import { Card } from "@/components/ui/card";
 import PageHero from "@/components/PageHero";
@@ -37,8 +35,6 @@ export default function LoginForm({
 }: LoginFormProps) {
   const [serverError, setServerError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-
-  const setCredentials = useAuthStore((state) => state.setCredentials);
 
   const {
     register,

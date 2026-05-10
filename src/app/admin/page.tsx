@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, type ChangeEvent, type FormEvent, useEffect } from "react";
-import { useProductStore } from "@/store/useProductStore";
+import { seriesData, Product } from "@/data/products";
 import { Trash2, Plus, Package } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { SectionHeading } from "@/components/ui/SectionHeading";
@@ -9,12 +9,35 @@ import { Input } from "@/components/ui/input";
 import Button from "@/components/ui/Button";
 
 export default function AdminPage() {
-  const { products, addProduct, deleteProduct } = useProductStore();
+  const combinedProducts: Product[] = [
+    ...seriesData.local.map(item => ({
+      ...item,
+      price: 2500,
+    })),
+    ...seriesData.regular.map(item => ({
+      ...item,
+      price: 2500,
+    }))
+  ];
+
+  const [products, setProducts] = useState<Product[]>(combinedProducts);
+
+  const addProduct = (product: Omit<Product, "id">) => {
+    const newProduct: Product = {
+      ...product,
+      id: Date.now(),
+    };
+    setProducts((prev) => [...prev, newProduct]);
+  };
+
+  const deleteProduct = (id: number) => {
+    setProducts((prev) => prev.filter((p) => p.id !== id));
+  };
+
 
   const [title, setTitle] = useState("");
   const [price, setPrice] = useState("");
   const [imageUrl, setImageUrl] = useState("");
-  // Description state yahan se khatam kar di
 
   // Memory cleanup for image preview
   useEffect(() => {
@@ -34,14 +57,15 @@ export default function AdminPage() {
   const handleAddProduct = (e: FormEvent) => {
     e.preventDefault();
 
-    // Sirf wahi fields check karein jo store mein hain
     if (!title || !price || !imageUrl) return;
 
     addProduct({
-      title,
+      name: title,
       price: parseFloat(price),
-      imageUrl,
-      fruitImage: "/images/mango-slice.png", // Filhal default fruit image di hai kyunki aapke store mein ye required hai
+      image: imageUrl,
+      fruits: "/images/mango-slice.png",
+      bg: "/images/bg1.png",
+      textBg: "bg-blue-500",
     });
 
     // reset fields
@@ -90,8 +114,6 @@ export default function AdminPage() {
                   required
                 />
 
-                {/* Description Input Yahan se Remove Kar Diya Gaya Hai */}
-
                 <Input
                   label="Product Image"
                   id="image-upload"
@@ -129,10 +151,10 @@ export default function AdminPage() {
                   products.map((product) => (
                     <div key={product.id} className="flex items-center justify-between bg-white border rounded-2xl p-4">
                       <div className="flex items-center space-x-4">
-                        <img src={product.imageUrl} alt={product.title} className="w-16 h-16 object-contain" />
+                        <img src={product.image} alt={product.name} className="w-16 h-16 object-contain" />
                         <div>
-                          <h3 className="font-bold">{product.title}</h3>
-                          <p className="text-blue-600 font-bold">${product.price.toFixed(2)}</p>
+                          <h3 className="font-bold">{product.name}</h3>
+                          <p className="text-blue-600 font-bold">${(product.price || 0).toFixed(2)}</p>
                         </div>
                       </div>
                       <Button 

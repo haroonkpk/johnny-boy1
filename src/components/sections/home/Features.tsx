@@ -4,8 +4,8 @@ import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import Button from "../../ui/Button";
 import { SectionHeading } from "../../ui/SectionHeading";
-import { seriesData, SeriesKey } from "@/data/featuresData";
-import FeatureCard from "@/components/shared/FeatureCard";
+import { seriesData, SeriesKey } from "@/data/products";
+import ProductHighlightCard from "@/components/shared/ProductHighlightCard";
 import CarouselArrow from "@/components/shared/CarouselArrow";
 import DotIndicators from "@/components/shared/DotIndicators";
 
@@ -127,7 +127,7 @@ const Features = () => {
                 key={`${activeSeries}-${item.id}-${i}`}
                 className="snap-center shrink-0"
               >
-                <FeatureCard item={item} index={i} />
+                <ProductHighlightCard product={item} index={i} />
               </div>
             ))}
           </div>

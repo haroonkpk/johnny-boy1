@@ -1,12 +1,12 @@
 
 "use client";
 
-import { useProductStore } from '@/store/useProductStore';
 import ProductCard from '@/components/ProductCard';
 import PageHero from '@/components/PageHero';
+import { seriesData } from '@/data/products';
 
 export default function LocalSeries() {
-  const products = useProductStore((state) => state.products);
+  const products = seriesData.local;
 
   return (
     <div className="min-h-screen bg-[var(--color-cream)]">
@@ -47,7 +47,10 @@ export default function LocalSeries() {
                   key={product.id} 
                   className={`transform hover:scale-110 transition-all duration-700 ease-out ${smStaggerClass} ${staggerClass}`}
                 >
-                  <ProductCard product={product} type="local" />
+                  <ProductCard 
+                    product={product} 
+                    type="local" 
+                  />
                 </div>
               );
             })}

@@ -4,18 +4,17 @@ import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Card } from "@/components/ui/card";
-import { Product } from "@/store/useProductStore";
+import { Product } from "@/data/products";
 import { ChevronDown, ChevronUp } from "lucide-react";
-import { seriesData } from "@/data/featuresData";
 
 gsap.registerPlugin(ScrollTrigger);
 
 interface ProductCardProps {
   product: Product;
-    type: "local" | "regular";
+  type: "local" | "regular";
 }
 
-export default function ProductCard({ product }: ProductCardProps) {
+export default function ProductCard({ product, type }: ProductCardProps) {
   const cardRef = useRef<HTMLDivElement>(null);
   const infoRef = useRef<HTMLDivElement>(null);
   const waterRef = useRef<HTMLDivElement>(null);
@@ -25,11 +24,8 @@ export default function ProductCard({ product }: ProductCardProps) {
   const [isExpanded, setIsExpanded] = useState(false);
 
 
-  const allFeatures = [...seriesData.local, ...seriesData.regular];
 
-  const feature =
-    allFeatures.find((item) => item.id === Number(product.id)) ||
-    allFeatures[Number(product.id) - 1]; // fallback safe
+
   useEffect(() => {
     const card = cardRef.current;
     const info = infoRef.current;
@@ -61,7 +57,7 @@ export default function ProductCard({ product }: ProductCardProps) {
           },
         }
       );
-
+ 
       // Hover Interaction (Desktop)
       const hoverTl = gsap.timeline({ paused: true });
       hoverTl
@@ -137,15 +133,15 @@ export default function ProductCard({ product }: ProductCardProps) {
 
   {/* 1. BACKGROUND (LOWEST LAYER) */}
   <img
-    src={feature?.bg || "/images/default-bg.png"}
+    src={product?.bg || "/images/default-bg.png"}
     alt="background"
     className="absolute inset-0 w-full h-full object-cover z-0"
   />
 
   {/* 2. FRUIT (MIDDLE LAYER) */}
-  {feature?.fruits && (
+  {product?.fruits && (
     <img
-      src={feature.fruits}
+      src={product.fruits}
       alt="fruit"
       className="absolute top-1/2 left-1/2 
                  -translate-x-1/2 -translate-y-1/2
@@ -168,8 +164,8 @@ export default function ProductCard({ product }: ProductCardProps) {
       {/* --- 3. MAIN PRODUCT BOTTLE --- */}
       <img
         ref={bottleRef}
-        src={product.imageUrl}
-        alt={product.title}
+        src={product.image}
+        alt={product.name}
         className="absolute translate-x-[-25%] scale-180 z-20 w-full h-auto object-contain "
       />
 
@@ -189,7 +185,7 @@ export default function ProductCard({ product }: ProductCardProps) {
           
           {/* Always Visible Title */}
           <h3 className="text-[clamp(1.25rem,4vw,1.75rem)] pb-22 font-black text-white uppercase italic tracking-wider leading-tight">
-          {feature?.name || product.title}
+          {product.name}
           </h3>
 
           {/* Description */}
@@ -198,7 +194,7 @@ export default function ProductCard({ product }: ProductCardProps) {
               Flavor Notes
             </p>
             <p className="text-[clamp(0.85rem,1.5vw,0.95rem)] text-white/80 leading-relaxed font-medium px-2">
-               {`${feature?.name || product.title} delivers a smooth, refreshing experience crafted for perfection.`}
+               {`${product.name} delivers a smooth, refreshing experience crafted for perfection.`}
             </p>
           </div>
 
