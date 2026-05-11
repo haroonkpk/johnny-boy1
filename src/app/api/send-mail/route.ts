@@ -13,17 +13,19 @@ export async function POST(request: Request) {
     }
 
     // 2. Transporter configuration with TLS FIX
+  
     const transporter = nodemailer.createTransport({
-      service: "gmail",
-      auth: {
-        user: process.env.EMAIL_FROM,
-        pass: process.env.PASS, // Aapka 16-digit App Password
-      },
-      // FIX for "self-signed certificate in certificate chain"
-      tls: {
-        rejectUnauthorized: false,
-      },
-    });
+  host: "smtp.gmail.com",
+  port: 465,
+  secure: true, // 465 ke liye hamesha true
+  auth: {
+    user: process.env.EMAIL_FROM,
+    pass: process.env.PASS,
+  },
+  tls: {
+    rejectUnauthorized: false, 
+  },
+});
 
     // 3. Email Body 
     const itemsList = cartItems && cartItems.length > 0 
