@@ -2,6 +2,7 @@ import { ReactNode } from "react";
 import { PanelHeader } from "@/components/layout/PanelHeader";
 import Footer from "@/components/layout/Footer";
 import Navbar from "@/components/layout/Navbar";
+import { CartProvider } from "@/components/context/CartContext";
 
 interface RetailerDashboardLayoutProps {
   children: ReactNode;
@@ -18,8 +19,10 @@ export default function RetailerDashboardLayout({
         <div className="max-w-7xl mx-auto w-full p-6 md:p-10">
           
     
+          {/* {children} */}
+  <CartProvider>
           {children}
-  
+        </CartProvider>
         </div>
       </main>
     </div>
