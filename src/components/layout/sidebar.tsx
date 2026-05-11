@@ -124,6 +124,7 @@ export function Sidebar({
                 )}
               >
                 {label}
+                {/* {label} */}
               </span>
             </Link>
           );

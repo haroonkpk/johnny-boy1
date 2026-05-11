@@ -1,7 +1,6 @@
 import { ReactNode } from "react";
 import { PanelHeader } from "@/components/layout/PanelHeader";
-import Footer from "@/components/layout/Footer";
-import Navbar from "@/components/layout/Navbar";
+
 import { CartProvider } from "@/components/context/CartContext";
 
 interface RetailerDashboardLayoutProps {
