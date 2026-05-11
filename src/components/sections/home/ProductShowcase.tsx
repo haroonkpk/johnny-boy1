@@ -5,8 +5,11 @@ import React from "react";
 import Image from "next/image";
 import { ArrowRight } from "lucide-react";
 import Button from "@/components/ui/Button";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 const WholesaleShowcase = () => {
+    const router = useRouter();
   const products = [
     "/images/retailerfruit.png",
     "/images/ice.webp",
@@ -45,10 +48,18 @@ const WholesaleShowcase = () => {
               and we'll be in touch.
             </p>
 
-            <Button className="bg-white text-black hover:bg-cyan-400 transition px-6 md:px-8 py-3 md:py-4 rounded-full text-xs md:text-sm font-bold uppercase tracking-widest flex items-center gap-2 w-fit">
+            {/* <Button className="bg-white text-black hover:bg-cyan-400 transition px-6 md:px-8 py-3 md:py-4 rounded-full text-xs md:text-sm font-bold uppercase tracking-widest flex items-center gap-2 w-fit">
               Apply Now
               <ArrowRight size={18} />
-            </Button>
+            </Button> */}
+           
+  <Button
+                  className="bg-white text-black hover:bg-cyan-400 transition px-6 md:px-8 py-3 md:py-4 rounded-full text-xs md:text-sm font-bold uppercase tracking-widest flex items-center gap-2 w-fit"
+                  onClick={() => router.push("/signup")}
+                >
+                  Apply Now
+                    <ArrowRight size={18} />
+                </Button>
           </div>
 
           {/* RIGHT SIDE */}
