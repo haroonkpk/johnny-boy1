@@ -16,14 +16,39 @@ import { useCart } from "@/components/context/CartContext";
 import { seriesData, SeriesKey } from "@/data/products";
 import CartDrawer from "@/components/context/CartDrawer";
 import Button from "@/components/ui/Button";
+import { useAuth } from "@/components/context/AuthContext";
 
 export default function RetailerPage() {
   // openDrawer ko context se extract kiya
   const { addToCart, totalItems, openDrawer } = useCart();
   const [activeTab, setActiveTab] = useState<SeriesKey | "all">("all");
 
+
+const { user } = useAuth();
+const userStatus = user?.status;
   // Logic: Available products top par, Out of stock bottom par
   const displayProducts = useMemo(() => {
+    if (userStatus === "pending") {
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-[var(--color-cream)] px-4">
+      <div className="max-w-xl w-full bg-white rounded-[2rem] p-8 shadow-xl text-center">
+
+        <div className="w-20 h-20 mx-auto rounded-full bg-yellow-100 flex items-center justify-center mb-5">
+          <Zap className="text-yellow-600" size={38} />
+        </div>
+
+        <h1 className="text-3xl font-black uppercase">
+          Account Pending
+        </h1>
+
+        <p className="text-gray-500 mt-4">
+          Your account is under review. Please wait 24 hours for approval.
+        </p>
+
+      </div>
+    </div>
+  );
+}
     let list =
       activeTab === "all"
         ? [...seriesData.local, ...seriesData.regular]
@@ -225,7 +250,8 @@ function TabBtn({ active, onClick, icon, label }: any) {
       onClick={onClick}
    className={`min-w-[110px] px-4 sm:px-6 py-2.5 rounded-xl text-[10px] font-black transition-all flex items-center justify-center gap-2 ${
   active
-    ? "bg-black text-black shadow-md"
+
+     ? "bg-black text-black shadow-md"
     : "text-gray-400 hover:text-black"
 }`}
     >
@@ -233,3 +259,4 @@ function TabBtn({ active, onClick, icon, label }: any) {
     </Button>
   );
 }
+
