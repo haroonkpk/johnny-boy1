@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { X, Trash2, Plus, Minus, ShoppingBag, Loader2 } from "lucide-react";
 import Image from "next/image";
 import { useCart } from "@/components/context/CartContext";
-import Button from "../ui/Button";
+import Button from "@/components/ui/Button";
 
 export default function CartDrawer() {
   const { 

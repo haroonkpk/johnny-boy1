@@ -4,7 +4,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
-import Button from "../ui/Button";
+import Button from "@/components/ui/Button";
 
 export default function AgeVerification({ onVerified }: { onVerified: () => void }) {
   const [accepted, setAccepted] = useState(false);

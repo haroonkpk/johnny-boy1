@@ -2,7 +2,7 @@ import { ReactNode } from "react";
 import {
   Users,
 } from "lucide-react";
-import { Sidebar } from "@/components/layout/sidebar";
+import { Sidebar } from "@/components/layout/SidebarTemp";
 import { PanelHeader } from "@/components/layout/PanelHeader";
 
 interface AdminDashboardLayoutProps {

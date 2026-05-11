@@ -3,8 +3,8 @@
 import React, { useEffect } from "react";
 import { X } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { Card } from "./card";
-import Button from "./Button";
+import { Card } from "@/components/ui/card";
+import Button from "@/components/ui/Button";
 
 interface ModalProps {
   isOpen: boolean;

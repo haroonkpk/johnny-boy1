@@ -3,7 +3,6 @@
 
 import React, { useRef, ReactNode } from "react";
 import { motion } from "framer-motion";
-import { FaEnvelope, FaMapMarkerAlt, FaPhoneAlt } from "react-icons/fa";
 import Button from "@/components/ui/Button";
 import { Card } from "@/components/ui/card";
 import PageHero from "@/components/PageHero";
@@ -61,30 +60,7 @@ const Contact = () => {
 
                 <div className="grid   items-center">
                     
-                    {/* LEFT SIDE: INFO CARDS */}
-                    {/* <div className="lg:col-span-4 flex flex-col gap-5">
-                        <InfoCard
-                            icon={<FaPhoneAlt />}
-                            title="Call Us"
-                            val="+92 300 1234567"
-                            delay={0.1}
-                            accentColor="#3b82f6"
-                        />
-                        <InfoCard
-                            icon={<FaEnvelope />}
-                            title="Email"
-                            val="hello@agency.com"
-                            delay={0.2}
-                            accentColor="#8b5cf6"
-                        />
-                        <InfoCard
-                            icon={<FaMapMarkerAlt />}
-                            title="Location"
-                            val="UK"
-                            delay={0.3}
-                            accentColor="#ec4899"
-                        />
-                    </div> */}
+                 
 
                     {/* RIGHT SIDE: CLEAN WHITE FORM */}
                     <motion.div
