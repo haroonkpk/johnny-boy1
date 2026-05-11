@@ -18,49 +18,93 @@ import CartDrawer from "@/components/context/CartDrawer";
 import Button from "@/components/ui/Button";
 import { useAuth } from "@/components/context/AuthContext";
 
+// export default function RetailerPage() {
+//   // openDrawer ko context se extract kiya
+//   const { addToCart, totalItems, openDrawer } = useCart();
+//   const [activeTab, setActiveTab] = useState<SeriesKey | "all">("all");
+
+
+// const { user } = useAuth();
+// const userStatus = user?.status;
+//   // Logic: Available products top par, Out of stock bottom par
+//   const displayProducts = useMemo(() => {
+//     if (userStatus === "pending") {
+//   return (
+//     <div className="min-h-screen flex items-center justify-center bg-[var(--color-cream)] px-4">
+//       <div className="max-w-xl w-full bg-white rounded-[2rem] p-8 shadow-xl text-center">
+
+//         <div className="w-20 h-20 mx-auto rounded-full bg-yellow-100 flex items-center justify-center mb-5">
+//           <Zap className="text-yellow-600" size={38} />
+//         </div>
+
+//         <h1 className="text-3xl font-black uppercase">
+//           Account Pending
+//         </h1>
+
+//         <p className="text-gray-500 mt-4">
+//           Your account is under review. Please wait 24 hours for approval.
+//         </p>
+
+//       </div>
+//     </div>
+//   );
+// }
+//     let list =
+//       activeTab === "all"
+//         ? [...seriesData.local, ...seriesData.regular]
+//         : [...seriesData[activeTab]];
+
+//     return list.sort((a, b) =>
+//       a.comingSoon === b.comingSoon ? 0 : a.comingSoon ? 1 : -1,
+//     );
+//   }, [activeTab]);
+
+//   return (
+//     <div className="min-h-screen w-full bg-[var(--color-cream)]  text-black flex flex-col">
+//       
 export default function RetailerPage() {
-  // openDrawer ko context se extract kiya
   const { addToCart, totalItems, openDrawer } = useCart();
   const [activeTab, setActiveTab] = useState<SeriesKey | "all">("all");
+  const { user } = useAuth();
+  const userStatus = user?.status;
 
-
-const { user } = useAuth();
-const userStatus = user?.status;
-  // Logic: Available products top par, Out of stock bottom par
+  // 1. Products Filter Logic (Strictly returns an array)
   const displayProducts = useMemo(() => {
-    if (userStatus === "pending") {
-  return (
-    <div className="min-h-screen flex items-center justify-center bg-[var(--color-cream)] px-4">
-      <div className="max-w-xl w-full bg-white rounded-[2rem] p-8 shadow-xl text-center">
+    // Agar user status pending hai, tab bhi empty array return karein taake map crash na ho
+    if (userStatus === "pending") return [];
 
-        <div className="w-20 h-20 mx-auto rounded-full bg-yellow-100 flex items-center justify-center mb-5">
-          <Zap className="text-yellow-600" size={38} />
-        </div>
-
-        <h1 className="text-3xl font-black uppercase">
-          Account Pending
-        </h1>
-
-        <p className="text-gray-500 mt-4">
-          Your account is under review. Please wait 24 hours for approval.
-        </p>
-
-      </div>
-    </div>
-  );
-}
     let list =
       activeTab === "all"
         ? [...seriesData.local, ...seriesData.regular]
         : [...seriesData[activeTab]];
 
     return list.sort((a, b) =>
-      a.comingSoon === b.comingSoon ? 0 : a.comingSoon ? 1 : -1,
+      a.comingSoon === b.comingSoon ? 0 : a.comingSoon ? 1 : -1
     );
-  }, [activeTab]);
+  }, [activeTab, userStatus]);
 
+  // 2. Early Return for Pending Status (UI Logic)
+  // Isay useMemo se bahar rakhein taake main return se pehle trigger ho ske
+  if (userStatus === "pending") {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-[var(--color-cream)] px-4">
+        <div className="max-w-xl w-full bg-white rounded-[2rem] p-8 shadow-xl text-center">
+          <div className="w-20 h-20 mx-auto rounded-full bg-yellow-100 flex items-center justify-center mb-5">
+            <Zap className="text-yellow-600" size={38} />
+          </div>
+          <h1 className="text-3xl font-black uppercase">Account Pending</h1>
+          <p className="text-gray-500 mt-4">
+            Your account is under review. Please wait 24 hours for approval.
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  // 3. Main Page Render
   return (
-    <div className="min-h-screen w-full bg-[var(--color-cream)]  text-black flex flex-col">
+    <div className="min-h-screen w-full bg-[var(--color-cream)] text-black flex flex-col">
+  
       {/* SIDEBAR DRAWER COMPONENT */}
       <CartDrawer />
 
