@@ -107,6 +107,7 @@ export default function RetailerPage() {
   
       {/* SIDEBAR DRAWER COMPONENT */}
       <CartDrawer />
+      {/* <CartDrawer /> */}
 
       {/* HEADER SECTION */}
       <header className="w-full bg-white border-b border-gray-200 sticky top-0 z-50 shadow-sm">
