@@ -47,7 +47,7 @@ export default function Navbar() {
     { name: "Local series", href: "/localseries", icon: Package },
     { name: "Regular Series", href: "/regularseries", icon: Package },
     { name: "Review", href: "/review", icon: Package },
-    { name: "Orders", href: "/cart", icon: ShoppingCart },
+    { name: "Orders", href: "/order", icon: ShoppingCart },
     { name: "Contact", href: "/contact", icon: Package },
   ];
 
