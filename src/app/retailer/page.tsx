@@ -111,8 +111,7 @@ export default function RetailerPage() {
                     <Image
                       src={product.fruits}
                       alt="fruit"
-                      width={120}
-                      height={120}
+                      fill
                       className="absolute z-10 drop-shadow-md"
                     />
 
@@ -120,9 +119,8 @@ export default function RetailerPage() {
                     <Image
                       src={product.image}
                       alt={product.name}
-                      width={180}
-                      height={260}
-                      className="relative z-20 object-contain drop-shadow-xl"
+                      fill
+                      className="relative scale-[1.6] translate-x-[-26%]  z-20 object-contain drop-shadow-xl"
                     />
                     
                     {product.comingSoon && (
