@@ -2,11 +2,12 @@
 
 import React, { useEffect, useRef } from "react";
 import { useState } from "react";
-import { LogIn, UserPlus } from "lucide-react";
+import { LogIn, UserPlus, LayoutDashboard } from "lucide-react";
 import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 import Button from "@/components/ui/Button";
 import { Modal } from "@/components/ui/modal";
 import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 
 // --- Particle Background Component ---
 const ParticleBackground = () => {
@@ -87,6 +88,7 @@ const ParticleBackground = () => {
 };
 
 export default function Home() {
+  const { data: session, status } = useSession();
   const [activeModal, setActiveModal] = useState<"login" | "signup" | null>(
     null,
   );
@@ -108,6 +110,17 @@ export default function Home() {
   const handleSignupSuccess = () => {
     setActiveModal(null);
     router.refresh();
+  };
+
+  const isLoggedIn = status === "authenticated" && !!session;
+  const userRole = (session?.user as any)?.role;
+
+  const handleDashboardClick = () => {
+    if (userRole === "admin") {
+      router.push("/admin");
+    } else if (userRole === "retailer") {
+      router.push("/retailer");
+    }
   };
 
   return (
@@ -176,20 +189,31 @@ export default function Home() {
               </div>
 
               <div className="flex flex-wrap items-center justify-center lg:justify-start gap-4 md:gap-6">
-                <Button
-                  variant="primary-outline"
-                  className="rounded-full px-8 md:px-10 py-3 md:py-4"
-                   onClick={() => router.push("/login")}
-                >
-                  <LogIn size={20} /> LOGIN
-                </Button>
+                {isLoggedIn ? (
+                  <Button
+                    className="px-8 md:px-10 py-3 md:py-4 rounded-full bg-gradient-to-r from-[#3ac8ee] to-[#937ef1] text-white font-black"
+                    onClick={handleDashboardClick}
+                  >
+                    <LayoutDashboard size={20} /> DASHBOARD
+                  </Button>
+                ) : (
+                  <>
+                    <Button
+                      variant="primary-outline"
+                      className="rounded-full px-8 md:px-10 py-3 md:py-4"
+                      onClick={() => router.push("/login")}
+                    >
+                      <LogIn size={20} /> LOGIN
+                    </Button>
 
-                <Button
-                  className="px-8 md:px-10 py-3 md:py-4 rounded-full bg-gradient-to-r from-[#3ac8ee] to-[#937ef1] text-white font-black"
-                  onClick={() => router.push("/signup")}
-                >
-                  <UserPlus size={20} /> JOIN NOW
-                </Button>
+                    <Button
+                      className="px-8 md:px-10 py-3 md:py-4 rounded-full bg-gradient-to-r from-[#3ac8ee] to-[#937ef1] text-white font-black"
+                      onClick={() => router.push("/signup")}
+                    >
+                      <UserPlus size={20} /> JOIN NOW
+                    </Button>
+                  </>
+                )}
               </div>
             </motion.div>
 
