@@ -45,6 +45,7 @@ export function AgeVerificationModal() {
 
   const handleNo = () => {
     alert("You must be 19+ to access this website.");
+    window.location.href = "https://www.google.com";
   };
 
   if (!isOpen) return null;
