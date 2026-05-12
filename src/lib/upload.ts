@@ -1,6 +1,6 @@
 import cloudinary from "./cloudinary";
 
-export const uploadToCloudinary = async (file: File, folder: string) => {
+export const uploadToCloudinary = async (file: File, folder: string): Promise<string> => {
   const arrayBuffer = await file.arrayBuffer();
   const buffer = Buffer.from(arrayBuffer);
 
@@ -14,7 +14,7 @@ export const uploadToCloudinary = async (file: File, folder: string) => {
         if (error) {
           reject(error);
         } else {
-          resolve(result?.secure_url);
+          resolve(result?.secure_url as string);
         }
       }
     ).end(buffer);

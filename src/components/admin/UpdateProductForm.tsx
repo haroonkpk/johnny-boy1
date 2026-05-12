@@ -76,6 +76,22 @@ export function UpdateProductForm({ product, onSuccess, onCancel }: UpdateProduc
     setError("");
 
     const formData = new FormData(e.currentTarget);
+    const comingSoon = formData.get("comingSoon") === "true";
+    const image = formData.get("image") as File;
+    const fruits = formData.get("fruits") as File;
+    const bg = formData.get("bg") as File;
+
+    if (!comingSoon) {
+      const hasImage = (image && image.size > 0) || previews.image;
+      const hasFruits = (fruits && fruits.size > 0) || previews.fruits;
+      const hasBg = (bg && bg.size > 0) || previews.bg;
+
+      if (!hasImage || !hasFruits || !hasBg) {
+        setError("All images are required for live products. Please upload missing images.");
+        setLoading(false);
+        return;
+      }
+    }
 
     try {
       if (!product._id) throw new Error("Product ID is missing");

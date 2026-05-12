@@ -79,8 +79,9 @@ export function CreateProductForm({ onSuccess }: CreateProductFormProps) {
     const image = formData.get("image") as File;
     const fruits = formData.get("fruits") as File;
     const bg = formData.get("bg") as File;
+    const comingSoon = formData.get("comingSoon") === "true";
 
-    if (!image?.size || !fruits?.size || !bg?.size) {
+    if (!comingSoon && (!image?.size || !fruits?.size || !bg?.size)) {
       setError("Please upload all three required images.");
       setLoading(false);
       return;

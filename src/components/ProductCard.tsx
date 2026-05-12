@@ -141,7 +141,7 @@ export default function ProductCard({ product, type }: ProductCardProps) {
           className={`absolute inset-0 transition-all duration-700 ${product.comingSoon ? "grayscale brightness-75 contrast-125" : ""}`}
         >
           <img
-            src={product?.bg || "/images/default-bg.png"}
+            src={product?.bg ? product.bg : "/images/bg1.png"}
             alt="background"
             className="absolute inset-0 w-full h-full object-cover z-0"
           />
@@ -187,7 +187,7 @@ export default function ProductCard({ product, type }: ProductCardProps) {
       </div>
 
       {/* --- 3. MAIN PRODUCT BOTTLE --- */}
-      {!product.comingSoon && (
+      {!product.comingSoon && product.image && (
         <img
           ref={bottleRef}
           src={product.image}

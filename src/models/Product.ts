@@ -9,15 +9,12 @@ const ProductSchema = new Schema(
     },
     image: {
       type: String,
-      required: [true, "Product image is required"],
     },
     fruits: {
       type: String,
-      required: [true, "Fruits image is required"],
     },
     bg: {
       type: String,
-      required: [true, "Background image is required"],
     },
     price: {
       type: Number,
@@ -44,6 +41,9 @@ const ProductSchema = new Schema(
 );
 
 // Triggering model rebuild for new fields
-const Product = models.Product || model("Product", ProductSchema);
+if (models.Product) {
+  delete models.Product;
+}
+const Product = model("Product", ProductSchema);
 
 export default Product;

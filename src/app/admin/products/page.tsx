@@ -57,7 +57,11 @@ export default function ProductsPage() {
       productInfo: (
         <div className="flex items-center gap-[clamp(0.5rem,1.5vw,1rem)] py-2">
           <div className="w-[clamp(2.5rem,5vw,3.5rem)] h-[clamp(2.5rem,5vw,3.5rem)] flex items-center justify-center overflow-hidden bg-gray-50 rounded-lg">
-            <Image src={p.image} alt={p.name} width={40} height={40} className="object-contain" />
+            {p.image ? (
+              <Image src={p.image} alt={p.name} width={40} height={40} className="object-contain" />
+            ) : (
+              <div className="text-gray-300 text-[10px] font-bold">NO IMG</div>
+            )}
           </div>
           <div>
             <p className="font-black text-gray-900 leading-tight tracking-tight text-[clamp(0.875rem,1.2vw,1rem)]">{p.name}</p>
@@ -80,8 +84,12 @@ export default function ProductsPage() {
       imagesPreview: (
         <div className="flex -space-x-[clamp(0.25rem,0.5vw,0.5rem)]">
           {[p.fruits, p.bg].map((src, i) => (
-            <div key={i} className="w-[clamp(1.5rem,3vw,2rem)] h-[clamp(1.5rem,3vw,2rem)] bg-white overflow-hidden z-[1] hover:z-[10] transition-all hover:scale-110 rounded-full border border-gray-100">
-              <Image src={src} alt="asset" width={32} height={32} className="object-cover" />
+            <div key={i} className="w-[clamp(1.5rem,3vw,2rem)] h-[clamp(1.5rem,3vw,2rem)] bg-white overflow-hidden z-[1] hover:z-[10] transition-all hover:scale-110 rounded-full border border-gray-100 flex items-center justify-center">
+              {src ? (
+                <Image src={src} alt="asset" width={32} height={32} className="object-cover" />
+              ) : (
+                <div className="text-[8px] text-gray-300">-</div>
+              )}
             </div>
           ))}
         </div>

@@ -23,7 +23,7 @@ export async function createProduct(formData: FormData) {
 
     const name = formData.get("name") as string;
     const price = Number(formData.get("price"));
-    const series = formData.get("series") as string;
+    const series = formData.get("series") as "local" | "regular";
     const description = (formData.get("description") as string) || "";
     console.log("Creating product with description:", description);
     const comingSoon = formData.get("comingSoon") === "true";
@@ -31,15 +31,31 @@ export async function createProduct(formData: FormData) {
     const fruitsFile = formData.get("fruits") as File;
     const bgFile = formData.get("bg") as File;
 
-    if (!imageFile || imageFile.size === 0 || !fruitsFile || fruitsFile.size === 0 || !bgFile || bgFile.size === 0) {
-      throw new Error("All images are required. Please upload all three images.");
+    const isComingSoon = comingSoon === true;
+
+    if (!isComingSoon && (!imageFile || imageFile.size === 0 || !fruitsFile || fruitsFile.size === 0 || !bgFile || bgFile.size === 0)) {
+      throw new Error("All images are required for regular products. Please upload all three images.");
     }
 
-    const [imageUrl, fruitsUrl, bgUrl] = await Promise.all([
-      uploadToCloudinary(imageFile, "products"),
-      uploadToCloudinary(fruitsFile, "fruits"),
-      uploadToCloudinary(bgFile, "backgrounds"),
-    ]);
+    let imageUrl: string | undefined = undefined;
+    let fruitsUrl: string | undefined = undefined;
+    let bgUrl: string | undefined = undefined;
+
+    const uploadPromises = [];
+
+    if (imageFile && imageFile.size > 0) {
+      uploadPromises.push(uploadToCloudinary(imageFile, "products").then(url => imageUrl = url));
+    }
+    if (fruitsFile && fruitsFile.size > 0) {
+      uploadPromises.push(uploadToCloudinary(fruitsFile, "fruits").then(url => fruitsUrl = url));
+    }
+    if (bgFile && bgFile.size > 0) {
+      uploadPromises.push(uploadToCloudinary(bgFile, "backgrounds").then(url => bgUrl = url));
+    }
+
+    await Promise.all(uploadPromises);
+
+    console.log("Product model required paths:", Product.schema.requiredPaths());
 
     const newProduct = await Product.create({
       name,
@@ -72,7 +88,7 @@ export async function updateProduct(id: string, formData: FormData) {
     const updateData: any = {
       name: formData.get("name"),
       price: Number(formData.get("price")),
-      series: formData.get("series"),
+      series: formData.get("series") as "local" | "regular",
       description: (formData.get("description") as string) || "",
       comingSoon: formData.get("comingSoon") === "true",
     };
@@ -81,6 +97,17 @@ export async function updateProduct(id: string, formData: FormData) {
     const imageFile = formData.get("image") as File;
     const fruitsFile = formData.get("fruits") as File;
     const bgFile = formData.get("bg") as File;
+
+    // Validation: If taking out of 'Coming Soon', images are required
+    if (updateData.comingSoon === false) {
+      const hasImage = (imageFile && imageFile.size > 0) || existingProduct.image;
+      const hasFruits = (fruitsFile && fruitsFile.size > 0) || existingProduct.fruits;
+      const hasBg = (bgFile && bgFile.size > 0) || existingProduct.bg;
+
+      if (!hasImage || !hasFruits || !hasBg) {
+        throw new Error("All images are required when launching a product from 'Coming Soon'. Please upload missing assets.");
+      }
+    }
 
     if (imageFile && imageFile.size > 0) {
       // Delete old image
