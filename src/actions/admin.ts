@@ -60,3 +60,20 @@ export async function updateRetailerStatus(
     return { error: error.message || "Something went wrong" };
   }
 }
+
+export async function deleteRetailer(retailerId: string) {
+  try {
+    await dbConnect();
+
+    const deleted = await User.findByIdAndDelete(retailerId);
+
+    if (!deleted) {
+      return { success: false, error: "Retailer not found" };
+    }
+
+    return { success: true, message: "Retailer deleted successfully" };
+  } catch (error: any) {
+    console.error("Delete Retailer Error:", error);
+    return { success: false, error: error.message || "Something went wrong" };
+  }
+}

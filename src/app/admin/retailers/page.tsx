@@ -1,14 +1,15 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Check, X, Clock, ShieldCheck, ShieldX, Eye } from "lucide-react";
+import { Check, X, Clock, ShieldCheck, ShieldX, Eye, Trash2 } from "lucide-react";
 import { DataTable, TableHeader } from "@/components/ui/data-table";
-import { getRetailers, updateRetailerStatus } from "@/actions/admin";
+import { getRetailers, updateRetailerStatus, deleteRetailer } from "@/actions/admin";
 import { Card } from "@/components/ui/card";
 import { Modal } from "@/components/ui/modal";
 import { cn } from "@/lib/utils";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import Button from "@/components/ui/Button";
+
 
 interface RetailerRow {
   id: string;
@@ -67,7 +68,21 @@ export default function RetailersPage() {
       fetchRetailers();
     }
   };
+const handleDelete = async (row: RetailerRow) => {
+  const confirmDelete = confirm(
+    `Are you sure you want to delete ${row.businessName}?`
+  );
 
+  if (!confirmDelete) return;
+
+  const result = await deleteRetailer(row.id);
+
+  if (result.success) {
+    fetchRetailers(); 
+  } else {
+    alert(result.error || "Delete failed");
+  }
+};
   const handleView = (row: RetailerRow) => {
     setSelectedRetailer(row);
     setIsModalOpen(true);
@@ -122,6 +137,12 @@ export default function RetailersPage() {
       className: "bg-blue-100 text-blue-700 hover:bg-blue-200",
       onClick: handleView,
     },
+  {
+  icon: <Trash2 size={16} />,
+  text: "Delete",
+  className: "bg-black text-white hover:bg-gray-800",
+  onClick: handleDelete,
+},
   ];
 
   if (isLoading) {
