@@ -63,7 +63,7 @@ export default function CartDrawer() {
     <AnimatePresence>
       {isDrawerOpen && (
         <>
-          {/* 1. BACKDROP */}
+           {/* 1. BACKDROP */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -71,33 +71,33 @@ export default function CartDrawer() {
             onClick={closeDrawer}
             className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[100]"
           />
-
-          {/* 2. SIDEBAR DRAWER */}
           <motion.div
             initial={{ x: "100%" }}
             animate={{ x: 0 }}
             exit={{ x: "100%" }}
-            transition={{ type: "spring", damping: 25, stiffness: 200 }}
-            className="fixed right-0 top-0 h-full w-full max-w-[400px] bg-white z-[101] shadow-2xl flex flex-col"
+            transition={{ type: "spring", damping: 28, stiffness: 220 }}
+            className="fixed right-0 top-0 h-full w-full max-w-[450px] bg-[var(--color-cream)] z-[101] flex flex-col"
           >
             {/* HEADER */}
-            <div className="p-6 border-b border-gray-100 flex justify-between items-center bg-zinc-900 text-white">
+            <div className="p-6 flex justify-between items-center bg-white/80 backdrop-blur-md">
               <div className="flex items-center gap-3">
-                <ShoppingBag size={20} className="text-black" />
-                <h2 className="font-black italic tracking-tight text-xl uppercase">
-                  Cart ({totalItems})
+                <div className="w-10 h-10 bg-(--gold) flex items-center justify-center text-white  ">
+                  <ShoppingBag size={20} />
+                </div>
+                <h2 className="font-black  text-(--gold) tracking-tighter text-2xl uppercase">
+                  Cart ({cart.length})
                 </h2>
               </div>
-              <Button 
+              <button 
                 onClick={closeDrawer} 
-                className="p-2 hover:bg-white/10 rounded-full transition-colors active:scale-90"
+                className="p-2 hover:bg-black/5 rounded-xl transition-all active:scale-90 text-gray-500"
               >
                 <X size={24} />
-              </Button>
+              </button>
             </div>
 
             {/* PRODUCT LIST */}
-            <div className="flex-grow overflow-y-auto p-6 space-y-6 custom-scrollbar">
+            <div className="flex-grow overflow-y-auto p-6 space-y-4 custom-scrollbar">
               {cart.length === 0 ? (
                 <div className="h-full flex flex-col items-center justify-center text-center space-y-4">
                   <div className="w-20 h-20 bg-gray-50 rounded-full flex items-center justify-center text-gray-300">
@@ -118,10 +118,10 @@ export default function CartDrawer() {
                   <motion.div 
                     layout
                     key={item.id} 
-                    className="flex gap-4 group border-b border-gray-50 pb-6 last:border-0"
+                    className="flex gap-4 p-4 bg-white rounded-2xl group"
                   >
                     {/* Item Image */}
-                    <div className="relative w-20 h-24 bg-gray-50 rounded-2xl overflow-hidden flex-shrink-0 border border-gray-100">
+                    <div className="relative w-20 h-24 bg-[var(--color-cream)] rounded-xl overflow-hidden flex-shrink-0">
                       <Image 
                         src={item.image} 
                         alt={item.name} 
@@ -134,40 +134,40 @@ export default function CartDrawer() {
                     <div className="flex-grow flex flex-col justify-between py-1">
                       <div>
                         <div className="flex justify-between items-start gap-2">
-                          <h4 className="font-black uppercase text-[13px] leading-tight flex-grow">
+                          <h4 className="font-black uppercase text-[13px] leading-tight flex-grow text-zinc-900">
                             {item.name}
                           </h4>
-                          <Button 
+                          <button 
                             onClick={() => removeFromCart(item.id)}
-                            className="text-gray-300 hover:text-gray-700 transition-colors"
+                            className="text-gray-300 hover:text-red-500 transition-colors p-1"
                           >
                             <Trash2 size={16} />
-                          </Button>
+                          </button>
                         </div>
-                        <p className="text-black font-black text-sm mt-1">
+                        <p className="text-zinc-900 font-black text-sm mt-1">
                           ${(item.price * item.quantity).toFixed(2)}
                         </p>
                       </div>
                       
                       <div className="flex items-center justify-between mt-3">
-                        <div className="flex items-center bg-gray-100 rounded-xl px-2 py-1 gap-4 border border-gray-200/50">
-                          <Button 
+                        <div className="flex items-center bg-[var(--color-cream)] rounded-lg px-2 py-1 gap-4">
+                          <button 
                             onClick={() => updateQuantity(item.id, -1)} 
-                            className="p-1 hover:text-gray-700 transition-colors disabled:opacity-30"
+                            className="p-1 text-zinc-500 hover:text-black transition-colors disabled:opacity-30"
                             disabled={item.quantity <= 1 || isLoading}
                           >
                             <Minus size={14} />
-                          </Button>
-                          <span className="font-black text-xs w-4 text-center">
+                          </button>
+                          <span className="font-black text-xs w-4 text-center text-zinc-900">
                             {item.quantity}
                           </span>
-                          <Button 
+                          <button 
                             onClick={() => updateQuantity(item.id, 1)} 
-                            className="p-1 hover:text-gray-700 transition-colors"
+                            className="p-1 text-zinc-500 hover:text-black transition-colors"
                             disabled={isLoading}
                           >
                             <Plus size={14} />
-                          </Button>
+                          </button>
                         </div>
                       </div>
                     </div>
@@ -178,31 +178,34 @@ export default function CartDrawer() {
 
             {/* FOOTER */}
             {cart.length > 0 && (
-              <div className="p-6 border-t border-gray-100 bg-white space-y-4 shadow-[0_-10px_40px_rgba(0,0,0,0.05)]">
+              <div className="p-8 bg-white/80 backdrop-blur-md space-y-6">
                 <div className="flex justify-between items-end">
                   <div className="flex flex-col">
-                    <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest">
-                      Subtotal
+                    <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">
+                      Total Order Value
                     </span>
-                    <span className="text-3xl font-black tracking-tighter text-zinc-900">
+                    <span className="text-4xl font-black tracking-tighter text-zinc-900">
                       ${totalPrice.toFixed(2)}
                     </span>
                   </div>
-                  
                 </div>
                 
                 <Button 
                   onClick={handleCheckout}
                   disabled={isLoading}
-               className="w-full !bg-black !text-white py-5 rounded-[1.5rem] font-black text-[11px] tracking-[0.2em] hover:!bg-zinc-900 transition-all active:scale-[0.98] shadow-xl shadow-black/20 uppercase flex items-center justify-center gap-2 border-0"
-               >
+                  variant="secondary"
+                  className="w-full py-6 rounded-2xl text-xs tracking-[0.2em] uppercase flex items-center justify-center gap-3 border-0"
+                >
                   {isLoading ? (
                     <>
-                      <Loader2 size={16} className="animate-spin " />
-                      Processing...
+                      <Loader2 size={18} className="animate-spin" />
+                      Sending Inquiry...
                     </>
                   ) : (
-                    "Proceed to Checkout"
+                    <>
+                      <ShoppingBag size={18} />
+                      Send Order Inquiry
+                    </>
                   )}
                 </Button>
               </div>

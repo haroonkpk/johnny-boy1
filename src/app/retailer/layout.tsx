@@ -1,7 +1,6 @@
 import { ReactNode } from "react";
 import { PanelHeader } from "@/components/layout/PanelHeader";
-
-import { CartProvider } from "@/components/context/CartContext";
+import CartDrawer from "@/components/context/CartDrawer";
 
 interface RetailerDashboardLayoutProps {
   children: ReactNode;
@@ -11,17 +10,13 @@ export default function RetailerDashboardLayout({
   children,
 }: RetailerDashboardLayoutProps) {
   return (
-    <div className="flex flex-col h-screen overflow-hidden bg-gray-50">
+    <div className="flex flex-col h-screen overflow-hidden bg-[var(--color-cream)]">
       <PanelHeader title="Retailer Panel" />
+      <CartDrawer />
 
       <main className="flex-1 overflow-y-auto">
-        <div className="max-w-7xl mx-auto w-full p-6 md:p-10">
-          
-    
-          {/* {children} */}
-  <CartProvider>
+        <div className="max-w-[1500px] mx-auto w-full">
           {children}
-        </CartProvider>
         </div>
       </main>
     </div>
