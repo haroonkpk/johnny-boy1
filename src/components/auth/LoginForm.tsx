@@ -170,20 +170,13 @@ export default function LoginForm({
               {/* EXTRA OPTIONS */}
               <div className="flex items-center justify-between gap-4 flex-wrap">
                 <label className="flex items-center gap-2 text-sm text-gray-600 cursor-pointer">
-                  <input
-                    type="checkbox"
+                    <input
+                      type="checkbox"
                     className="w-4 h-4 rounded border-gray-300 accent-black cursor-pointer"
-                    {...register("rememberMe")}
-                  />
-                  Remember me
+                      {...register("rememberMe")}
+                    />
+                    Remember me
                 </label>
-
-                <Link
-                  href="/forgot-password"
-                  className="text-sm font-medium text-black hover:underline"
-                >
-                  Forgot password?
-                </Link>
               </div>
 
               {/* BUTTON */}
