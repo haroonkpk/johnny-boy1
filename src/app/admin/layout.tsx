@@ -2,6 +2,7 @@ import { ReactNode } from "react";
 import {
   Users,
   Box,
+  MessageSquare,
 } from "lucide-react";
 import { Sidebar } from "@/components/layout/SidebarTemp";
 import { PanelHeader } from "@/components/layout/PanelHeader";
@@ -20,6 +21,11 @@ const adminNavItems = [
     label: "Products",
     href: "/admin/products",
     icon: <Box size={18} />,
+  },
+  {
+    label: "Messages",
+    href: "/admin/contacts",
+    icon: <MessageSquare size={18} />,
   },
 ];
 
