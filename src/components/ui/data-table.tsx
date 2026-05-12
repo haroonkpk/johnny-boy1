@@ -51,7 +51,7 @@ export const DataTable = <T extends { id?: string; _id?: string }>({
     <Card className={cn("p-4", BorderColor)}>
       {/* Heading */}
       <div className="mb-4 flex items-center justify-between">
-        <h2 className="truncate text-[clamp(17px,2vw,20px)] font-bold text-gray-800">
+        <h2 className="truncate text-[clamp(17px,2vw,20px)] font-semibold text-gray-800">
           {heading}
         </h2>
       </div>
@@ -59,7 +59,7 @@ export const DataTable = <T extends { id?: string; _id?: string }>({
       {/* Table */}
       <div className="w-full overflow-x-auto">
         <table className={`w-full border-collapse border ${BorderColor}`}>
-          <thead className={`${HeaderBgColor} font-bold ${HeaderTextColor}`}>
+          <thead className={`${HeaderBgColor} font-semibold ${HeaderTextColor}`}>
             <tr>
               {/* Universal Serial Number Column */}
               <th
@@ -70,7 +70,7 @@ export const DataTable = <T extends { id?: string; _id?: string }>({
               {TableHeaders.map((header) => (
                 <th
                   key={header.key}
-                  className={`border ${BorderColor} px-[clamp(12px,1.5vw,16px)] py-[clamp(10px,1vw,12px)] text-start text-[clamp(13px,1.2vw,14px)] font-bold whitespace-nowrap`}
+                  className={`border ${BorderColor} px-[clamp(12px,1.5vw,16px)] py-[clamp(10px,1vw,12px)] text-start text-[clamp(13px,1.2vw,14px)] font-semibold whitespace-nowrap`}
                 >
                   {header.label}
                 </th>
@@ -158,7 +158,7 @@ export const DataTable = <T extends { id?: string; _id?: string }>({
                 <span className="text-gray-400 font-medium text-[10px] uppercase tracking-wider">
                   Total
                 </span>
-                <span className="font-bold text-black leading-none">
+                <span className="font-semibold text-black leading-none">
                   #{totalEntries}
                 </span>
               </div>
@@ -167,7 +167,7 @@ export const DataTable = <T extends { id?: string; _id?: string }>({
                 <span className="text-gray-400 font-medium text-[10px] uppercase tracking-wider">
                   Total
                 </span>
-                <span className="font-bold text-black leading-none">
+                <span className="font-semibold text-black leading-none">
                   #{TableData.length}
                 </span>
               </div>

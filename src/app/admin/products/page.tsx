@@ -60,18 +60,18 @@ export default function ProductsPage() {
             {p.image ? (
               <Image src={p.image} alt={p.name} width={40} height={40} className="object-contain" />
             ) : (
-              <div className="text-gray-300 text-[10px] font-bold">NO IMG</div>
+              <div className="text-gray-300 text-[10px] font-medium">NO IMG</div>
             )}
           </div>
           <div>
-            <p className="font-black text-gray-900 leading-tight tracking-tight text-[clamp(0.875rem,1.2vw,1rem)]">{p.name}</p>
+            <p className="text-gray-900 leading-tight tracking-tight text-[clamp(0.875rem,1.2vw,1rem)]">{p.name}</p>
           </div>
         </div>
       ),
       statusBadge: (
         <span
           className={cn(
-            "inline-flex items-center gap-[clamp(0.25rem,0.5vw,0.4rem)] px-[clamp(0.5rem,1vw,0.75rem)] py-[clamp(0.2rem,0.5vw,0.3rem)] rounded-full text-[clamp(9px,0.8vw,10px)] font-black tracking-widest uppercase",
+            "inline-flex items-center gap-[clamp(0.25rem,0.5vw,0.4rem)] px-[clamp(0.5rem,1vw,0.75rem)] py-[clamp(0.2rem,0.5vw,0.3rem)] rounded-full text-[clamp(9px,0.8vw,10px)]  tracking-widest uppercase",
             p.comingSoon
               ? "bg-amber-50 text-amber-600 border border-amber-100"
               : "bg-emerald-50 text-emerald-600 border border-emerald-100"
@@ -94,9 +94,9 @@ export default function ProductsPage() {
           ))}
         </div>
       ),
-      displayPrice: <span className="font-black text-gray-900 text-[clamp(0.875rem,1.1vw,1rem)]">${p.price?.toFixed(2) || "0.00"}</span>,
+      displayPrice: <span className="font-medium text-gray-900 text-[clamp(0.875rem,1.1vw,1rem)]">${p.price?.toFixed(2) || "0.00"}</span>,
       displaySeries: (
-        <span className="capitalize font-bold text-gray-500 text-[clamp(10px,0.9vw,11px)] px-[clamp(0.5rem,1vw,0.75rem)] py-[clamp(0.2rem,0.5vw,0.3rem)] bg-gray-50 rounded-lg border border-gray-100">
+        <span className="capitalize font-medium text-gray-500 text-[clamp(10px,0.9vw,11px)] px-[clamp(0.5rem,1vw,0.75rem)] py-[clamp(0.2rem,0.5vw,0.3rem)] bg-gray-50 rounded-lg border border-gray-100">
           {p.series}
         </span>
       ),
@@ -165,7 +165,7 @@ export default function ProductsPage() {
       {/* Data Table Section */}
       <motion.div layout className="space-y-4">
         <div className="flex items-center justify-between px-2">
-          <h3 className="font-black text-gray-900 text-lg flex items-center gap-2">
+          <h3 className="font-semibold text-gray-900 text-lg flex items-center gap-2">
             <Filter size={18} />
             Product Registry
           </h3>
