@@ -1,8 +1,9 @@
-
 import ProductCard from '@/components/ProductCard';
 import PageHero from '@/components/PageHero';
 import { getProducts } from '@/actions/product';
 import { Product } from '@/types/product';
+
+export const revalidate = 10;
 
 export default async function LocalSeries() {
   const allProducts: Product[] = await getProducts();

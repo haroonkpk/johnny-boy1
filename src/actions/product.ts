@@ -70,6 +70,8 @@ export async function createProduct(formData: FormData) {
 
     revalidatePath("/admin/products");
     revalidatePath("/");
+    revalidatePath("/localseries");
+    revalidatePath("/regularseries");
     return { success: true, product: JSON.parse(JSON.stringify(newProduct)) };
   } catch (error: any) {
     console.error("Create Product Error:", error);
@@ -147,6 +149,8 @@ export async function updateProduct(id: string, formData: FormData) {
 
     revalidatePath("/admin/products");
     revalidatePath("/");
+    revalidatePath("/localseries");
+    revalidatePath("/regularseries");
     return { success: true, product: JSON.parse(JSON.stringify(updatedProduct)) };
   } catch (error: any) {
     console.error("Update Product Error:", error);
@@ -174,6 +178,8 @@ export async function deleteProduct(id: string) {
 
     revalidatePath("/admin/products");
     revalidatePath("/");
+    revalidatePath("/localseries");
+    revalidatePath("/regularseries");
     return { success: true };
   } catch (error: any) {
     console.error("Delete Product Error:", error);

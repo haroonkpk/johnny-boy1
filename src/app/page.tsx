@@ -6,6 +6,8 @@ import HappyCustomers from '@/components/sections/home/HappyCustomers';
 import Features from '@/components/sections/home/Features';
 import { getProducts } from '@/actions/product';
 
+export const revalidate = 10;
+
 export default async function Home() {
   const products = await getProducts();
 
