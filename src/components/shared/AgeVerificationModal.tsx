@@ -6,7 +6,22 @@ import Link from "next/link";
 import Button from "@/components/ui/Button";
 
 export function AgeVerificationModal() {
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
+
+  useEffect(() => {
+    const verificationData = localStorage.getItem("age-verified-data");
+    if (verificationData) {
+      const { verified, timestamp } = JSON.parse(verificationData);
+      const threeDaysInMs = 3 * 24 * 60 * 60 * 1000;
+      const isExpired = Date.now() - timestamp > threeDaysInMs;
+      
+      if (verified && !isExpired) {
+        setIsOpen(false);
+        return;
+      }
+    }
+    setIsOpen(true);
+  }, []);
 
   useEffect(() => {
     if (isOpen) {
@@ -20,6 +35,11 @@ export function AgeVerificationModal() {
   }, [isOpen]);
 
   const handleYes = () => {
+    const verificationData = {
+      verified: true,
+      timestamp: Date.now()
+    };
+    localStorage.setItem("age-verified-data", JSON.stringify(verificationData));
     setIsOpen(false);
   };
 
