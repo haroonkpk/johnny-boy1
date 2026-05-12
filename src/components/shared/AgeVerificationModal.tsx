@@ -6,14 +6,7 @@ import Link from "next/link";
 import Button from "@/components/ui/Button";
 
 export function AgeVerificationModal() {
-  const [isOpen, setIsOpen] = useState(false);
-
-  useEffect(() => {
-    const isVerified = localStorage.getItem("age-verified");
-    if (!isVerified) {
-      setIsOpen(true);
-    }
-  }, []);
+  const [isOpen, setIsOpen] = useState(true);
 
   useEffect(() => {
     if (isOpen) {
@@ -27,7 +20,6 @@ export function AgeVerificationModal() {
   }, [isOpen]);
 
   const handleYes = () => {
-    localStorage.setItem("age-verified", "true");
     setIsOpen(false);
   };
 
@@ -62,16 +54,17 @@ export function AgeVerificationModal() {
         <p className="font-semibold mb-4">Are you over 19 years of age?</p>
 
         <div className="flex gap-4 justify-center mb-6">
-          <button
+          <Button
+            variant="secondary"
             onClick={handleYes}
-            className="bg-black text-white px-6 py-2 rounded-xl hover:opacity-80"
+            className="px-6 py-2 rounded-md"
           >
             19+
-          </button>
+          </Button>
 
           <Button
             onClick={handleNo}
-            className="bg-gray-200 px-6 py-2 rounded-xl hover:bg-gray-300"
+            className="bg-gray-200 px-6 py-2 rounded-md hover:bg-gray-300 text-black border-none"
           >
             Under 19
           </Button>
