@@ -1,3 +1,5 @@
+export type SeriesKey = "local" | "regular";
+
 export interface Product {
   _id?: string;
   id?: string;
@@ -6,7 +8,7 @@ export interface Product {
   image: string;
   fruits: string;
   bg: string;
-  series: "local" | "regular";
+  series: SeriesKey;
   comingSoon: boolean;
   description?: string;
 }

@@ -55,17 +55,18 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
   const closeDrawer = () => setIsDrawerOpen(false);
 
   const addToCart = (product: any) => {
+    const productId = product._id || product.id;
     setCart((prev) => {
-      const existing = prev.find((item) => item.id === product.id);
+      const existing = prev.find((item) => item.id === productId);
       if (existing) {
         return prev.map((item) =>
-          item.id === product.id ? { ...item, quantity: item.quantity + 1 } : item
+          item.id === productId ? { ...item, quantity: item.quantity + 1 } : item
         );
       }
       return [
         ...prev,
         { 
-          id: product.id, 
+          id: productId, 
           name: product.name, 
           price: product.price || 15.0, 
           image: product.image, 
@@ -73,8 +74,9 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
         },
       ];
     });
-    setIsDrawerOpen(true); // Product add hote hi sidebar khulega
+    setIsDrawerOpen(true); 
   };
+
 
   const removeFromCart = (id: string | number) => {
     setCart((prev) => prev.filter((item) => item.id !== id));
@@ -107,7 +109,7 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
         addToCart, 
         removeFromCart, 
         updateQuantity, 
-        clearCart, // Exported to use in CartDrawer
+        clearCart, 
         totalItems, 
         isDrawerOpen, 
         openDrawer, 

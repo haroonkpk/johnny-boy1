@@ -3,7 +3,7 @@
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { Product } from "@/data/products";
+import { Product } from "@/types/product";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -22,7 +22,7 @@ const ProductHighlightCard = ({ product, index }: ProductHighlightCardProps) => 
     if (!card) return;
 
     ScrollTrigger.getAll()
-      .filter((t) => t.vars.id?.startsWith(`card-${product.id}`))
+      .filter((t) => t.vars.id?.startsWith(`card-${product._id || product.id}`))
       .forEach((t) => t.kill());
 
     const entryDelay = index * 0.08;
@@ -63,7 +63,7 @@ const ProductHighlightCard = ({ product, index }: ProductHighlightCardProps) => 
           scale: 1.8,
           ease: "none",
           scrollTrigger: {
-            id: `card-${product.id}-fruit`,
+            id: `card-${product._id || product.id}-fruit`,
             trigger: card,
             start: "top bottom",
             end: "bottom top",
@@ -80,7 +80,7 @@ const ProductHighlightCard = ({ product, index }: ProductHighlightCardProps) => 
           yPercent: -80,
           ease: "none",
           scrollTrigger: {
-            id: `card-${product.id}-vape`,
+            id: `card-${product._id || product.id}-vape`,
             trigger: card,
             start: "top bottom",
             end: "bottom top",
@@ -91,7 +91,7 @@ const ProductHighlightCard = ({ product, index }: ProductHighlightCardProps) => 
     }, card);
 
     return () => ctx.revert();
-  }, [product.id, index]);
+  }, [product._id, product.id, index]);
 
   return (
     <div

@@ -4,12 +4,16 @@ import Movement from '@/components/sections/home/Movement';
 import TechSpecs from '@/components/sections/home/TechSpecs';
 import HappyCustomers from '@/components/sections/home/HappyCustomers';
 import Features from '@/components/sections/home/Features';
-export default function Home() {
+import { getProducts } from '@/actions/product';
+
+export default async function Home() {
+  const products = await getProducts();
+
   return (
     <main>
       <Hero />
       <TechSpecs/>
-      <Features />
+      <Features initialProducts={products} />
       <Movement/>
       <HappyCustomers/>
       <ProductShowcase/>

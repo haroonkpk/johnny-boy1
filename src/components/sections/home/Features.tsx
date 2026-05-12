@@ -4,20 +4,25 @@ import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import Button from "../../ui/Button";
 import { SectionHeading } from "../../ui/SectionHeading";
-import { seriesData, SeriesKey } from "@/data/products";
+import { SeriesKey, Product } from "@/types/product";
 import ProductHighlightCard from "@/components/shared/ProductHighlightCard";
 import CarouselArrow from "@/components/shared/CarouselArrow";
 import DotIndicators from "@/components/shared/DotIndicators";
 
-const Features = () => {
+interface FeaturesProps {
+  initialProducts: Product[];
+}
+
+const Features = ({ initialProducts }: FeaturesProps) => {
   const [activeSeries, setActiveSeries] = useState<SeriesKey>("regular");
   const [activeCard, setActiveCard] = useState(0);
   const sectionRef = useRef<HTMLElement>(null);
   const marqueeRef = useRef<HTMLDivElement>(null);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
 
-  const items = seriesData[activeSeries];
+  const items = initialProducts.filter(p => p.series === activeSeries && !p.comingSoon);
   const CARD_WIDTH = 260 + 40;
+
 
   // Reset active card when series changes
   useEffect(() => {
@@ -62,7 +67,7 @@ const Features = () => {
     }
   };
 
-  // Track scroll position → update active dot
+  // Track scroll position 
   useEffect(() => {
     const container = scrollContainerRef.current;
     if (!container) return;
@@ -124,7 +129,7 @@ const Features = () => {
           >
             {items.map((item, i) => (
               <div
-                key={`${activeSeries}-${item.id}-${i}`}
+                key={`${activeSeries}-${item._id || item.id}-${i}`}
                 className="snap-center shrink-0"
               >
                 <ProductHighlightCard product={item} index={i} />

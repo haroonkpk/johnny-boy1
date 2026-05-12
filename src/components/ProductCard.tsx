@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Card } from "@/components/ui/card";
-import { Product } from "@/data/products";
+import { Product } from "@/types/product";
 import { ChevronDown, ChevronUp } from "lucide-react";
 
 gsap.registerPlugin(ScrollTrigger);

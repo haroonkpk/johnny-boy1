@@ -1,12 +1,12 @@
 
-"use client";
-
 import ProductCard from '@/components/ProductCard';
 import PageHero from '@/components/PageHero';
-import { seriesData } from '@/data/products';
+import { getProducts } from '@/actions/product';
+import { Product } from '@/types/product';
 
-export default function RegularSeries() {
-  const products = seriesData.regular;
+export default async function RegularSeries() {
+  const allProducts: Product[] = await getProducts();
+  const products = allProducts.filter(p => p.series === 'regular');
 
   return (
     <div className="min-h-screen bg-[var(--color-cream)]">
@@ -16,12 +16,11 @@ export default function RegularSeries() {
         badge="Products"
       />
       <div className="min-h-screen flex justify-center items-center">
-  <h1 className="text-black text-5xl md:text-7xl font-extrabold text-center">
-    20 Flavours
-  </h1>
-</div>
+        <h1 className="text-black text-5xl md:text-7xl font-extrabold text-center">
+          {products.length} Flavours
+        </h1>
+      </div>
       <div className="max-w-[1500px] mx-auto px-4 sm:px-6 lg:px-8 py-20">
-
 
         {/* Products Grid */}
         {products.length === 0 ? (
@@ -45,11 +44,11 @@ export default function RegularSeries() {
 
               return (
                 <div 
-                  key={product.id} 
+                  key={product._id || product.id} 
                   className={`transform hover:scale-110 transition-all duration-700 ease-out ${smStaggerClass} ${staggerClass}`}
                 >
                  <ProductCard 
-                    product={product} 
+                    product={product as any} 
                     type="regular" 
                   />
                 </div>
