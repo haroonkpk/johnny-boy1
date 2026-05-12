@@ -3,7 +3,8 @@
 import React, { useEffect } from "react";
 import { X } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { Card } from "./card";
+import { Card } from "@/components/ui/card";
+import Button from "@/components/ui/Button";
 
 interface ModalProps {
   isOpen: boolean;
@@ -56,12 +57,12 @@ export function Modal({
         {showHeader && (
           <div className="flex items-center justify-between border-b border-slate-100 py-[clamp(1rem,2vw,1.5rem)]">
             <h3 className="text-[clamp(1.1rem,1.5vw,1.25rem)] font-bold text-slate-900">{title}</h3>
-            <button
+            <Button
               onClick={onClose}
               className="rounded-full p-1.5 text-slate-400 hover:bg-slate-100 hover:text-slate-600 transition-colors"
             >
               <X className="w-[clamp(18px,2vw,22px)] h-[clamp(18px,2vw,22px)]" />
-            </button>
+            </Button>
           </div>
         )}
 

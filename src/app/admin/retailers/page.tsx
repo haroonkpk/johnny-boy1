@@ -8,6 +8,7 @@ import { Card } from "@/components/ui/card";
 import { Modal } from "@/components/ui/modal";
 import { cn } from "@/lib/utils";
 import { SectionHeading } from "@/components/ui/SectionHeading";
+import Button from "@/components/ui/Button";
 
 interface RetailerRow {
   id: string;
@@ -189,9 +190,9 @@ export default function RetailersPage() {
                     Retailer Profile
                   </span>
                 </div>
-                <button onClick={() => setIsModalOpen(false)} className="hover:opacity-80 transition-opacity">
+                <Button onClick={() => setIsModalOpen(false)} className="hover:opacity-80 transition-opacity">
                   <X style={{ width: "clamp(18px, 2vw, 22px)", height: "clamp(18px, 2vw, 22px)" }} />
-                </button>
+                </Button>
               </div>
 
               {/* Body */}

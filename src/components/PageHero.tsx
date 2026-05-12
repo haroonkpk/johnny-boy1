@@ -1,5 +1,5 @@
 import React from 'react';
-import { SectionHeading } from './ui/SectionHeading';
+import { SectionHeading } from '@/components/ui/SectionHeading';
 
 interface PageHeroProps {
   title: string | React.ReactNode;

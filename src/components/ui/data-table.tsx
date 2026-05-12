@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Card } from "./card";
+import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 
 export interface TableHeader {

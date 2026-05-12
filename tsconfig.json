@@ -29,6 +29,6 @@
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts",
     "**/*.mts"
-, "src/components/CustomCursor.js"  ],
+, "src/components/CustomCursor.js", "src/components/context/AuthContext.js"  ],
   "exclude": ["node_modules"]
 }
