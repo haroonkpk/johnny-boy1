@@ -1,5 +1,5 @@
 import Hero from '@/components/sections/home/Hero';
-import ProductShowcase from '@/components/sections/home/ProductShowcase';
+import HomeCTA from '@/components/sections/home/HomeCTA';
 import Movement from '@/components/sections/home/Movement';
 import TechSpecs from '@/components/sections/home/TechSpecs';
 import HappyCustomers from '@/components/sections/home/HappyCustomers';
@@ -18,7 +18,7 @@ export default async function Home() {
       <Features initialProducts={products} />
       <Movement/>
       <HappyCustomers/>
-      <ProductShowcase/>
+      <HomeCTA/>
     </main>
   );
 }
