@@ -226,7 +226,7 @@ export default function ProductCard({ product, type }: ProductCardProps) {
                   Coming Soon
                 </span>
               ) : (
-                `${product.name} delivers a smooth, refreshing experience crafted for perfection.`
+                product.description || `${product.name} delivers a smooth, refreshing experience crafted for perfection.`
               )}
             </p>
           </div>

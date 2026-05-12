@@ -5,30 +5,32 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useSession, signOut } from "next-auth/react";
 import {
-  ShoppingCart,
-  Settings,
   Home,
   Package,
   Menu,
   X,
-  UserPlus,
   LogIn,
   LogOut,
-  User,
   LayoutDashboard,
+  AlertCircle,
 } from "lucide-react";
 
 import Button from "../ui/Button";
 import { useRouter } from "next/navigation";
+import { AnimatePresence, motion } from "framer-motion";
+
+import { LogoutConfirmModal } from "../shared/LogoutConfirmModal";
 
 export default function Navbar() {
   const router = useRouter();
   const pathname = usePathname();
   const { data: session, status } = useSession();
   const [isOpen, setIsOpen] = useState(false);
+  const [showLogoutModal, setShowLogoutModal] = useState(false);
 
   const isLoggedIn = status === "authenticated" && !!session;
   const userRole = (session?.user as any)?.role;
+  const isPending = (session?.user as any)?.status === "pending";
 
   useEffect(() => {
     if (isOpen) {
@@ -47,7 +49,6 @@ export default function Navbar() {
     { name: "Local series", href: "/localseries", icon: Package },
     { name: "Regular Series", href: "/regularseries", icon: Package },
     { name: "Review", href: "/review", icon: Package },
-    { name: "Orders", href: "/order", icon: ShoppingCart },
     { name: "Contact", href: "/contact", icon: Package },
   ];
 
@@ -61,8 +62,33 @@ export default function Navbar() {
     }
   };
 
+  const handleLogout = () => {
+    signOut({ callbackUrl: "/" });
+  };
+
   return (
-    <nav className="sticky top-0 z-[100] w-full glass">
+    <>
+    <nav className="sticky top-0 z-[100] w-full flex flex-col">
+      {/* Pending Approval Banner */}
+      <AnimatePresence>
+        {isLoggedIn && userRole === "retailer" && isPending && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            className="bg-yellow-500 text-black overflow-hidden"
+          >
+            <div className="max-w-[1600px] mx-auto px-4 py-2 flex items-center justify-center gap-2 text-center">
+              <AlertCircle size={14} className="flex-shrink-0" />
+              <p className="text-[10px] sm:text-xs font-bold uppercase tracking-wider">
+                Your account is pending approval. Please wait for admin to approve your account.
+              </p>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      <div className="w-full glass">
       <div className="max-w-[1600px] mx-auto px-[clamp(1rem,4vw,4rem)]">
         <div className="flex items-center justify-between h-[clamp(4rem,8vh,5.5rem)]">
           {/* Logo */}
@@ -116,7 +142,7 @@ export default function Navbar() {
                 <Button
                   variant={"primary-outline"}
                   className="border-none rounded-lg"
-                  onClick={() => signOut({ callbackUrl: "/" })}
+                  onClick={() => setShowLogoutModal(true)}
                 >
                   <LogOut size={18} />
                 </Button>
@@ -206,7 +232,7 @@ export default function Navbar() {
                   className="w-full justify-center py-4 text-lg"
                   onClick={() => {
                     setIsOpen(false);
-                    signOut({ callbackUrl: "/" });
+                    setShowLogoutModal(true);
                   }}
                 >
                   <LogOut size={20} className="mr-2" />
@@ -229,6 +255,14 @@ export default function Navbar() {
           </div>
         </div>
       </div>
+      </div>
     </nav>
+
+    <LogoutConfirmModal 
+      isOpen={showLogoutModal}
+      onClose={() => setShowLogoutModal(false)}
+      onConfirm={handleLogout}
+    />
+    </>
   );
 }

@@ -1,7 +1,12 @@
 export interface Product {
-  id: string;
-  title: string;
+  _id?: string;
+  id?: string;
+  name: string;
   price: number;
-  imageUrl: string;
-  fruitImage?: string;
+  image: string;
+  fruits: string;
+  bg: string;
+  series: "local" | "regular";
+  comingSoon: boolean;
+  description?: string;
 }

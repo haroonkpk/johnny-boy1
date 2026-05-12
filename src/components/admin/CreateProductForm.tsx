@@ -3,6 +3,7 @@
 import { useState, useRef } from "react";
 import { Input } from "@/components/ui/input";
 import { Select } from "@/components/ui/select";
+import { Textarea } from "@/components/ui/textarea";
 import { createProduct } from "@/actions/product";
 import { X, Loader2, Plus } from "lucide-react";
 import Button from "../ui/Button";
@@ -207,6 +208,17 @@ export function CreateProductForm({ onSuccess }: CreateProductFormProps) {
                   </p>
                 </div>
               </label>
+            </div>
+            
+            <div className="space-y-1.5">
+              <label className="text-[11px] font-bold text-gray-400 uppercase tracking-widest ml-1">
+                Description
+              </label>
+              <Textarea 
+                name="description" 
+                placeholder="Describe your product (e.g. flavor notes, technical specs, etc.)" 
+                rows={4}
+              />
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">

@@ -24,6 +24,8 @@ export async function createProduct(formData: FormData) {
     const name = formData.get("name") as string;
     const price = Number(formData.get("price"));
     const series = formData.get("series") as string;
+    const description = (formData.get("description") as string) || "";
+    console.log("Creating product with description:", description);
     const comingSoon = formData.get("comingSoon") === "true";
     const imageFile = formData.get("image") as File;
     const fruitsFile = formData.get("fruits") as File;
@@ -44,6 +46,7 @@ export async function createProduct(formData: FormData) {
       price,
       series,
       comingSoon,
+      description,
       image: imageUrl,
       fruits: fruitsUrl,
       bg: bgUrl,
@@ -70,8 +73,10 @@ export async function updateProduct(id: string, formData: FormData) {
       name: formData.get("name"),
       price: Number(formData.get("price")),
       series: formData.get("series"),
+      description: (formData.get("description") as string) || "",
       comingSoon: formData.get("comingSoon") === "true",
     };
+    console.log("Updating product", id, "with description:", updateData.description);
 
     const imageFile = formData.get("image") as File;
     const fruitsFile = formData.get("fruits") as File;
@@ -99,7 +104,19 @@ export async function updateProduct(id: string, formData: FormData) {
       updateData.bg = await uploadToCloudinary(bgFile, "backgrounds");
     }
 
-    const updatedProduct = await Product.findByIdAndUpdate(id, updateData, { new: true });
+    // Apply updates manually to ensure schema fields are respected
+    existingProduct.name = updateData.name;
+    existingProduct.price = updateData.price;
+    existingProduct.series = updateData.series;
+    existingProduct.description = updateData.description;
+    existingProduct.comingSoon = updateData.comingSoon;
+    
+    if (updateData.image) existingProduct.image = updateData.image;
+    if (updateData.fruits) existingProduct.fruits = updateData.fruits;
+    if (updateData.bg) existingProduct.bg = updateData.bg;
+
+    const updatedProduct = await existingProduct.save();
+    console.log("Successfully saved product. New description:", updatedProduct.description);
 
     revalidatePath("/admin/products");
     revalidatePath("/");

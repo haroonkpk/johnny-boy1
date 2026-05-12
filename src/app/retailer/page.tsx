@@ -15,38 +15,43 @@ import { seriesData, SeriesKey } from "@/data/products";
 import Button from "@/components/ui/Button";
 import { Card } from "@/components/ui/card";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { useAuth } from "@/components/context/AuthContext";
+import { useSession } from "next-auth/react";
 import { TabNavigation } from "@/components/shared/TabNavigation";
     
 export default function RetailerPage() {
   const { addToCart } = useCart();
   const [activeTab, setActiveTab] = useState<SeriesKey | "all">("all");
-  const { user } = useAuth();
-  const userStatus = user?.status;
+  const { data: session } = useSession();
+  const userStatus = (session?.user as any)?.status;
 
   // 1. Products Filter Logic 
   const displayProducts = useMemo(() => {
-    if (userStatus === "pending") return [];
-
     let list =
       activeTab === "all"
         ? [...seriesData.local, ...seriesData.regular]
         : [...seriesData[activeTab]];
 
     return list.filter((product) => !product.comingSoon);
-  }, [activeTab, userStatus]);
+  }, [activeTab]);
 
-  if (userStatus === "pending") {
+  const isPending = userStatus === "pending";
+
+  if (isPending) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-[var(--color-cream)] px-4">
-        <div className="max-w-xl w-full bg-white rounded-[2rem] p-8 shadow-xl text-center">
-          <div className="w-20 h-20 mx-auto rounded-full bg-yellow-100 flex items-center justify-center mb-5">
-            <Zap className="text-yellow-600" size={38} />
-          </div>
-          <h1 className="text-3xl font-black uppercase">Account Pending</h1>
-          <p className="text-gray-500 mt-4">
-            Your account is under review. Please wait 24 hours for approval.
+      <div className="min-h-[60vh] flex flex-col items-center justify-center p-6 text-center">
+        <div className="max-w-md w-full">
+          <h2 className="text-xl font-bold text-gray-900 mb-2">
+            Account Pending Approval
+          </h2>
+          <p className="text-gray-600 mb-4">
+            Your account is currently under review by our administration team. This process typically takes up to 24 hours. If you have been waiting longer than expected or need urgent assistance, please reach out to us.
           </p>
+          <button 
+            onClick={() => window.location.href = "/contact"}
+            className="text-blue-600 font-semibold hover:underline transition-colors"
+          >
+            Contact Us
+          </button>
         </div>
       </div>
     );

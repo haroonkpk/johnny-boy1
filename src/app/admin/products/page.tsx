@@ -18,6 +18,7 @@ const PAGE_SIZE = 10;
 const tableHeaders: TableHeader[] = [
   { key: "productInfo", label: "Product Identity" },
   { key: "displaySeries", label: "Collection" },
+  { key: "displayDescription", label: "Description" },
   { key: "displayPrice", label: "Price" },
   { key: "statusBadge", label: "Status" },
   { key: "imagesPreview", label: "Assets" },
@@ -89,6 +90,11 @@ export default function ProductsPage() {
       displaySeries: (
         <span className="capitalize font-bold text-gray-500 text-[clamp(10px,0.9vw,11px)] px-[clamp(0.5rem,1vw,0.75rem)] py-[clamp(0.2rem,0.5vw,0.3rem)] bg-gray-50 rounded-lg border border-gray-100">
           {p.series}
+        </span>
+      ),
+      displayDescription: (
+        <span className="text-[clamp(10px,0.9vw,11px)] text-gray-400 max-w-[150px] truncate block">
+          {p.description || "No description"}
         </span>
       ),
     }));
@@ -183,6 +189,7 @@ export default function ProductsPage() {
       >
         <div className="max-h-[90vh] overflow-y-auto scrollbar-hide">
           <UpdateProductForm
+            key={editingProduct?._id || editingProduct?.id}
             product={editingProduct}
             onSuccess={() => {
               setEditingProduct(null);

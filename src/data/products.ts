@@ -10,6 +10,8 @@ export interface Product {
   bg: string;
   price?: number;
   comingSoon?: boolean;
+  description?: string;
+  textBg?: string;
 }
 
 // 1. Initial Local Series Data

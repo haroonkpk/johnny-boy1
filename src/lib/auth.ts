@@ -38,9 +38,6 @@ export const authOptions: NextAuthOptions = {
 
         // Check account status for retailers
         if (user.role === "retailer") {
-          if (user.status === "pending") {
-            throw new Error("Your account is pending approval. Please wait for admin to approve your account.");
-          }
           if (user.status === "rejected") {
             throw new Error("Your account has been rejected. Please contact support.");
           }

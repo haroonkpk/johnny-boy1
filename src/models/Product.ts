@@ -33,12 +33,17 @@ const ProductSchema = new Schema(
       type: Boolean,
       default: false,
     },
+    description: {
+      type: String,
+      trim: true,
+    },
   },
   {
     timestamps: true,
   }
 );
 
+// Triggering model rebuild for new fields
 const Product = models.Product || model("Product", ProductSchema);
 
 export default Product;

@@ -24,7 +24,7 @@ export default function CartDrawer() {
   // Total price calculation
   const totalPrice = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
-  // --- Professional Checkout Function ---
+  // ---  Checkout Function --- 
   const handleCheckout = async () => {
     if (cart.length === 0) return;
 
@@ -35,8 +35,8 @@ export default function CartDrawer() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          name: "Test Customer (Haroon)", // Baad mein isse dynamic input se replace karein
-          email: "mrina9035@gmail.com",   // Aapki email jahan order receive hoga
+          name: "Test Customer (Haroon)", 
+          email: "mrina9035@gmail.com",   
           cartItems: cart,
           totalPrice: totalPrice.toFixed(2),
         }),
