@@ -53,14 +53,14 @@ export default function RetailersPage() {
     fetchRetailers();
   }, []);
 
-  const handleApprove = async (row: any) => {
+  const handleApprove = async (row: RetailerRow) => {
     const result = await updateRetailerStatus(row.id, "approved");
     if (result.success) {
       fetchRetailers();
     }
   };
 
-  const handleReject = async (row: any) => {
+  const handleReject = async (row: RetailerRow) => {
     const result = await updateRetailerStatus(row.id, "rejected");
     if (result.success) {
       fetchRetailers();

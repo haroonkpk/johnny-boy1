@@ -16,7 +16,7 @@ interface TableButton<T> {
   onClick: (row: T) => void;
 }
 
-interface DataTableProps<T extends { id: string }> {
+interface DataTableProps<T extends { id?: string; _id?: string }> {
   heading: string;
   variant?: "white" | "primary" | "pending" | "secondary";
   TableHeaders: TableHeader[];
@@ -32,7 +32,7 @@ interface DataTableProps<T extends { id: string }> {
   totalEntries?: number;
 }
 
-export const DataTable = <T extends { id: string }>({
+export const DataTable = <T extends { id?: string; _id?: string }>({
   heading,
   variant = "white",
   TableHeaders,
@@ -89,7 +89,7 @@ export const DataTable = <T extends { id: string }>({
             {TableData.length > 0 ? (
               TableData.map((row, index) => (
                 <tr
-                  key={row.id}
+                  key={row.id || (row as any)._id}
                   className={`border ${BorderColor} hover:bg-gray-100 even:bg-gray-50`}
                 >
                   {/* Universal Serial Number Cell */}
@@ -100,7 +100,7 @@ export const DataTable = <T extends { id: string }>({
                   </td>
                   {TableHeaders.map((header) => (
                     <td
-                      key={`${row.id}-${header.key}`}
+                      key={`${row.id || (row as any)._id}-${header.key}`}
                       className={`border ${BorderColor} px-[clamp(12px,1.5vw,16px)] py-[clamp(10px,1vw,12px)] text-[clamp(13px,1.2vw,14px)]`}
                     >
                       {row[header.key as keyof T] as React.ReactNode}

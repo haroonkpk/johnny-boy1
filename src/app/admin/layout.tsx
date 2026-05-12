@@ -1,6 +1,7 @@
 import { ReactNode } from "react";
 import {
   Users,
+  Box,
 } from "lucide-react";
 import { Sidebar } from "@/components/layout/sidebar";
 import { PanelHeader } from "@/components/layout/PanelHeader";
@@ -14,6 +15,11 @@ const adminNavItems = [
     label: "Retailers",
     href: "/admin/retailers",
     icon: <Users size={18} />,
+  },
+  {
+    label: "Products",
+    href: "/admin/products",
+    icon: <Box size={18} />,
   },
 ];
 
