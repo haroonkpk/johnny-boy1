@@ -7,7 +7,9 @@ export const revalidate = 10;
 
 export default async function LocalSeries() {
   const allProducts: Product[] = await getProducts();
-  const products = allProducts.filter(p => p.series === 'local');
+  const products = allProducts
+    .filter(p => p.series === 'local')
+    .sort((a, b) => Number(a.comingSoon) - Number(b.comingSoon));
 
   return (
     <div className="min-h-screen bg-[var(--color-cream)]">
