@@ -72,6 +72,8 @@ export default function LoginForm({
           router.push("/admin");
         } else if (role === "retailer") {
           router.push("/retailer");
+        } else if (role === "worker") {
+          router.push("/worker/messages");
         } else {
           router.push("/");
         }

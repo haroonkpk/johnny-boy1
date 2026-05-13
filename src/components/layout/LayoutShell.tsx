@@ -5,7 +5,7 @@ import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import { AgeVerificationModal } from "@/components/shared/AgeVerificationModal";
 
-const PANEL_PREFIXES = ["/admin", "/retailer"];
+const PANEL_PREFIXES = ["/admin", "/retailer", "/worker"];
 
 export function LayoutShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();

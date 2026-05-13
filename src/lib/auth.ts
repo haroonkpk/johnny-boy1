@@ -49,7 +49,7 @@ export const authOptions: NextAuthOptions = {
           role: user.role,
           status: user.status,
           name:
-            user.role === "admin"
+            user.role === "admin" || user.role === "worker"
               ? user.username
               : `${user.firstName} ${user.lastName}`,
         };

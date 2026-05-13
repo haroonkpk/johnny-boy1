@@ -2,7 +2,7 @@
 
 "use client";
 
-import React, { useRef, ReactNode, useEffect } from "react";
+import React, { useRef, ReactNode, useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { useActionState } from "react"; 
 import { handleContactForm } from "@/actions/contact"; 
@@ -53,10 +53,34 @@ const InfoCard = ({ icon, title, val, delay = 0, accentColor }: InfoCardProps) =
 
 /* ---------------- CONTACT PAGE ---------------- */
 const Contact = () => {
-    // Form ko reset karne ke liye ref
     const formRef = useRef<HTMLFormElement>(null);
+    const [emailValue, setEmailValue] = useState("");
+    const [emailError, setEmailError] = useState("");
 
-    // useActionState hooks: state (backend response), formAction (form handler), isPending (loading status)
+    const validateEmail = (val: string) => {
+        const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return regex.test(val);
+    };
+
+    const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const val = e.target.value;
+        setEmailValue(val);
+        if (val && !validateEmail(val)) {
+            setEmailError("Please enter a valid email address.");
+        } else {
+            setEmailError("");
+        }
+    };
+
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+        if (!validateEmail(emailValue)) {
+            e.preventDefault();
+            setEmailError("Please enter a valid email address.");
+            toast.error("Please enter a valid email address.");
+            return;
+        }
+    };
+
     const [state, formAction, isPending] = useActionState(handleContactForm, null);
 
 //   success full message
@@ -66,6 +90,8 @@ useEffect(() => {
     if (state.success) {
         toast.success(state.message || "Message sent successfully!");
         formRef.current?.reset();
+        setEmailValue("");
+        setEmailError("");
     } else {
         toast.error(state.message || "Something went wrong!");
     }
@@ -94,7 +120,7 @@ useEffect(() => {
                         <Card variant="light" className="p-8 md:p-12 border-none shadow-xl rounded-[2.5rem] bg-white/90 backdrop-blur-sm">
                             <h3 className="text-3xl font-bold text-black mb-8">Send Message</h3>
                             
-                            <form ref={formRef} action={formAction} className="space-y-6">
+                            <form ref={formRef} action={formAction} onSubmit={handleSubmit} className="space-y-6">
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                     <Input
                                         name="name"
@@ -104,14 +130,23 @@ useEffect(() => {
                                         required
                                         disabled={isPending}
                                     />
-                                    <Input
-                                        name="email"
-                                        label="Email"
-                                        type="email"
-                                        placeholder="email@example.com"
-                                        required
-                                        disabled={isPending}
-                                    />
+                                    <div className="flex flex-col gap-1">
+                                        <Input
+                                            name="email"
+                                            label="Email"
+                                            type="email"
+                                            placeholder="email@example.com"
+                                            required
+                                            disabled={isPending}
+                                            value={emailValue}
+                                            onChange={handleEmailChange}
+                                        />
+                                        {emailError && (
+                                            <p className="text-red-500 text-sm mt-1 flex items-center gap-1">
+                                                <span>⚠</span> {emailError}
+                                            </p>
+                                        )}
+                                    </div>
                                 </div>
 
                                 <Textarea

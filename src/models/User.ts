@@ -16,7 +16,7 @@ const UserSchema = new Schema(
     },
     role: {
       type: String,
-      enum: ["admin", "retailer"],
+      enum: ["admin", "retailer", "worker"],
       required: true,
       default: "retailer",
     },
@@ -74,7 +74,7 @@ const UserSchema = new Schema(
     username: {
       type: String,
       required: function (this: any) {
-        return this.role === "admin";
+        return this.role === "admin" || this.role === "worker";
       },
     },
   },

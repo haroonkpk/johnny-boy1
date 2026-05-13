@@ -49,13 +49,13 @@ export function Modal({
 
       <Card
         className={cn(
-          "relative w-full transform overflow-hidden transition-all bg-white",
+          "relative w-full max-h-full transform overflow-hidden transition-all bg-white flex flex-col",
           className,
         )}
       >
         {/* Header */}
         {showHeader && (
-          <div className="flex items-center justify-between border-b border-slate-100 py-[clamp(1rem,2vw,1.5rem)]">
+          <div className="flex items-center justify-between border-b border-slate-100 px-[clamp(1rem,3vw,2rem)] py-[clamp(1rem,2vw,1.5rem)] flex-shrink-0">
             <h3 className="text-[clamp(1.1rem,1.5vw,1.25rem)] font-bold text-slate-900">{title}</h3>
             <Button
               onClick={onClose}
@@ -67,7 +67,7 @@ export function Modal({
         )}
 
         {/* Body */}
-        <div className="overflow-y-auto">{children}</div>
+        <div className="overflow-y-auto custom-scrollbar flex-1">{children}</div>
       </Card>
     </div>
   );

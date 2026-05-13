@@ -1,13 +1,13 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Check, X, Clock, ShieldCheck, ShieldX, Eye, Trash2 } from "lucide-react";
+import { Check, X, Clock, ShieldCheck, ShieldX, Eye } from "lucide-react";
 import { DataTable, TableHeader } from "@/components/ui/data-table";
-import { getRetailers, updateRetailerStatus, deleteRetailer } from "@/actions/admin";
+import { getRetailers, updateRetailerStatus } from "@/actions/admin";
 import { Card } from "@/components/ui/card";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { RetailerDetailsModal } from "@/components/shared/RetailerDetailsModal";
-
+import Button from "@/components/ui/Button";
 
 interface RetailerRow {
   id: string;
@@ -35,7 +35,7 @@ const tableHeaders: TableHeader[] = [
   { key: "createdAt", label: "Applied" },
 ];
 
-export default function RetailersPage() {
+export default function WorkerRetailersPage() {
   const [retailers, setRetailers] = useState<RetailerRow[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [isLoading, setIsLoading] = useState(true);
@@ -66,27 +66,12 @@ export default function RetailersPage() {
       fetchRetailers();
     }
   };
-const handleDelete = async (row: RetailerRow) => {
-  const confirmDelete = confirm(
-    `Are you sure you want to delete ${row.businessName}?`
-  );
 
-  if (!confirmDelete) return;
-
-  const result = await deleteRetailer(row.id);
-
-  if (result.success) {
-    fetchRetailers(); 
-  } else {
-    alert(result.error || "Delete failed");
-  }
-};
   const handleView = (row: RetailerRow) => {
     setSelectedRetailer(row);
     setIsModalOpen(true);
   };
 
-  // Add status badge to each row for display
   const displayData = retailers
     .slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE)
     .map((r) => ({
@@ -131,16 +116,10 @@ const handleDelete = async (row: RetailerRow) => {
     },
     {
       icon: <Eye size={16} />,
-      text: "View Details",
+      text: "View",
       className: "bg-blue-100 text-blue-700 hover:bg-blue-200",
       onClick: handleView,
     },
-  {
-  icon: <Trash2 size={16} />,
-  text: "Delete",
-  className: "bg-black text-white hover:bg-gray-800",
-  onClick: handleDelete,
-},
   ];
 
   if (isLoading) {
@@ -156,17 +135,15 @@ const handleDelete = async (row: RetailerRow) => {
 
   return (
     <div className="p-1 md:p-10 space-y-6">
-      {/* Page Header */}
       <SectionHeading 
-        title="Retailers"
-        subtitle="Manage retailer applications and account status."
-        badge="ADMIN PANEL"
+        title="Retailer Requests"
+        subtitle="Review and manage reseller applications."
+        badge="WORKER PANEL"
         className="mb-0 p-4"
       />
-      {/* Data Table */}
       <Card variant="light" className="p-0 rounded-xl">
         <DataTable<RetailerRow & { statusBadge: React.ReactNode }>
-          heading="All Retailer Applications"
+          heading="All Requests"
           HeaderBgColor="bg-black"
           HeaderTextColor="text-white"
           TableHeaders={tableHeaders}
@@ -180,13 +157,33 @@ const handleDelete = async (row: RetailerRow) => {
         />
       </Card>
 
-      {/* Retailer Detail Modal */}
       <RetailerDetailsModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         retailer={selectedRetailer}
+        actions={
+          <div className="flex gap-3 pt-2">
+            <Button
+              onClick={() => {
+                handleApprove(selectedRetailer!);
+                setIsModalOpen(false);
+              }}
+              className="flex-1 bg-emerald-600 text-white hover:bg-emerald-700 h-12"
+            >
+              Accept Request
+            </Button>
+            <Button
+              onClick={() => {
+                handleReject(selectedRetailer!);
+                setIsModalOpen(false);
+              }}
+              className="flex-1 bg-red-600 text-white hover:bg-red-700 h-12"
+            >
+              Reject Request
+            </Button>
+          </div>
+        }
       />
-
     </div>
   );
 }

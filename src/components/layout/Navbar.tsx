@@ -59,6 +59,8 @@ export default function Navbar() {
       router.push("/admin");
     } else if (userRole === "retailer") {
       router.push("/retailer");
+    } else if (userRole === "worker") {
+      router.push("/worker/messages");
     }
   };
 
