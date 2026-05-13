@@ -74,7 +74,7 @@ export default function AdminOrdersPage() {
       text: "Delete",
       className: "bg-red-50 text-red-600 hover:bg-red-100 border border-red-100/50",
       onClick: async (row: any) => {
-    //    confirmation message
+    
         if (confirm("Are you sure you want to delete this order?")) {
           await deleteOrder(row._id);
           fetchAll();
