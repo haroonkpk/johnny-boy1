@@ -7,6 +7,7 @@ import { X, Trash2, Plus, Minus, ShoppingBag, Loader2 } from "lucide-react";
 import Image from "next/image";
 import { useCart } from "@/components/context/CartContext";
 import Button from "@/components/ui/Button";
+import { useSession } from "next-auth/react";
 
 export default function CartDrawer() {
   const { 
@@ -18,6 +19,7 @@ export default function CartDrawer() {
     totalItems,
     clearCart 
   } = useCart();
+  const { data: session } = useSession();
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -35,8 +37,9 @@ export default function CartDrawer() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          name: "Test Customer (Haroon)", 
-          email: "mrina9035@gmail.com",   
+          name: session?.user?.name || "Guest Customer", 
+          email: session?.user?.email || "No Email",   
+          userId: (session?.user as any)?.id,
           cartItems: cart,
           totalPrice: totalPrice.toFixed(2),
         }),
