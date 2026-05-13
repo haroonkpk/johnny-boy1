@@ -8,22 +8,22 @@ import { revalidatePath } from "next/cache";
 
 export const updateRetailerProfile = async (id: string, data: any) => {
   try {
-    // 1. Database connection lazmi hai
+   
     await dbConnect();
 
     if (!id) return { error: "User ID is required" };
 
-    // Aapke model ke mutabiq fields extract karein
+
     const { firstName, lastName, email, businessName, phone, password, storeAddress, website } = data;
 
-    // 2. Find user using Mongoose (findById)
+    // 2. Find user using Mongoose 
     const existingUser = await User.findById(id);
 
     if (!existingUser) {
       return { error: "User not found in database!" };
     }
 
-    // 3. Email uniqueness check (agar email change ho rahi ho)
+    // 3. Email uniqueness check
     if (email && email !== existingUser.email) {
       const emailExists = await User.findOne({ email });
       if (emailExists) {
@@ -31,7 +31,7 @@ export const updateRetailerProfile = async (id: string, data: any) => {
       }
     }
 
-    // 4. Update data (Aapke model ke schema ke mutabiq fields name change kiye hain)
+    // 4. Update data
     existingUser.firstName = firstName || existingUser.firstName;
     existingUser.lastName = lastName || existingUser.lastName;
     existingUser.email = email || existingUser.email;
@@ -40,7 +40,7 @@ export const updateRetailerProfile = async (id: string, data: any) => {
     existingUser.storeAddress = storeAddress || existingUser.storeAddress;
     existingUser.website = website || existingUser.website;
 
-    // 5. Password update (agar user ne input diya hai)
+    // 5. Password update
     if (password && password.trim() !== "") {
       if (password.length < 6) {
         return { error: "Password must be at least 6 characters long." };
@@ -52,6 +52,7 @@ export const updateRetailerProfile = async (id: string, data: any) => {
     // 6. Save changes
     await existingUser.save();
 
+    // UI update karein
     // UI update karein
     revalidatePath("/retailer/profile");
 
