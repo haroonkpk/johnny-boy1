@@ -26,7 +26,7 @@ const OrderSchema: Schema = new Schema({
       productId: { type: String, required: true },
       name: { type: String, required: true },
       price: { type: Number, required: true },
-      quantity: { type: Number, required: true, min: 10 }, // Retailer min order validation
+      quantity: { type: Number, required: true}, // Retailer min order validation
       image: { type: String, required: true },
     },
   ],

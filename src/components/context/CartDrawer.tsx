@@ -8,6 +8,7 @@ import Image from "next/image";
 import { useCart } from "@/components/context/CartContext";
 import Button from "@/components/ui/Button";
 import { useSession } from "next-auth/react";
+import { createOrder } from "@/actions/order";
 
 export default function CartDrawer() {
   const { 
@@ -26,41 +27,104 @@ export default function CartDrawer() {
   // Total price calculation
   const totalPrice = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
-  // ---  Checkout Function --- 
+  // ---  Checkout Function ---
+  // --- Updated Checkout Logic --- 
   const handleCheckout = async () => {
+    // 1. Basic Check: Agar cart khali hai toh ruk jao
     if (cart.length === 0) return;
 
     setIsLoading(true);
     
     try {
-      const response = await fetch("/api/send-mail", {
+      // 2. Data Tayyar Karein: Jo Model mang raha hai
+   const orderPayload = {
+        customerName: session?.user?.name || "Guest Customer",
+        email: session?.user?.email || "No Email",
+        userId: (session?.user as any)?.id,
+        items: cart.map((item: any) => ({ //  'item: any'
+          productId: item._id || item.id, 
+          name: item.name,
+          price: item.price,
+          quantity: item.quantity,
+          image: item.image
+        })),
+        totalPrice: totalPrice,
+        status: 'pending'
+      };
+
+      // 3. DATABASE ACTION: Ye orders table mein data save karega
+      const dbResponse = await createOrder(orderPayload);
+
+      if (!dbResponse.success) {
+        throw new Error("Database Error: " + dbResponse.error);
+      }
+
+      // 4. EMAIL API: Database save hone ke baad email bhej rahe hain
+      const emailResponse = await fetch("/api/send-mail", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          name: session?.user?.name || "Guest Customer", 
-          email: session?.user?.email || "No Email",   
-          userId: (session?.user as any)?.id,
+          name: orderPayload.customerName, 
+          email: orderPayload.email,   
+          userId: orderPayload.userId,
           cartItems: cart,
           totalPrice: totalPrice.toFixed(2),
         }),
       });
 
-      const data = await response.json();
-
-      if (response.ok) {
-        alert(" Order Sent! Our team will contact you within 24 hours.");
+      // 5. SUCCESS: Cart saaf karein aur user ko batayein
+      if (emailResponse.ok) {
+        alert("Order Successful! Admin panel updated and Email sent.");
         clearCart();  
         closeDrawer(); 
       } else {
-        throw new Error(data.error || "Failed to process order");
+        // Agar email fail ho par DB save ho gaya ho
+        alert("Order Recorded! Our team will contact you.");
+        clearCart();
+        closeDrawer();
       }
+
     } catch (error: any) {
       console.error("CHECKOUT_ERROR:", error);
-      alert(` Error: ${error.message || "Something went wrong. Please check console."}`);
+      alert(`Order Failed: ${error.message}`);
     } finally {
       setIsLoading(false);
     }
-  };
+  }; 
+  // const handleCheckout = async () => {
+  //   if (cart.length === 0) return;
+
+  //   setIsLoading(true);
+    
+  //   try {
+  //     const response = await fetch("/api/send-mail", {
+  //       method: "POST",
+  //       headers: { "Content-Type": "application/json" },
+  //       body: JSON.stringify({
+  //         name: session?.user?.name || "Guest Customer", 
+  //         email: session?.user?.email || "No Email",   
+  //         userId: (session?.user as any)?.id,
+  //         cartItems: cart,
+  //         totalPrice: totalPrice.toFixed(2),
+  //       }),
+  //     });
+
+  //     const data = await response.json();
+
+  //     if (response.ok) {
+  //       alert(" Order Sent! Our team will contact you within 24 hours.");
+  //       clearCart();  
+  //       closeDrawer(); 
+  //     } else {
+  //       throw new Error(data.error || "Failed to process order");
+  //     }
+  //   } catch (error: any) {
+  //     console.error("CHECKOUT_ERROR:", error);
+  //     alert(` Error: ${error.message || "Something went wrong. Please check console."}`);
+  //   } finally {
+  //     setIsLoading(false);
+  //   }
+  // };
 
   return (
     <AnimatePresence>
