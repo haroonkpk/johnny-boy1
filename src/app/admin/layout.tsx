@@ -37,6 +37,11 @@ const adminNavItems = [
     icon: <MessageSquare size={18} />,
   },
   {
+    label: "Orders",
+    href: "/admin/order",
+    icon: <MessageSquare size={18} />,
+  },
+  {
     label: "Profile",
     href: "/admin/profile",
     icon: <Settings size={18} />,
