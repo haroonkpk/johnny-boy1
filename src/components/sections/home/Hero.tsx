@@ -258,7 +258,7 @@ export default function Home() {
                 <img
                   src="/images/icestraight.png"
                   alt="Product"
-                  className="w-[200px] sm:w-[280px] md:w-[350px] lg:w-[430px] h-auto object-contain drop-shadow-[0_20px_50px_rgba(147,126,241,0.5)]"
+                  className="w-[320px] sm:w-[450px] md:w-[580px] lg:w-[700px]  h-auto object-contain drop-shadow-[0_20px_50px_rgba(147,126,241,0.5)]"
                 />
 
                 {/* Reflection */}
