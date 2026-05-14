@@ -7,21 +7,26 @@ import { getOrders, deleteOrder, updateOrderStatus } from "@/actions/order";
 import { Card } from "@/components/ui/card";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { motion } from "framer-motion"; 
+import { OrderDetailsModal } from "@/components/admin/OrderDetailsModal";
 
 const PAGE_SIZE = 10;
 
 const tableHeaders: TableHeader[] = [
   { key: "orderId", label: "Order ID" },
+  { key: "displayDate", label: "Date Created" },
   { key: "retailer", label: "Customer Details" },
   { key: "displayTotal", label: "Total Amount" },
   { key: "displayStatus", label: "Status" },
-  { key: "displayDate", label: "Date Created" },
 ];
 
 export default function AdminOrdersPage() {
   const [orders, setOrders] = useState<any[]>([]);
   const [currentPage, setCurrentPage] = useState(1); 
   const [isLoading, setIsLoading] = useState(true);
+  
+  // Modal state
+  const [selectedOrder, setSelectedOrder] = useState<any>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const fetchAll = async () => {
     setIsLoading(true);
@@ -37,6 +42,11 @@ export default function AdminOrdersPage() {
   const handleStatus = async (id: string, status: string) => {
     const res = await updateOrderStatus(id, status);
     if (res.success) fetchAll();
+  };
+
+  const openOrderDetails = (order: any) => {
+    setSelectedOrder(order);
+    setIsModalOpen(true);
   };
 
   const displayData = orders
@@ -69,6 +79,12 @@ export default function AdminOrdersPage() {
   const totalPages = Math.ceil(orders.length / PAGE_SIZE);
 
   const tableButtons = [
+    {
+      icon: <Eye size={16} />,
+      text: "View",
+      className: "bg-blue-50 text-blue-600 hover:bg-blue-100 border border-blue-100/50",
+      onClick: (row: any) => openOrderDetails(row),
+    },
     {
       icon: <Trash2 size={16} />,
       text: "Delete",
@@ -127,6 +143,12 @@ export default function AdminOrdersPage() {
           />
         </Card>
       </motion.div>
+
+      <OrderDetailsModal 
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        order={selectedOrder}
+      />
     </div>
   );
 }

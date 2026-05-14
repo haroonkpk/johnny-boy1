@@ -3,7 +3,8 @@
 import { useState } from "react";
 import { signOut, useSession } from "next-auth/react";
 import { useRouter, usePathname } from "next/navigation";
-import { ArrowLeft, LogOut, ShoppingCart, AlertCircle } from "lucide-react";
+import { ArrowLeft, LogOut, ShoppingCart, AlertCircle, Package } from "lucide-react";
+import { cn } from "@/lib/utils";
 import { useCart } from "@/components/context/CartContext";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -30,7 +31,7 @@ export function PanelHeader({ title }: PanelHeaderProps) {
   return (
     <>
     <div className="sticky top-0 z-40 flex flex-col w-full">
-      <div className="glass w-full">
+      <div className="bg-slate-950/50 backdrop-blur-lg w-full border-b border-white/10">
         <div className="flex items-center justify-between px-4 md:px-8 h-14">
           {/* Back to Home */}
           <button

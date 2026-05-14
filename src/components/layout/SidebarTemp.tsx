@@ -39,10 +39,10 @@ export function Sidebar({
       onMouseLeave={() => setHovered(false)}
       className={cn(
         // MOBILE — bottom nav
-        "fixed bottom-0 left-0 right-0 w-full z-50 glass border-t border-white/10",
+        "fixed bottom-0 left-0 right-0 w-full z-50 bg-slate-950/50 backdrop-blur-lg border-t border-white/10",
         // DESKTOP — left sidebar
         "md:fixed md:left-0 md:top-0 md:bottom-0 md:right-auto md:h-screen md:z-50",
-        "md:glass md:border-r md:border-white/10",
+        "md:bg-slate-950/60 md:backdrop-blur-lg md:border-r md:border-white/10",
         "md:flex md:flex-col md:overflow-hidden",
         "md:transition-[width] md:duration-300 md:ease-in-out",
         expanded ? "md:w-[clamp(14rem,18vw,18rem)]" : "md:w-16",

@@ -4,6 +4,7 @@ import {
   Box,
   MessageSquare,
   Settings,
+  ShoppingBag,
 } from "lucide-react";
 import { Sidebar } from "@/components/layout/SidebarTemp";
 import { PanelHeader } from "@/components/layout/PanelHeader";
@@ -39,7 +40,7 @@ const adminNavItems = [
   {
     label: "Orders",
     href: "/admin/order",
-    icon: <MessageSquare size={18} />,
+    icon: <ShoppingBag size={18} />,
   },
   {
     label: "Profile",

@@ -41,6 +41,18 @@ export async function updateOrderStatus(id: string, status: string) {
   }
 }
 
+// GET retailer specific orders
+export async function getRetailerOrders(email: string) {
+  try {
+    await dbConnect();
+    const orders = await Order.find({ email }).sort({ createdAt: -1 }).lean();
+    return JSON.parse(JSON.stringify(orders));
+  } catch (error) {
+    console.error("Fetch Error:", error);
+    return [];
+  }
+}
+
 // DELETE order
 export async function deleteOrder(id: string) {
   try {
