@@ -52,14 +52,14 @@ export default function CartDrawer() {
         status: 'pending'
       };
 
-      // 3. DATABASE ACTION: Ye orders table mein data save karega
+      // 3. DATABASE ACTION
       const dbResponse = await createOrder(orderPayload);
 
       if (!dbResponse.success) {
         throw new Error("Database Error: " + dbResponse.error);
       }
 
-      // 4. EMAIL API: Database save hone ke baad email bhej rahe hain
+      // 4. EMAIL API
       const emailResponse = await fetch("/api/send-mail", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -72,7 +72,7 @@ export default function CartDrawer() {
         }),
       });
 
-      // 5. SUCCESS: Cart saaf karein aur user ko batayein
+      // 5. SUCCESS
       if (emailResponse.ok) {
         alert("Order Successful! Admin panel updated and Email sent.");
         clearCart();  
@@ -91,40 +91,7 @@ export default function CartDrawer() {
       setIsLoading(false);
     }
   }; 
-  // const handleCheckout = async () => {
-  //   if (cart.length === 0) return;
-
-  //   setIsLoading(true);
-    
-  //   try {
-  //     const response = await fetch("/api/send-mail", {
-  //       method: "POST",
-  //       headers: { "Content-Type": "application/json" },
-  //       body: JSON.stringify({
-  //         name: session?.user?.name || "Guest Customer", 
-  //         email: session?.user?.email || "No Email",   
-  //         userId: (session?.user as any)?.id,
-  //         cartItems: cart,
-  //         totalPrice: totalPrice.toFixed(2),
-  //       }),
-  //     });
-
-  //     const data = await response.json();
-
-  //     if (response.ok) {
-  //       alert(" Order Sent! Our team will contact you within 24 hours.");
-  //       clearCart();  
-  //       closeDrawer(); 
-  //     } else {
-  //       throw new Error(data.error || "Failed to process order");
-  //     }
-  //   } catch (error: any) {
-  //     console.error("CHECKOUT_ERROR:", error);
-  //     alert(` Error: ${error.message || "Something went wrong. Please check console."}`);
-  //   } finally {
-  //     setIsLoading(false);
-  //   }
-  // };
+  
 
   return (
     <AnimatePresence>

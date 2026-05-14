@@ -1,8 +1,12 @@
+
 import { ReactNode } from "react";
+import { 
+  Box,
+  ShoppingBag, 
+} from "lucide-react"; 
+import { Sidebar } from "@/components/layout/SidebarTemp";
 import { PanelHeader } from "@/components/layout/PanelHeader";
 import CartDrawer from "@/components/context/CartDrawer";
-import { Sidebar } from "@/components/layout/SidebarTemp";
-import { Box, ShoppingBag } from "lucide-react";
 
 interface RetailerDashboardLayoutProps {
   children: ReactNode;
