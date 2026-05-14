@@ -23,6 +23,43 @@
     transform: translateY(0px);
   }
 }
+/* --- Editor Content Styling --- */
+/* Yeh class humne Home page par dynamic div ko di thi */
+.dynamic-html-content {
+  /* Default color agar editor mein select na kiya ho */
+  color: #9ca3af; 
+  line-height: 1.6;
+}
+
+/* Editor se aane wale paragraphs ka margin handle karne ke liye */
+.dynamic-html-content p {
+  margin-bottom: 1rem;
+}
+
+/* Jab editor se specific color aaye toh wo override kare */
+.dynamic-html-content span[style*="color"], 
+.dynamic-html-content p[style*="color"] {
+  color: inherit !important; 
+}
+
+/* Links style agar editor mein add kiye hon */
+.dynamic-html-content a {
+  color: #3ac8ee;
+  text-decoration: underline;
+}
+
+/* Lists styling agar editor mein bullet points use hon */
+.dynamic-html-content ul {
+  list-style-type: disc;
+  padding-left: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.dynamic-html-content ol {
+  list-style-type: decimal;
+  padding-left: 1.5rem;
+  margin-bottom: 1rem;
+}
 
 .float-slow {
   animation: floatUpDown 6s ease-in-out infinite;

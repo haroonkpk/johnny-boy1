@@ -88,6 +88,22 @@ const ParticleBackground = () => {
 };
 
 export default function Home() {
+  const [dynamicContent, setDynamicContent] = useState<string>("");
+
+useEffect(() => {
+  const fetchHeroContent = async () => {
+    try {
+      const res = await fetch("/api/content");
+      const data = await res.json();
+      if (data && data.content) {
+        setDynamicContent(data.content);
+      }
+    } catch (err) {
+      console.error("Failed to load hero content", err);
+    }
+  };
+  fetchHeroContent();
+}, []);
   const { data: session, status } = useSession();
   const [activeModal, setActiveModal] = useState<"login" | "signup" | null>(
     null,
@@ -179,7 +195,7 @@ export default function Home() {
               transition={{ duration: 1, ease: "easeOut" }}
               className="flex flex-col space-y-6 md:space-y-10 text-center lg:text-left order-2 lg:order-1"
             >
-              <div className="space-y-4 md:space-y-6">
+              {/* <div className="space-y-4 md:space-y-6">
                 <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-9xl font-black tracking-tighter sweep-text leading-[0.9]">
                   JOHNNY <br className="hidden md:block" /> BOY
                 </h1>
@@ -188,7 +204,29 @@ export default function Home() {
                   Crafted for a premium vaping experience that defines
                   excellence.
                 </p>
-              </div>
+              </div> */}
+           
+ <div className="space-y-4 md:space-y-6">
+                <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-9xl font-black tracking-tighter sweep-text leading-[0.9]">
+                  JOHNNY <br className="hidden md:block" /> BOY
+                </h1>
+
+  {/* Dynamic Content Area */}
+ {dynamicContent ? (
+  <div 
+    /* Mobile par text-base aur center, desktop par text-2xl aur left-aligned */
+    className="dynamic-html-content text-base sm:text-lg md:text-2xl max-w-full md:max-w-lg mx-auto lg:mx-0 tracking-wide leading-relaxed text-center lg:text-left break-words px-2"
+    dangerouslySetInnerHTML={{ __html: dynamicContent }} 
+  />
+) : (
+  
+  <p className="text-base sm:text-lg md:text-2xl text-gray-400 font-light max-w-full md:max-w-lg mx-auto lg:mx-0 tracking-wide leading-relaxed text-center lg:text-left px-2">
+    Smooth hits. Bold flavors. <br className="hidden sm:block" />
+    Crafted for a premium vaping experience that defines excellence.
+  </p>
+)}
+</div>
+
 
               <div className="flex flex-wrap items-center justify-center lg:justify-start gap-4 md:gap-6">
                 {isLoggedIn ? (
