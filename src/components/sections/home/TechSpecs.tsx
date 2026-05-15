@@ -60,24 +60,47 @@ const FlavorAroma = () => {
   return (
     <section className="relative bg-[var(--color-cream)] py-24 overflow-hidden">
       {/* Background Text Decor */}
-      <div className="absolute top-10 left-10 text-[15rem] font-black text-black/[0.02] select-none pointer-events-none uppercase">
+      {/* <div className="absolute top-10 left-10 text-[15rem] font-black text-black/[0.02] select-none pointer-events-none uppercase">
         {finalBgText}
-      </div>
+      </div> */}
+      {/* Background Text Decor */}
+<div className="absolute top-10 left-4 md:left-10 
+                /* Mobile par chota, laptop par bara */
+                text-[4rem] sm:text-[8rem] md:text-[12rem] lg:text-[15rem] 
+                font-black text-black/[0.02] select-none pointer-events-none 
+                uppercase leading-none max-w-full break-all">
+  {finalBgText}
+</div>
 
       <div className="container mx-auto max-w-[1500px] px-6 relative z-10">
         <div className="flex flex-col lg:flex-row items-center gap-16">
           {/* Left: Content Area */}
           <div className="w-full lg:w-1/2">
             <SectionHeading
+              // title={
+              //   <>
+              //     {firstPart}{" "}
+              //     <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500">
+              //       {lastWord}
+              //     </span>
+              //   </>
+              // }
               title={
-                <>
-                  {firstPart}{" "}
-                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500">
-                    {lastWord}
-                  </span>
-                </>
-              }
-              subtitle={finalSubtitle}
+  <div className="max-w-full break-words leading-tight">
+    {firstPart}{" "}
+    <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500 inline-block">
+      {lastWord}
+    </span>
+  </div>
+}
+              // subtitle={finalSubtitle}
+              subtitle={
+  <div 
+    className="max-w-full md:max-w-lg break-words overflow-hidden"
+    style={{ wordBreak: "break-word" }}
+    dangerouslySetInnerHTML={{ __html: finalSubtitle }} 
+  />
+}
               badge={finalBadge}
               mode="light"
               className="mb-8"
