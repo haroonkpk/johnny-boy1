@@ -60,6 +60,28 @@
   padding-left: 1.5rem;
   margin-bottom: 1rem;
 }
+/* flow */
+/* Ye coding dynamic text ko screen ke mutabiq adjust hone par majboor karegi */
+.dynamic-html-content * {
+  max-width: 100% !important;
+  word-wrap: break-word !important;
+  white-space: normal !important;
+}
+/* Admin se aane wale text ko responsive banaye rakhne ke liye */
+.SectionHeading subtitle div p, 
+.SectionHeading p {
+  margin: 0 !important;
+  display: inline;
+  word-break: break-word;
+}
+
+/* Background text (Aroma) ko mobile par chota karne ke liye */
+@media (max-width: 768px) {
+  .absolute.text-\[15rem\] {
+    font-size: 5rem !important; /* Mobile par bg text ko chota rakhega */
+    top: 50%;
+  }
+}
 
 .float-slow {
   animation: floatUpDown 6s ease-in-out infinite;

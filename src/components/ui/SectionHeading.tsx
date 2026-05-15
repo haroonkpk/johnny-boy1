@@ -3,7 +3,7 @@ import { cn } from "@/lib/utils";
 
 interface SectionHeadingProps {
   title: string | React.ReactNode;
-  subtitle?: string;
+  subtitle?: string | React.ReactNode;
   badge?: string;
   mode?: "light" | "dark";
   className?: string;

@@ -544,10 +544,19 @@ export default function Home() {
                 </h1>
 
                 {dynamicContent ? (
+                  // <div 
+                  //   className="dynamic-html-content text-base sm:text-lg md:text-2xl max-w-full md:max-w-lg mx-auto lg:mx-0 tracking-wide leading-relaxed text-gray-300"
+                  //   dangerouslySetInnerHTML={{ __html: dynamicContent }} 
+                  // />
                   <div 
-                    className="dynamic-html-content text-base sm:text-lg md:text-2xl max-w-full md:max-w-lg mx-auto lg:mx-0 tracking-wide leading-relaxed text-gray-300"
-                    dangerouslySetInnerHTML={{ __html: dynamicContent }} 
-                  />
+  className="dynamic-html-content text-base sm:text-lg md:text-2xl max-w-full md:max-w-lg mx-auto lg:mx-0 tracking-wide leading-relaxed text-center lg:text-left px-2"
+  style={{ 
+    wordBreak: "break-word",   // Lamba word line ke bahar nahi jayega
+    overflowWrap: "anywhere",  // Choti screen par khud line change karega
+    display: "block" 
+  }}
+  dangerouslySetInnerHTML={{ __html: dynamicContent }} 
+/>
                 ) : (
                   <p className="text-base sm:text-lg md:text-2xl text-gray-400 font-light max-w-full md:max-w-lg mx-auto lg:mx-0 tracking-wide leading-relaxed">
                     Smooth hits. Bold flavors. <br className="hidden sm:block" />
