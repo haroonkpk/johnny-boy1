@@ -1,11 +1,5 @@
 import { ReactNode } from "react";
-import {
-  Users,
-  Box,
-  MessageSquare,
-  Settings,
-  ShoppingBag,
-} from "lucide-react";
+import { Users, Box, MessageSquare, Settings, ShoppingBag, FileText } from "lucide-react";
 import { Sidebar } from "@/components/layout/SidebarTemp";
 import { PanelHeader } from "@/components/layout/PanelHeader";
 import { getServerSession } from "next-auth";
@@ -42,11 +36,10 @@ const adminNavItems = [
     href: "/admin/order",
     icon: <ShoppingBag size={18} />,
   },
-   //  NEW ADD (HTML / Quill Editor)
   {
-    label: "HTML Editor",
+    label: "Editor",
     href: "/admin/editor",
-    icon: <MessageSquare size={18} />,
+    icon: <FileText size={18} />,
   },
   {
     label: "Profile",
@@ -66,15 +59,11 @@ export default async function AdminDashboardLayout({
 
   return (
     <div className="flex h-screen overflow-hidden bg-(--color-cream)">
-      <Sidebar
-        items={adminNavItems}
-      />
+      <Sidebar items={adminNavItems} />
 
       <main className="flex-1 overflow-y-auto pb-10 bg-(--color-cream) md:pb-0 md:pl-14">
         <PanelHeader title="Admin Panel" />
-        <div className="max-w-400 mx-auto w-full">
-          {children}
-        </div>
+        <div className="max-w-400 mx-auto w-full">{children}</div>
       </main>
     </div>
   );

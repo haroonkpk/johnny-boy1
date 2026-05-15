@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { signOut, useSession } from "next-auth/react";
+import { signOut } from "next-auth/react";
 import { useRouter, usePathname } from "next/navigation";
 import { ArrowLeft, LogOut, ShoppingCart, AlertCircle, Package } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -10,19 +10,21 @@ import { motion, AnimatePresence } from "framer-motion";
 
 interface PanelHeaderProps {
   title: string;
+  isPendingApproval?: boolean;
 }
 
 import { LogoutConfirmModal } from "../shared/LogoutConfirmModal";
 
-export function PanelHeader({ title }: PanelHeaderProps) {
+export function PanelHeader({
+  title,
+  isPendingApproval = false,
+}: PanelHeaderProps) {
   const router = useRouter();
   const pathname = usePathname();
-  const { data: session } = useSession();
   const { cart, openDrawer } = useCart();
   const [showLogoutModal, setShowLogoutModal] = useState(false);
   
   const isRetailer = pathname.startsWith("/retailer");
-  const isPending = (session?.user as any)?.status === "pending";
 
   const handleLogout = () => {
     signOut({ callbackUrl: "/" });
@@ -84,7 +86,7 @@ export function PanelHeader({ title }: PanelHeaderProps) {
 
       {/* Pending Approval Banner */}
       <AnimatePresence>
-        {isRetailer && isPending && (
+        {isRetailer && isPendingApproval && (
           <motion.div
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: "auto", opacity: 1 }}

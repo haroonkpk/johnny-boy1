@@ -73,7 +73,8 @@ export function Sidebar({
       <nav
         className={cn(
           // MOBILE
-          "flex flex-row justify-around items-center px-2 py-2 mb-safe",
+          "flex flex-row justify-start items-center gap-1 px-2 py-2 mb-safe",
+          "overflow-x-auto overflow-y-hidden overscroll-x-contain scrollbar-hide",
           // DESKTOP
           "md:flex-col md:justify-start md:flex-1 md:py-3 md:overflow-y-auto md:overflow-x-hidden md:space-y-0.5 md:px-2",
         )}
@@ -87,7 +88,7 @@ export function Sidebar({
               className={cn(
                 "group flex items-center transition-all duration-200",
                 // MOBILE
-                "flex-col justify-center gap-1 min-w-14 py-2 px-1 rounded-xl",
+                "flex-col justify-center gap-1 min-w-14 shrink-0 py-2 px-1 rounded-xl",
                 "text-[0.08rem] font-semibold uppercase tracking-wider",
                 // DESKTOP
                 "md:flex-row md:justify-start md:w-full md:rounded-lg md:px-3 md:py-2.5",

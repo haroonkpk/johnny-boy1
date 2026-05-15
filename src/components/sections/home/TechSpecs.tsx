@@ -52,55 +52,45 @@ const FlavorAroma = () => {
   const finalSubtitle = data?.subtitle || defaults.subtitle;
   const finalBtnText = data?.btnText || defaults.btnText;
 
-  // Title Splitting Logic for Design (Aakhri word gradient mein jayega)
-  const words = finalTitle.split(" ");
-  const lastWord = words.pop();
-  const firstPart = words.join(" ");
+  // Match heading behavior with other home sections and handle odd spacing safely.
+  const titleWords = finalTitle.trim().split(/\s+/).filter(Boolean);
+  const lastWord = titleWords.pop() ?? "";
+  const remainingText = titleWords.join(" ");
 
   return (
     <section className="relative bg-[var(--color-cream)] py-24 overflow-hidden">
-      {/* Background Text Decor */}
-      {/* <div className="absolute top-10 left-10 text-[15rem] font-black text-black/[0.02] select-none pointer-events-none uppercase">
+      <div
+        className="absolute top-10 left-4 md:left-10 text-[4rem] sm:text-[8rem] md:text-[12rem] lg:text-[15rem] font-black text-black/[0.02] select-none pointer-events-none uppercase leading-none max-w-full break-all"
+      >
         {finalBgText}
-      </div> */}
-      {/* Background Text Decor */}
-<div className="absolute top-10 left-4 md:left-10 
-                /* Mobile par chota, laptop par bara */
-                text-[4rem] sm:text-[8rem] md:text-[12rem] lg:text-[15rem] 
-                font-black text-black/[0.02] select-none pointer-events-none 
-                uppercase leading-none max-w-full break-all">
-  {finalBgText}
-</div>
+      </div>
 
       <div className="container mx-auto max-w-[1500px] px-6 relative z-10">
         <div className="flex flex-col lg:flex-row items-center gap-16">
           {/* Left: Content Area */}
           <div className="w-full lg:w-1/2">
             <SectionHeading
-              // title={
-              //   <>
-              //     {firstPart}{" "}
-              //     <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500">
-              //       {lastWord}
-              //     </span>
-              //   </>
-              // }
               title={
-  <div className="max-w-full break-words leading-tight">
-    {firstPart}{" "}
-    <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500 inline-block">
-      {lastWord}
-    </span>
-  </div>
-}
-              // subtitle={finalSubtitle}
+                remainingText ? (
+                  <>
+                    {remainingText}{" "}
+                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500">
+                      {lastWord}
+                    </span>
+                  </>
+                ) : (
+                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500">
+                    {lastWord}
+                  </span>
+                )
+              }
               subtitle={
-  <div 
-    className="max-w-full md:max-w-lg break-words overflow-hidden"
-    style={{ wordBreak: "break-word" }}
-    dangerouslySetInnerHTML={{ __html: finalSubtitle }} 
-  />
-}
+                <div
+                  className="max-w-full md:max-w-lg break-words overflow-hidden"
+                  style={{ wordBreak: "break-word" }}
+                  dangerouslySetInnerHTML={{ __html: finalSubtitle }}
+                />
+              }
               badge={finalBadge}
               mode="light"
               className="mb-8"
@@ -149,11 +139,11 @@ const FlavorAroma = () => {
             </div>
 
           
-                        <Button
+            <Button
               variant="secondary-outline"
               className="rounded-full px-8 py-4"
             >
-              Discover All Flavors
+              {finalBtnText}
             </Button>
           </div>
 
