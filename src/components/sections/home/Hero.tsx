@@ -427,7 +427,7 @@ export default function Home() {
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: triggerRef.current,
-          start: "top top",
+          start: () => `top top+=${document.querySelector('nav')?.offsetHeight || 0}`,
           end: "+=800%",
           pin: true,
           scrub: 1.5,
@@ -518,7 +518,7 @@ export default function Home() {
 
         {/* Intro Exploding Text */}
         <div className="absolute inset-0 z-50 flex items-center justify-center pointer-events-none">
-          <div className="flex  tracking-tighter sweep-text leading-[0.9] font-black text-6xl md:text-[10rem] lg:text-[14rem] uppercase italic ">
+          <div className="flex tracking-tighter sweep-text leading-[0.9] font-black text-[clamp(2.9rem,12vw,14rem)] uppercase italic ">
             <div className="mr-4 md:mr-8">{splitText("JOHNNY", "char-left")}</div>
             <div className="ml-4 md:ml-8">{splitText("BOY", "char-right")}</div>
           </div>
@@ -539,7 +539,7 @@ export default function Home() {
             {/* LEFT COLUMN: Text & Auth Section */}
             <div className="hero-text-content opacity-0 flex flex-col space-y-6 md:space-y-10 text-center lg:text-left order-2 lg:order-1">
               <div className="space-y-4 md:space-y-6">
-                <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-9xl font-black tracking-tighter sweep-text leading-[0.9]">
+                <h1 className="text-[clamp(2.3rem,8vw,8rem)] font-black tracking-tighter sweep-text leading-[0.9]">
                   JOHNNY <br className="hidden md:block" /> BOY
                 </h1>
 
@@ -551,8 +551,8 @@ export default function Home() {
                   <div 
   className="dynamic-html-content text-base sm:text-lg md:text-2xl max-w-full md:max-w-lg mx-auto lg:mx-0 tracking-wide leading-relaxed text-center lg:text-left px-2"
   style={{ 
-    wordBreak: "break-word",   // Lamba word line ke bahar nahi jayega
-    overflowWrap: "anywhere",  // Choti screen par khud line change karega
+    wordBreak: "break-word",  
+    overflowWrap: "anywhere",  
     display: "block" 
   }}
   dangerouslySetInnerHTML={{ __html: dynamicContent }} 

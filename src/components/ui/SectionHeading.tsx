@@ -53,14 +53,14 @@ export const SectionHeading = ({
         </div>
 
         {subtitle && (
-          <p
+          <div
             className={cn(
-              "tex t-[clamp(1rem,2vw,1.25rem)] mt-[clamp(1rem,3vw,1.5rem)] max-w-2xl font-medium leading-relaxed opacity-60",
+              "text-[clamp(1rem,2vw,1.25rem)] mt-[clamp(1rem,3vw,1.5rem)] max-w-2xl font-medium leading-relaxed opacity-60",
               isDark ? "text-gray-400 " : "text-gray-600",
             )}
           >
             {subtitle}
-          </p>
+          </div>
         )}
       </div>
     </div>
