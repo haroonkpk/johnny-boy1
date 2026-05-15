@@ -98,10 +98,39 @@ function VideoCard({ t, isActive, onToggle }) {
 }
 
 export default function HappyCustomers() {
+
   const [activeVideoId, setActiveVideoId] = useState(null);
   const wrapperRef = useRef(null);
   const trackRef = useRef(null);
   const scrollTriggerRef = useRef(null);
+
+  
+  // 1. Pehle state banayein
+  const [data, setData] = useState({
+    customerTitle: "What our customers say",
+    customerSubtitle: "Real stories from real people who bought our product",
+    customerBadge: "Testimonials"
+  });
+
+  // 2. useEffect se data fetch karein
+  useEffect(() => {
+    const fetchContent = async () => {
+      try {
+        const res = await fetch("/api/content", { cache: 'no-store' });
+        const json = await res.json();
+        if (json) {
+          setData({
+            customerTitle: json.customerTitle || "What our customers say",
+            customerSubtitle: json.customerSubtitle || "Real stories from real people who bought our product",
+            customerBadge: json.customerBadge || "Testimonials"
+          });
+        }
+      } catch (error) { console.error(error); }
+    };
+    fetchContent();
+  }, []);
+
+  // ... baaki GSAP wala useEffect waisa hi rahega ...
 
   useEffect(() => {
     let ctx;
@@ -166,24 +195,29 @@ export default function HappyCustomers() {
       ease: "power2.inOut",
     });
   };
+  // --- YE LOGIC ADD KAREIN ---
+const words = data.customerTitle.split(' ');
+const lastWord = words.pop(); // Aakhri word nikal lega
+const remainingText = words.join(' '); // Baaki words ko wapas jod dega
 
   return (
     <section className="bg-[var(--color-cream)] relative min-h-screen pb-20">
       {/* 1. Header */}
       <div className="container mx-auto max-w-[1500px] pt-24 pb-12 px-6">
+    
         <SectionHeading
-          title={
-            <>
-              What our customers{" "}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500">
-                say
-              </span>
-            </>
-          }
-          subtitle="Real stories from real people who bought our product"
-          badge="Testimonials"
-          mode="light"
-        />
+        title={
+          <>
+            {remainingText}{" "}
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500">
+              {lastWord}
+            </span>
+          </>
+        }
+        subtitle={data.customerSubtitle}
+        badge={data.customerBadge}
+        mode="light"
+      />
       </div>
 
       {/* 2. GSAP Wrapper  */}

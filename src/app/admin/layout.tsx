@@ -42,6 +42,12 @@ const adminNavItems = [
     href: "/admin/order",
     icon: <ShoppingBag size={18} />,
   },
+   //  NEW ADD (HTML / Quill Editor)
+  {
+    label: "HTML Editor",
+    href: "/admin/editor",
+    icon: <MessageSquare size={18} />,
+  },
   {
     label: "Profile",
     href: "/admin/profile",

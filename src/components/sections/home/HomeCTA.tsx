@@ -1,6 +1,7 @@
+
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { ArrowRight } from "lucide-react";
 import Button from "@/components/ui/Button";
@@ -9,6 +10,47 @@ import { useRouter } from "next/navigation";
 
 const HomeCTA = () => {
   const router = useRouter();
+  const [data, setData] = useState<any>(null);
+  const [isMounted, setIsMounted] = useState(false);
+
+  // 1. Data Fetching Logic (Admin se connect karne ke liye)
+  useEffect(() => {
+    setIsMounted(true);
+    const fetchContent = async () => {
+      try {
+        const res = await fetch("/api/content", { cache: "no-store" });
+        if (!res.ok) throw new Error("Failed to fetch");
+        const json = await res.json();
+        if (json) setData(json);
+      } catch (err) {
+        console.error("CTA Content fetch error:", err);
+      }
+    };
+    fetchContent();
+  }, []);
+
+  // 2. Default Values (Agar admin mein data na ho toh ye dikhega)
+  const defaults = {
+    ctaBadge: "Wholesale Program",
+    ctaTitle: "Interested in carrying our product?",
+    ctaDesc: "JOHNNY BOY provides certain retailers across the country the opportunity to carry its products subject to requirements. Simply begin the application and we'll be in touch."
+  };
+
+  // Jab tak client side load na ho, hydration error se bachne ke liye null return karein
+  if (!isMounted) return null;
+
+  // Data mapping
+  const finalBadge = data?.ctaBadge || defaults.ctaBadge;
+  const finalTitle = data?.ctaTitle || defaults.ctaTitle;
+  const finalDesc = data?.ctaDesc || defaults.ctaDesc;
+
+  // 3. Title Splitting Logic (Design maintain rakhne ke liye)
+  // Hum title ko split kar rahe hain taake gradient aur block style waisa hi rahe
+  const words = finalTitle.split(" ");
+  const lastWord = words.pop(); // "? aur aakhri word"
+  const middleWords = words.splice(-2).join(" "); // "carrying our" wala part
+  const firstPart = words.join(" "); // "Interested in" wala part
+
   const products = [
     "/images/retailerfruit.png",
     "/images/ice.webp",
@@ -32,19 +74,20 @@ const HomeCTA = () => {
 
             {/* LEFT SIDE - CONTENT */}
             <div className="flex flex-col justify-center px-[clamp(1.5rem,6vw,5rem)] py-[clamp(3.5rem,10vw,7rem)] text-white text-center lg:text-left items-center lg:items-start relative z-20">
-            <span className="uppercase tracking-[clamp(2px,0.4vw,4px)] text-cyan-400 text-[clamp(0.7rem,1.5vw,0.875rem)] font-semibold mb-[clamp(1rem,2vw,1.5rem)]">
-              Wholesale Program
-            </span>
+              <span className="uppercase tracking-[clamp(2px,0.4vw,4px)] text-cyan-400 text-[clamp(0.7rem,1.5vw,0.875rem)] font-semibold mb-[clamp(1rem,2vw,1.5rem)]">
+                {finalBadge}
+              </span>
 
               <h2 className="text-[clamp(1.85rem,7vw,4rem)] font-black mb-6 sm:mb-8 leading-[1.05] tracking-tight max-w-[650px] uppercase italic italic-none sm:not-italic">
-                Interested in <span className="lg:block text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-500">carrying our</span>
-                <span className="block">product?</span>
+                {firstPart}{" "}
+                <span className="lg:block text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-500">
+                  {middleWords}
+                </span>
+                <span className="block">{lastWord}</span>
               </h2>
 
               <p className="text-white/60 text-sm sm:text-base lg:text-lg leading-relaxed max-w-[550px] mb-10 sm:mb-12 font-medium">
-                JOHNNY BOY provides certain retailers across the country the opportunity
-                to carry its products subject to requirements. Simply begin the application
-                and we'll be in touch.
+                {finalDesc}
               </p>
 
               <Button
@@ -56,7 +99,7 @@ const HomeCTA = () => {
               </Button>
             </div>
 
-            {/* RIGHT SIDE - IMAGES (Hidden on mobile) */}
+            {/* RIGHT SIDE - IMAGES */}
             <div className="hidden lg:flex relative items-center justify-center p-12 min-h-[650px] lg:min-h-[800px] overflow-visible">
               {/* LEFT FLOATING IMAGE */}
               <div className="absolute left-[-10%] top-[20%] rotate-[-15deg] opacity-30 z-10 float-slow pointer-events-none">
