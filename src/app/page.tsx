@@ -5,7 +5,7 @@ import TechSpecs from '@/components/sections/home/TechSpecs';
 import HappyCustomers from '@/components/sections/home/HappyCustomers';
 import Features from '@/components/sections/home/Features';
 import { getProducts } from '@/actions/product';
-import HeroScroll from '@/components/HeroScroll';
+// import HeroScroll from '@/components/HeroScroll';
 
 export const revalidate = 10;
 
@@ -15,7 +15,7 @@ export default async function Home() {
   return (
     <main>
       <Hero />
-      <HeroScroll />
+      {/* <HeroScroll /> */}
       <TechSpecs/>
       <Features initialProducts={products} />
       <Movement/>
