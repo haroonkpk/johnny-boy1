@@ -220,7 +220,13 @@ useEffect(() => {
       .to(".side-water-left",  { x: "-150%", opacity: 0, scale: 1.5, duration: 2 }, "-=2")
       .to(".side-water-right", { x:  "150%", opacity: 0, scale: 1.5, duration: 2 }, "-=2")
       .fromTo(".full-bg-water", { opacity: 0, scale: 0.8 }, { opacity: 0.4, scale: 1.1, duration: 2 })
-      .to(".main-visual-wrapper", { x: "28%", scale: 0.8, duration: 3, ease: "power3.inOut" })
+      .to(".main-visual-wrapper", { 
+        x: window.innerWidth >= 1024 ? "25%" : "0%", 
+        y: window.innerWidth >= 1024 ? 0 : (window.innerHeight < 750 ? -15 : -50),
+        scale: window.innerWidth >= 1024 ? 1.1 : 1.2, 
+        duration: 3, 
+        ease: "power3.inOut" 
+      })
       .fromTo(".hero-text-content", { x: "-100px", opacity: 0 }, { x: "0px", opacity: 1, duration: 3, ease: "power3.out" }, "-=3");
 
   }, containerRef);
@@ -281,29 +287,34 @@ useEffect(() => {
           <img src="/images/water22.png" className="w-[300px] md:w-[600px] h-auto opacity-70" alt="splash" />
         </div>
 
-        <div className="container mx-auto max-w-[1500px] px-6 z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        <div className="container mx-auto max-w-[1500px] px-6 z-30 relative">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-12 items-center">
 
-            <div className="hero-text-content opacity-0 flex flex-col space-y-6 md:space-y-10 text-center lg:text-left order-2 lg:order-1">
-              <div className="space-y-4 md:space-y-6">
-                <h1 className="text-[clamp(2.3rem,8vw,8rem)] font-black tracking-tighter sweep-text leading-[0.9]">
+            <div className="hero-text-content opacity-0 flex flex-col space-y-4 md:space-y-10 text-center lg:text-left order-2 lg:order-1 -mt-8 lg:mt-0 relative">
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120vw] md:w-[140%] h-[150%] md:h-[140%] bg-black/60 blur-[60px] rounded-[100%] -z-10 pointer-events-none"></div>
+
+              <div className="space-y-4 md:space-y-6 relative z-10">
+                <h1 className="text-[clamp(3rem,8vw,8rem)] font-black tracking-tighter sweep-text leading-[0.9] drop-shadow-[0_5px_15px_rgba(0,0,0,0.9)]">
                   JOHNNY <br className="hidden md:block" /> BOY
                 </h1>
                 {dynamicContent ? (
                   <div
-                    className="dynamic-html-content text-base sm:text-lg md:text-2xl max-w-full md:max-w-lg mx-auto lg:mx-0 tracking-wide leading-relaxed text-center lg:text-left px-2"
-                    style={{ wordBreak: "break-word", overflowWrap: "anywhere" }}
+                    className="dynamic-html-content text-gray-200 font-medium text-base sm:text-lg md:text-2xl max-w-full md:max-w-lg mx-auto lg:mx-0 tracking-wide leading-relaxed text-center lg:text-left px-2"
+                    style={{ wordBreak: "break-word", overflowWrap: "anywhere", textShadow: "0 2px 10px rgba(0,0,0,0.8)" }}
                     dangerouslySetInnerHTML={{ __html: dynamicContent }}
                   />
                 ) : (
-                  <p className="text-base sm:text-lg md:text-2xl text-gray-400 font-light max-w-full md:max-w-lg mx-auto lg:mx-0 tracking-wide leading-relaxed">
+                  <p 
+                    className="text-gray-200 font-medium text-base sm:text-lg md:text-2xl max-w-full md:max-w-lg mx-auto lg:mx-0 tracking-wide leading-relaxed"
+                    style={{ textShadow: "0 2px 10px rgba(0,0,0,0.8)" }}
+                  >
                     Smooth hits. Bold flavors.<br className="hidden sm:block" />
                     Crafted for a premium vaping experience that defines excellence.
                   </p>
                 )}
               </div>
 
-              <div className="flex flex-wrap items-center justify-center lg:justify-start gap-4 md:gap-6">
+              <div className="flex flex-wrap items-center justify-center lg:justify-start gap-4 md:gap-6 relative z-10 mt-8">
                 {isLoggedIn ? (
                   <Button className="px-8 md:px-10 py-3 md:py-4 rounded-full bg-gradient-to-r from-[#3ac8ee] to-[#937ef1] text-white font-black" onClick={handleDashboardClick}>
                     <LayoutDashboard size={20} className="mr-2" /> DASHBOARD
@@ -321,10 +332,10 @@ useEffect(() => {
               </div>
             </div>
 
-            <div className="main-visual-wrapper relative flex justify-center items-center h-[300px] md:h-[500px] lg:h-[600px] order-1 lg:order-2">
+            <div className="main-visual-wrapper relative flex justify-center items-center h-[40vh] min-h-[300px] md:min-h-0 md:h-[550px] lg:h-[650px] order-1 lg:order-2 -mt-4 md:-mt-8 lg:mt-0">
               <img src="/images/cloud-bg.webp" className="absolute w-full h-full object-contain opacity-20 mix-blend-screen z-0 blur-2xl" alt="cloud" />
               <div className="relative z-20 flex flex-col items-center">
-                <img src="/images/icestraight.png" alt="Product" className="w-[320px] sm:w-[450px] md:w-[600px] lg:w-[650px] h-auto object-contain drop-shadow-[0_20px_50px_rgba(147,126,241,0.5)]" />
+                <img src="/images/icestraight.png" alt="Product" className="w-[340px] sm:w-[420px] md:w-[650px] lg:w-[750px] max-w-[110vw] h-auto object-contain drop-shadow-[0_20px_50px_rgba(147,126,241,0.5)]" />
                 <div className="absolute top-[98%] w-full h-[50%] opacity-40 pointer-events-none scale-y-[-1] blur-md overflow-hidden">
                   <img src="/images/icestraight.png" className="w-full h-full object-contain" alt="reflection" />
                 </div>
