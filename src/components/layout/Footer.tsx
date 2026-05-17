@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import Link from "next/link";
 import { motion, Variants } from "framer-motion";
 import { BiCalendar } from "react-icons/bi";
 import {
@@ -100,18 +101,25 @@ const Footer = () => {
           <h1 className="text-lg font-bold text-white border-b-2 border-white/20 hover:border-[#937ef1] transition-colors w-fit pb-1 mb-6">
             Quick Links
           </h1>
-          <div className="space-y-3">
-            {["Products", "Contact", "Services", "Series"].map((link) => (
-              <motion.div
-                key={link}
-                whileHover={{ x: 10 }}
-                className="flex items-center space-x-2 group cursor-pointer"
-              >
-                <MdKeyboardDoubleArrowRight className="w-5 h-5 text-white group-hover:text-[#3ac8ee] transition-colors" />
-                <p className="text-sm text-white/80 group-hover:text-[#3ac8ee] transition-colors">
-                  {link}
-                </p>
-              </motion.div>
+          <div className="space-y-3 flex flex-col">
+            {[
+              { name: "Home", path: "/" },
+              { name: "Local Series", path: "/localseries" },
+              { name: "Regular Series", path: "/regularseries" },
+              { name: "Reviews", path: "/review" },
+              { name: "Contact", path: "/contact" },
+            ].map((link) => (
+              <Link href={link.path} key={link.name} className="block w-fit">
+                <motion.div
+                  whileHover={{ x: 10 }}
+                  className="flex items-center space-x-2 group cursor-pointer"
+                >
+                  <MdKeyboardDoubleArrowRight className="w-5 h-5 text-white group-hover:text-[#3ac8ee] transition-colors" />
+                  <p className="text-sm text-white/80 group-hover:text-[#3ac8ee] transition-colors">
+                    {link.name}
+                  </p>
+                </motion.div>
+              </Link>
             ))}
           </div>
         </motion.div>
