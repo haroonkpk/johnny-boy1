@@ -54,6 +54,7 @@ export default async function Home() {
 
         if (sectionId === 'features') {
           props.initialProducts = products;
+          props.content = content;
         }
 
         return <Component {...props} />;

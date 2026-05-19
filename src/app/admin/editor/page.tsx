@@ -12,6 +12,7 @@ import CherrySodaSection from "@/components/admin/editor/CherrySodaSection";
 import HappyCustomersSection from "@/components/admin/editor/HappyCustomersSection";
 import WholesaleCtaSection from "@/components/admin/editor/WholesaleCtaSection";
 import SectionOrderSection from "@/components/admin/editor/SectionOrderSection";
+import ProductSection from "@/components/admin/editor/ProductSection";
 
 export default function AdminEditorPage() {
   const [loading, setLoading] = useState(true);
@@ -79,6 +80,13 @@ export default function AdminEditorPage() {
     stat3Label: content.stat3Label,
     stat3Value: content.stat3Value,
   };
+  // product section
+  const productSectionData = {
+    productBadge: content.productBadge,
+    productTitle: content.productTitle,
+    productSubtitle: content.productSubtitle,
+    productBgText: content.productBgText,
+  };
 
   const cherrySodaData = {
     ultraTitle: content.ultraTitle,
@@ -119,6 +127,8 @@ export default function AdminEditorPage() {
 
         {/* Flavor Aroma Section */}
         <FlavorAromaSection initialData={flavorAromaData} />
+{/* EXPLORE OUR PRODUCT */}
+<ProductSection initialData={productSectionData} />
 
         {/* Cherry Soda Section */}
         <CherrySodaSection initialData={cherrySodaData} />

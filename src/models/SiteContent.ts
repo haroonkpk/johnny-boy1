@@ -18,6 +18,12 @@ export interface ISiteContent extends Document {
   stat3Label: string;
   stat3Value: string;
 
+  // products section
+
+  productBadge: string;
+  productTitle: string;
+  productSubtitle: string;
+  productBgText: string;
   // Cherry Soda Section
   ultraTitle: string;
   ultraDesc: string;
@@ -56,6 +62,11 @@ const SiteContentSchema = new Schema<ISiteContent>(
     stat2Value: { type: String, default: "" },
     stat3Label: { type: String, default: "" },
     stat3Value: { type: String, default: "" },
+    // product
+    productBadge: { type: String, default: "" },
+    productTitle: { type: String, default: "" },
+    productSubtitle: { type: String, default: "" },
+    productBgText: { type: String, default: "" },
 
     // Cherry Soda
     ultraTitle: { type: String, default: "" },

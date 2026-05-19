@@ -16,6 +16,11 @@ export const CONTENT_DEFAULTS = {
   stat2Value: "95%",
   stat3Label: "Freshness",
   stat3Value: "70%",
+  // product
+  productBadge: "Collection",
+   productTitle: "Explore Our Products",
+   productSubtitle: "Choose from our premium local and regular series.",
+   productBgText: "PREMIUM VAPES",
 
   ultraTitle: "CHERRY SODA",
   ultraDesc:

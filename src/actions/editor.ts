@@ -87,6 +87,36 @@ export async function updateFlavorAromaSection(data: {
     return { error: error.message || "Failed to update flavor aroma section" };
   }
 }
+// ── UPDATE: Product Explore Section ───────────────────────────────
+export async function updateProductSection(data: {
+  productBadge: string;
+  productTitle: string;
+  productSubtitle: string;
+  productBgText: string;
+}) {
+  try {
+    await dbConnect();
+    await SiteContent.findOneAndUpdate(
+      { configId: "main" },
+      {
+        productBadge: data.productBadge.trim(),
+        productTitle: data.productTitle.trim(),
+        productSubtitle: data.productSubtitle.trim(),
+        productBgText: data.productBgText.trim(),
+      },
+      { upsert: true, new: true }
+    );
+    
+    revalidatePath("/");
+    return {
+      success: true,
+      message: "Product section updated successfully",
+    };
+  } catch (error: any) {
+    console.error("updateProductSection Error:", error);
+    return { error: error.message || "Failed to update product section" };
+  }
+}
 
 // ── UPDATE: Cherry Soda Section ─────────────────────────────────
 export async function updateCherrySodaSection(data: {

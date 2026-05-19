@@ -9,11 +9,22 @@ import ProductHighlightCard from "@/components/shared/ProductHighlightCard";
 import CarouselArrow from "@/components/shared/CarouselArrow";
 import DotIndicators from "@/components/shared/DotIndicators";
 
+
+// interface FeaturesProps {
+//   initialProducts: Product[];
+// }
 interface FeaturesProps {
   initialProducts: Product[];
+  content: {
+    productBadge?: string;
+    productTitle?: string;
+    productSubtitle?: string;
+    productBgText?: string;
+  };
 }
 
-const Features = ({ initialProducts }: FeaturesProps) => {
+// const Features = ({ initialProducts }: FeaturesProps) => {
+const Features = ({ initialProducts, content }: FeaturesProps) => {
   const [activeSeries, setActiveSeries] = useState<SeriesKey>("regular");
   const [activeCard, setActiveCard] = useState(0);
   const sectionRef = useRef<HTMLElement>(null);
@@ -22,6 +33,12 @@ const Features = ({ initialProducts }: FeaturesProps) => {
 
   const items = initialProducts.filter(p => p.series === activeSeries && !p.comingSoon);
   const CARD_WIDTH = 260 + 40;
+
+  // Yeh lines batati hain ke data database (content) se uthao, agar database khali ho to default text chalao
+  const badge = content?.productBadge || "Collection";
+  const titleText = content?.productTitle || "Explore Our Products";
+  const subtitleText = content?.productSubtitle || "Choose from our premium local and regular series.";
+  const bgText = content?.productBgText || "PREMIUM VAPES";
 
 
   // Reset active card when series changes
@@ -86,17 +103,50 @@ const Features = ({ initialProducts }: FeaturesProps) => {
     >
       {/* 1. Heading */}
       <div className="container mx-auto max-w-[1500px]">
-        <SectionHeading
+        
+        {/* <SectionHeading
+  title={
+    <>
+      {titleText.includes("Products") ? (
+        <>
+          {titleText.replace("Products", "")}{" "}
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500">
+            Products
+          </span>
+        </>
+      ) : (
+        titleText
+      )}
+    </>
+  }
+  subtitle={subtitleText}
+  badge={badge}
+  mode="light"
+/> */}
+
+<SectionHeading
           title={
             <>
-              Explore Our{" "}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500">
-                Products
-              </span>
+              {(() => {
+                const words = titleText.trim().split(" ");
+                if (words.length <= 1) return titleText;
+                
+                const lastWord = words.pop();
+                const mainText = words.join(" ");
+                
+                return (
+                  <>
+                    {mainText}{" "}
+                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500">
+                      {lastWord}
+                    </span>
+                  </>
+                );
+              })()}
             </>
           }
-          subtitle="Choose from our premium local and regular series."
-          badge="Collection"
+          subtitle={subtitleText}
+          badge={badge}
           mode="light"
         />
       </div>
@@ -174,14 +224,22 @@ const Features = ({ initialProducts }: FeaturesProps) => {
 
       {/* 4. Moving Background Text */}
       <div className="absolute bottom-[-5%] left-0 w-[200%] overflow-hidden pointer-events-none z-0">
-        <div
+        {/* <div
           ref={marqueeRef}
           className="flex text-[15rem] font-black text-black/[0.03] select-none whitespace-nowrap will-change-transform"
           style={{ width: "200%" }}
         >
           <span className="mr-20">PREMIUM VAPES</span>
           <span>PREMIUM VAPES</span>
-        </div>
+        </div> */}
+        <div
+  ref={marqueeRef}
+  className="flex text-[15rem] font-black text-black/[0.03] select-none whitespace-nowrap will-change-transform"
+  style={{ width: "200%" }}
+>
+  <span className="mr-20">{bgText}</span>
+  <span>{bgText}</span>
+</div>
       </div>
     </section>
   );
