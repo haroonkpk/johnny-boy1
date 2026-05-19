@@ -86,7 +86,7 @@ const HomeCTA = () => {
                 <span className="block">{lastWord}</span>
               </h2>
 
-              <p className="text-white/60 text-sm sm:text-base lg:text-lg leading-relaxed max-w-[550px] mb-10 sm:mb-12 font-medium">
+              <p className="text-white/60 text-sm sm:text-base lg:text-lg leading-relaxed max-w-[550px] mb-10 sm:mb-12 font-medium whitespace-pre-line">
                 {finalDesc}
               </p>
 

@@ -16,6 +16,8 @@ import Button from "@/components/ui/Button";
 const UltraModernVapeSection = () => {
   const containerRef = useRef<HTMLElement>(null);
 
+  // new
+  const [isMounted, setIsMounted] = useState(false);
   // --- BACKEND FETCH LOGIC ---
   const [data, setData] = useState({
     ultraTitle: "CHERRY SODA",
@@ -27,6 +29,7 @@ const UltraModernVapeSection = () => {
   useEffect(() => {
     const fetchContent = async () => {
       try {
+        
         const res = await fetch("/api/content", { cache: "no-store" });
         const json = await res.json();
         if (json) {
@@ -44,6 +47,8 @@ const UltraModernVapeSection = () => {
       }
     };
     fetchContent();
+    // new
+    setIsMounted(true);
   }, []);
 
   // Title Splitting Logic (Style maintain karne ke liye)
@@ -121,12 +126,22 @@ const UltraModernVapeSection = () => {
                 </span>
               </h2>
 
-              <p className="text-gray-400 text-lg max-w-sm mb-8 font-light leading-relaxed whitespace-pre-line">
+              {/* <p className="text-gray-400 text-lg max-w-sm mb-8 font-light leading-relaxed whitespace-pre-line">
                 {data.ultraDesc}
                 <span className="text-[#ff2d55] block mt-2 font-medium">
                     {data.ultraBgText} 
                 </span>
-              </p>
+              </p> */}
+              <div className="space-y-4 mb-8 max-w-sm">
+                <p className="text-gray-400 text-lg font-light leading-relaxed whitespace-pre-line">
+                  {data.ultraDesc}
+                </p>
+                {data.ultraBgText && (
+                  <p className="text-[#ff2d55] text-lg font-medium leading-relaxed whitespace-pre-line">
+                    {data.ultraBgText}
+                  </p>
+                )}
+              </div>
 
               <Link href="/contact">
                 <Button
@@ -148,15 +163,19 @@ const UltraModernVapeSection = () => {
               <motion.img
                 src="/images/cherrysoda.png"
                 alt="soda"
-                className="absolute w-[140%] z-10 pointer-events-none"
-                style={{ y: sodaScrollY }}
+                // className="absolute w-[140%] z-10 pointer-events-none"
+                // style={{ y: sodaScrollY }}
+                className="absolute w-[140%] z-10 pointer-events-none will-change-transform"
+                style={{ y: isMounted ? sodaScrollY : 0 }}
               />
 
               <motion.img
                 src="/images/vape9.png"
                 alt="vape"
-                className="relative z-30 w-[300px] md:w-[400px] pointer-events-none"
-                style={{ y: vapeScrollY }}
+                // className="relative z-30 w-[300px] md:w-[400px] pointer-events-none"
+                // style={{ y: vapeScrollY }}
+                className="relative z-30 w-[300px] md:w-[400px] pointer-events-none will-change-transform"
+                style={{ y: isMounted ? vapeScrollY : 0 }}
               />
 
               <div className="absolute inset-0 bg-[#ff2d55]/15 rounded-full blur-[100px] -z-10" />

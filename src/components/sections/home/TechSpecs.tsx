@@ -86,7 +86,7 @@ const FlavorAroma = () => {
               }
               subtitle={
                 <div
-                  className="max-w-full md:max-w-lg break-words overflow-hidden"
+                  className="max-w-full md:max-w-lg break-words overflow-hidden whitespace-pre-line"
                   style={{ wordBreak: "break-word" }}
                   dangerouslySetInnerHTML={{ __html: finalSubtitle }}
                 />

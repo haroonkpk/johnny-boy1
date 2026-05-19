@@ -214,7 +214,12 @@ const remainingText = words.join(' '); // Baaki words ko wapas jod dega
             </span>
           </>
         }
-        subtitle={data.customerSubtitle}
+        // subtitle={data.customerSubtitle}
+        subtitle={
+  <div className="whitespace-pre-line">
+    {data.customerSubtitle}
+  </div>
+}
         badge={data.customerBadge}
         mode="light"
       />
