@@ -29,7 +29,7 @@ const HomeCTA = () => {
     fetchContent();
   }, []);
 
-  // 2. Default Values (Agar admin mein data na ho toh ye dikhega)
+  // 2. Default Values 
   const defaults = {
     ctaBadge: "Wholesale Program",
     ctaTitle: "Interested in carrying our product?",
