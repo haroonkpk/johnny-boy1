@@ -9,6 +9,7 @@ import ProductHighlightCard from "@/components/shared/ProductHighlightCard";
 import CarouselArrow from "@/components/shared/CarouselArrow";
 import DotIndicators from "@/components/shared/DotIndicators";
 
+
 // interface FeaturesProps {
 //   initialProducts: Product[];
 // }
@@ -102,20 +103,8 @@ const Features = ({ initialProducts, content }: FeaturesProps) => {
     >
       {/* 1. Heading */}
       <div className="container mx-auto max-w-[1500px]">
+        
         {/* <SectionHeading
-          title={
-            <>
-              Explore Our{" "}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500">
-                Products
-              </span>
-            </>
-          }
-          subtitle="Choose from our premium local and regular series."
-          badge="Collection"
-          mode="light"
-        /> */}
-        <SectionHeading
   title={
     <>
       {titleText.includes("Products") ? (
@@ -133,7 +122,33 @@ const Features = ({ initialProducts, content }: FeaturesProps) => {
   subtitle={subtitleText}
   badge={badge}
   mode="light"
-/>
+/> */}
+
+<SectionHeading
+          title={
+            <>
+              {(() => {
+                const words = titleText.trim().split(" ");
+                if (words.length <= 1) return titleText;
+                
+                const lastWord = words.pop();
+                const mainText = words.join(" ");
+                
+                return (
+                  <>
+                    {mainText}{" "}
+                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500">
+                      {lastWord}
+                    </span>
+                  </>
+                );
+              })()}
+            </>
+          }
+          subtitle={subtitleText}
+          badge={badge}
+          mode="light"
+        />
       </div>
 
       {/* 2. Cards + Arrows */}
