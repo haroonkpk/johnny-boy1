@@ -1,9 +1,18 @@
 "use client";
 
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect, useLayoutEffect } from "react";
 import Button from "../../ui/Button";
 import { Card } from "../../ui/card";
 import { SectionHeading } from "../../ui/SectionHeading";
+
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { Draggable } from "gsap/Draggable";
+import { ScrollToPlugin } from "gsap/ScrollToPlugin";
+
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger, Draggable, ScrollToPlugin);
+}
 
 // Data
 const TESTIMONIALS = [
@@ -98,136 +107,95 @@ function VideoCard({ t, isActive, onToggle }) {
 }
 
 export default function HappyCustomers() {
-
   const [activeVideoId, setActiveVideoId] = useState(null);
   const wrapperRef = useRef(null);
   const trackRef = useRef(null);
   const scrollTriggerRef = useRef(null);
-  const draggableRef = useRef([]);
-
   
-  // 1. Pehle state banayein
   const [data, setData] = useState({
     customerTitle: "What our customers say",
     customerSubtitle: "Real stories from real people who bought our product",
     customerBadge: "Testimonials"
   });
 
-  // 2. useEffect se data fetch karein
   useEffect(() => {
+    let isMounted = true;
     const fetchContent = async () => {
       try {
         const res = await fetch("/api/content", { cache: 'no-store' });
         const json = await res.json();
-        if (json) {
+        if (json && isMounted) {
           setData({
             customerTitle: json.customerTitle || "What our customers say",
             customerSubtitle: json.customerSubtitle || "Real stories from real people who bought our product",
             customerBadge: json.customerBadge || "Testimonials"
           });
-          // Refresh ScrollTrigger to recalculate heights after dynamic content loads
-          import("gsap/ScrollTrigger").then(({ ScrollTrigger }) => {
-            ScrollTrigger.refresh();
-          });
+          setTimeout(() => {
+            if (isMounted) ScrollTrigger.refresh();
+          }, 100);
         }
       } catch (error) { console.error(error); }
     };
     fetchContent();
-  }, []);
-
-  // ... baaki GSAP wala useEffect waisa hi rahega ...
-
-  useEffect(() => {
-    let ctx;
-    let isMounted = true;
-
-    const init = async () => {
-      const { gsap } = await import("gsap");
-      const { ScrollTrigger } = await import("gsap/ScrollTrigger");
-      const { Draggable } = await import("gsap/Draggable");
-      const { ScrollToPlugin } = await import("gsap/ScrollToPlugin");
-
-      if (!isMounted) return;
-
-      gsap.registerPlugin(ScrollTrigger, Draggable, ScrollToPlugin);
-
-      const track = trackRef.current;
-      const wrapper = wrapperRef.current;
-      if (!track || !wrapper) return;
-
-      ctx = gsap.context(() => {
-        const getScrollAmount = () => track.scrollWidth - window.innerWidth;
-
-        scrollTriggerRef.current = ScrollTrigger.create({
-          trigger: wrapper,
-          pin: true,
-          start: "top top",
-          end: () => `+=${getScrollAmount()}`,
-          scrub: 1,
-          invalidateOnRefresh: true,
-          animation: gsap.to(track, {
-            x: () => -getScrollAmount(),
-            ease: "none",
-          }),
-        });
-
-        const draggables = Draggable.create(track, {
-          type: "x",
-          bounds: { minX: () => -getScrollAmount(), maxX: 0 },
-          inertia: true,
-          onDrag: function () {
-            const progress = this.x / -getScrollAmount();
-            const target =
-              scrollTriggerRef.current.start +
-              (scrollTriggerRef.current.end - scrollTriggerRef.current.start) *
-                progress;
-            gsap.set(window, { scrollTo: target });
-          },
-        });
-        draggableRef.current = draggables;
-      });
-
-      // Refresh ScrollTrigger after a slight delay to ensure heights are correctly calculated
-      setTimeout(() => {
-        if (isMounted) {
-          ScrollTrigger.refresh();
-        }
-      }, 100);
-    };
-
-    init();
-
     return () => {
       isMounted = false;
-
-      // Clean up Draggable instances
-      if (draggableRef.current && draggableRef.current.length > 0) {
-        draggableRef.current.forEach((d) => {
-          if (d && typeof d.kill === "function") {
-            d.kill();
-          }
-        });
-      }
-
-      // Revert GSAP context (kills ScrollTrigger and animations inside the context)
-      if (ctx) {
-        ctx.revert();
-      }
-
-      // Explicitly kill the ScrollTrigger instance if it exists
-      if (scrollTriggerRef.current) {
-        scrollTriggerRef.current.kill();
-      }
-
-      // Refresh ScrollTrigger layout after unmounting to remove pinning styles
-      import("gsap/ScrollTrigger").then(({ ScrollTrigger }) => {
-        ScrollTrigger.refresh();
-      });
     };
   }, []);
 
-  const moveTrack = async (direction) => {
-    const { gsap } = await import("gsap");
+  const useIsomorphicLayoutEffect = typeof window !== "undefined" ? useLayoutEffect : useEffect;
+
+  useIsomorphicLayoutEffect(() => {
+    const track = trackRef.current;
+    const wrapper = wrapperRef.current;
+    if (!track || !wrapper) return;
+
+    let draggables;
+
+    const ctx = gsap.context(() => {
+      const getScrollAmount = () => track.scrollWidth - window.innerWidth;
+
+      scrollTriggerRef.current = ScrollTrigger.create({
+        trigger: wrapper,
+        pin: true,
+        start: "top top",
+        end: () => `+=${getScrollAmount()}`,
+        scrub: 1,
+        invalidateOnRefresh: true,
+        animation: gsap.to(track, {
+          x: () => -getScrollAmount(),
+          ease: "none",
+        }),
+      });
+
+      draggables = Draggable.create(track, {
+        type: "x",
+        bounds: { minX: () => -getScrollAmount(), maxX: 0 },
+        inertia: true,
+        onDrag: function () {
+          if (!scrollTriggerRef.current) return;
+          const progress = this.x / -getScrollAmount();
+          const target =
+            scrollTriggerRef.current.start +
+            (scrollTriggerRef.current.end - scrollTriggerRef.current.start) * progress;
+          gsap.set(window, { scrollTo: target });
+        },
+      });
+    }, wrapperRef);
+
+    const timeout = setTimeout(() => {
+      ScrollTrigger.refresh();
+    }, 100);
+
+    return () => {
+      clearTimeout(timeout);
+      if (draggables && draggables.length > 0) {
+        draggables.forEach((d) => d.kill());
+      }
+      ctx.revert();
+    };
+  }, []);
+
+  const moveTrack = (direction) => {
     const step = window.innerWidth * 0.5;
     const currentScroll = window.scrollY;
     const targetScroll =
@@ -239,39 +207,35 @@ export default function HappyCustomers() {
       ease: "power2.inOut",
     });
   };
-  // --- YE LOGIC ADD KAREIN ---
-const words = data.customerTitle.split(' ');
-const lastWord = words.pop(); // Aakhri word nikal lega
-const remainingText = words.join(' '); // Baaki words ko wapas jod dega
+
+  const words = data.customerTitle.split(' ');
+  const lastWord = words.pop();
+  const remainingText = words.join(' ');
 
   return (
     <section className="bg-[var(--color-cream)] relative min-h-screen pb-20">
-      {/* 1. Header */}
       <div className="container mx-auto max-w-[1500px] pt-24 pb-12 px-6">
         <SectionHeading
-        title={
-          <>
-            {remainingText}{" "}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500">
-              {lastWord}
-            </span>
-          </>
-        }
-        // subtitle={data.customerSubtitle}
-        subtitle={
-  <div className="whitespace-pre-line">
-    {data.customerSubtitle}
-  </div>
-}
-        badge={data.customerBadge}
-        mode="light"
-      />
+          title={
+            <>
+              {remainingText}{" "}
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500">
+                {lastWord}
+              </span>
+            </>
+          }
+          subtitle={
+            <div className="whitespace-pre-line">
+              {data.customerSubtitle}
+            </div>
+          }
+          badge={data.customerBadge}
+          mode="light"
+        />
       </div>
 
-      {/* 2. GSAP Wrapper  */}
       <div ref={wrapperRef} className="relative overflow-hidden">
         <div className="h-screen flex items-center relative">
-          {/* Moving Videos Track */}
           <div
             ref={trackRef}
             className="flex gap-6 px-[7.5vw] will-change-transform"

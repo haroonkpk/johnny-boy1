@@ -50,14 +50,14 @@ export default async function Home() {
         if (!Component) return null;
 
         // Pass appropriate props to each section
-        const props: Record<string, any> = { key: sectionId };
+        const props: Record<string, any> = {};
 
         if (sectionId === 'features') {
           props.initialProducts = products;
           props.content = content;
         }
 
-        return <Component {...props} />;
+        return <Component key={sectionId} {...props} />;
       })}
     </main>
   );
