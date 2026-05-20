@@ -259,7 +259,7 @@ defaults: { ease: "power2.out" }
   };
 
   return (
-    <div ref={containerRef} className="relative bg-black overflow-x-hidden w-full">
+    <div ref={containerRef} className="relative bg-black overflow-x-clip w-full">
       <ParticleBackground />
 
       <style jsx global>{`
@@ -278,7 +278,7 @@ defaults: { ease: "power2.out" }
         }
       `}</style>
 
-      <div ref={triggerRef} className="relative h-screen w-full flex items-center justify-center">
+      <div ref={triggerRef} className="relative min-h-[100svh] py-24 md:py-0 w-full flex items-center justify-center">
 
         <div className="full-bg-water absolute inset-0 z-0 opacity-0 pointer-events-none">
           <img src="/images/water7.png" className="w-full h-full object-cover mix-blend-screen" alt="water bg" />
@@ -298,7 +298,7 @@ defaults: { ease: "power2.out" }
           <img src="/images/water22.png" className="w-[300px] md:w-[600px] h-auto opacity-70" alt="splash" />
         </div>
 
-        <div className="container mx-auto max-w-[1500px] px-6 z-30 relative">
+        <div className="container mx-auto max-w-[1500px] px-2 md:px-6 z-30 relative">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-12 items-center">
 
             <div className="hero-text-content opacity-0 flex flex-col space-y-4 md:space-y-10 text-center lg:text-left order-2 lg:order-1 -mt-8 lg:mt-0 relative">
@@ -343,7 +343,7 @@ defaults: { ease: "power2.out" }
               </div>
             </div>
 
-            <div className="main-visual-wrapper relative flex justify-center items-center h-[40vh] min-h-[300px] md:min-h-0 md:h-[550px] lg:h-[650px] order-1 lg:order-2 -mt-4 md:-mt-8 lg:mt-0">
+            <div className="main-visual-wrapper relative flex justify-center items-center h-[350px] sm:h-[400px] md:h-[550px] lg:h-[650px] order-1 lg:order-2 -mt-4 md:-mt-8 lg:mt-0">
               <img src="/images/cloud-bg.webp" className="absolute w-full h-full object-contain opacity-20 mix-blend-screen z-0 blur-2xl" alt="cloud" />
               <div className="relative z-20 flex flex-col items-center">
                 <img src="/images/icestraight.png" alt="Product" className="w-[340px] sm:w-[420px] md:w-[650px] lg:w-[750px] max-w-[110vw] h-auto object-contain drop-shadow-[0_20px_50px_rgba(147,126,241,0.5)]" />
