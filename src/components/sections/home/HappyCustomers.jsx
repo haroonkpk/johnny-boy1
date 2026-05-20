@@ -9,6 +9,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Draggable } from "gsap/Draggable";
 import { ScrollToPlugin } from "gsap/ScrollToPlugin";
+import { ArrowLeftIcon, ArrowRightIcon, Pause, PauseCircleIcon, Play, PlayCircleIcon } from "lucide-react";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger, Draggable, ScrollToPlugin);
@@ -21,45 +22,6 @@ const TESTIMONIALS = [
   { id: 2, videoSrc: "/video3.mp4" },
 ];
 
-// Icons
-const PlayIcon = () => (
-  <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-    <path d="M8 5v14l11-7z" />
-  </svg>
-);
-const PauseIcon = () => (
-  <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-    <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" />
-  </svg>
-);
-const ArrowLeft = () => (
-  <svg
-    width="24"
-    height="24"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-  >
-    <path d="M19 12H5M12 19l-7-7 7-7" />
-  </svg>
-);
-const ArrowRight = () => (
-  <svg
-    width="24"
-    height="24"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-  >
-    <path d="M5 12h14M12 5l7 7-7 7" />
-  </svg>
-);
 
 // Video Card Component
 function VideoCard({ t, isActive, onToggle }) {
@@ -99,7 +61,7 @@ function VideoCard({ t, isActive, onToggle }) {
           }}
           className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10 w-[64px] h-[64px]"
         >
-          {isActive ? <PauseIcon /> : <PlayIcon />}
+          {isActive ? <Pause /> : <Play />}
         </Button>
       </div>
     </Card>
@@ -266,14 +228,14 @@ export default function HappyCustomers() {
               onClick={() => moveTrack("prev")}
               className="pointer-events-auto py-[clamp(1rem,2.5vw,1.5rem)]"
             >
-              <ArrowLeft />
+              <ArrowLeftIcon />
             </Button>
             <Button
               variant="secondary"
               onClick={() => moveTrack("next")}
               className="pointer-events-auto py-[clamp(1rem,2.5vw,1.5rem)]"
             >
-              <ArrowRight />
+              <ArrowRightIcon />
             </Button>
           </div>
         </div>
