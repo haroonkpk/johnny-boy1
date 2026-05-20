@@ -103,6 +103,7 @@ export default function HappyCustomers() {
   const wrapperRef = useRef(null);
   const trackRef = useRef(null);
   const scrollTriggerRef = useRef(null);
+  const draggableRef = useRef([]);
 
   
   // 1. Pehle state banayein
@@ -124,6 +125,10 @@ export default function HappyCustomers() {
             customerSubtitle: json.customerSubtitle || "Real stories from real people who bought our product",
             customerBadge: json.customerBadge || "Testimonials"
           });
+          // Refresh ScrollTrigger to recalculate heights after dynamic content loads
+          import("gsap/ScrollTrigger").then(({ ScrollTrigger }) => {
+            ScrollTrigger.refresh();
+          });
         }
       } catch (error) { console.error(error); }
     };
@@ -134,11 +139,15 @@ export default function HappyCustomers() {
 
   useEffect(() => {
     let ctx;
+    let isMounted = true;
+
     const init = async () => {
       const { gsap } = await import("gsap");
       const { ScrollTrigger } = await import("gsap/ScrollTrigger");
       const { Draggable } = await import("gsap/Draggable");
       const { ScrollToPlugin } = await import("gsap/ScrollToPlugin");
+
+      if (!isMounted) return;
 
       gsap.registerPlugin(ScrollTrigger, Draggable, ScrollToPlugin);
 
@@ -162,7 +171,7 @@ export default function HappyCustomers() {
           }),
         });
 
-        Draggable.create(track, {
+        const draggables = Draggable.create(track, {
           type: "x",
           bounds: { minX: () => -getScrollAmount(), maxX: 0 },
           inertia: true,
@@ -175,11 +184,46 @@ export default function HappyCustomers() {
             gsap.set(window, { scrollTo: target });
           },
         });
+        draggableRef.current = draggables;
       });
+
+      // Refresh ScrollTrigger after a slight delay to ensure heights are correctly calculated
+      setTimeout(() => {
+        if (isMounted) {
+          ScrollTrigger.refresh();
+        }
+      }, 100);
     };
 
     init();
-    return () => ctx?.revert();
+
+    return () => {
+      isMounted = false;
+
+      // Clean up Draggable instances
+      if (draggableRef.current && draggableRef.current.length > 0) {
+        draggableRef.current.forEach((d) => {
+          if (d && typeof d.kill === "function") {
+            d.kill();
+          }
+        });
+      }
+
+      // Revert GSAP context (kills ScrollTrigger and animations inside the context)
+      if (ctx) {
+        ctx.revert();
+      }
+
+      // Explicitly kill the ScrollTrigger instance if it exists
+      if (scrollTriggerRef.current) {
+        scrollTriggerRef.current.kill();
+      }
+
+      // Refresh ScrollTrigger layout after unmounting to remove pinning styles
+      import("gsap/ScrollTrigger").then(({ ScrollTrigger }) => {
+        ScrollTrigger.refresh();
+      });
+    };
   }, []);
 
   const moveTrack = async (direction) => {
@@ -204,7 +248,6 @@ const remainingText = words.join(' '); // Baaki words ko wapas jod dega
     <section className="bg-[var(--color-cream)] relative min-h-screen pb-20">
       {/* 1. Header */}
       <div className="container mx-auto max-w-[1500px] pt-24 pb-12 px-6">
-    
         <SectionHeading
         title={
           <>

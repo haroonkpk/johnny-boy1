@@ -212,6 +212,7 @@ export default function Home() {
 //   onLeave:        () => { autoScrollRef.current.done = true; },
 //   onEnterBack:    () => { autoScrollRef.current.done = false; }, 
 // },  
+// },  
 
 delay: 1,
 defaults: { ease: "power2.out" }
@@ -234,7 +235,14 @@ defaults: { ease: "power2.out" }
 
   }, containerRef);
 
-  return () => ctx.revert();
+  setTimeout(() => {
+    ScrollTrigger.refresh();
+  }, 100);
+
+  return () => {
+    ctx.revert();
+    ScrollTrigger.refresh();
+  };
 }, []);
 
   const splitText = (text: string, className: string) =>
