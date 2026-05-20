@@ -231,7 +231,14 @@ useEffect(() => {
 
   }, containerRef);
 
-  return () => ctx.revert();
+  setTimeout(() => {
+    ScrollTrigger.refresh();
+  }, 100);
+
+  return () => {
+    ctx.revert();
+    ScrollTrigger.refresh();
+  };
 }, []);
 
   const splitText = (text: string, className: string) =>

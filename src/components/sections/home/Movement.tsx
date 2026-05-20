@@ -38,6 +38,10 @@ const UltraModernVapeSection = () => {
             ultraBgText:
               json.ultraBgText || "Integrated Power Bank for unyielding performance.",
           });
+          // Refresh ScrollTrigger to adjust sections after dynamic text changes
+          import("gsap/ScrollTrigger").then(({ ScrollTrigger }) => {
+            ScrollTrigger.refresh();
+          });
         }
       } catch (error) {
         console.error("Error fetching ultra modern content:", error);
@@ -46,10 +50,9 @@ const UltraModernVapeSection = () => {
     fetchContent();
   }, []);
 
-  // Title Splitting Logic (Style maintain karne ke liye)
   const titleWords = data.ultraTitle.split(" ");
-  const firstPart = titleWords[0]; // CHERRY
-  const secondPart = titleWords.slice(1).join(" "); // SODA (ya baaki ka text)
+  const firstPart = titleWords[0];
+  const secondPart = titleWords.slice(1).join(" ");
 
   // --- ANIMATIONS ---
   const { scrollYProgress } = useScroll({
@@ -106,7 +109,6 @@ const UltraModernVapeSection = () => {
 
       <div className="container mx-auto max-w-[1500px] px-6 relative z-10">
         <div className="flex flex-col lg:flex-row items-center gap-16">
-          {/* TEXT CONTENT (DYNAMIC) */}
           <div className="w-full lg:w-1/2 text-white">
             <motion.div
               initial={{ opacity: 0, x: -40 }}
