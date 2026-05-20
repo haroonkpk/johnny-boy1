@@ -64,124 +64,124 @@ export default function Home() {
   const autoScrollRef = useRef({ done: false, running: false });
 
   // AUTO-SCROLL
-useEffect(() => {
-  const state = autoScrollRef.current;
-  state.done = false;
-  state.running = false;
+// useEffect(() => {
+//   const state = autoScrollRef.current;
+//   state.done = false;
+//   state.running = false;
 
-  const prevent = (e: Event) => { e.preventDefault(); e.stopPropagation(); };
+//   const prevent = (e: Event) => { e.preventDefault(); e.stopPropagation(); };
 
-  const unlock = () => {
-    document.body.style.overflow = "";
-    window.removeEventListener("wheel",     prevent, false);
-    window.removeEventListener("touchmove", prevent, false);
-  };
+//   const unlock = () => {
+//     document.body.style.overflow = "";
+//     window.removeEventListener("wheel",     prevent, false);
+//     window.removeEventListener("touchmove", prevent, false);
+//   };
 
-  const getTargets = () => {
-    const heroEl  = triggerRef.current;
-    if (!heroEl) return { pinEnd: 0, pinStart: 0 };
-    const navHeight = document.querySelector("nav")?.offsetHeight || 0;
-    const heroTop   = heroEl.offsetTop - navHeight;
-    const pinStart  = heroTop;                          
-    const pinEnd    = heroTop + heroEl.offsetHeight * 8; 
-    return { pinEnd, pinStart };
-  };
+//   const getTargets = () => {
+//     const heroEl  = triggerRef.current;
+//     if (!heroEl) return { pinEnd: 0, pinStart: 0 };
+//     const navHeight = document.querySelector("nav")?.offsetHeight || 0;
+//     const heroTop   = heroEl.offsetTop - navHeight;
+//     const pinStart  = heroTop;                          
+//     const pinEnd    = heroTop + heroEl.offsetHeight * 8; 
+//     return { pinEnd, pinStart };
+//   };
 
-  const runDown = () => {
-    if (state.running) return;
-    state.running = true;
-    state.done    = false;
+//   const runDown = () => {
+//     if (state.running) return;
+//     state.running = true;
+//     state.done    = false;
 
-    const { pinEnd } = getTargets();
-    const scrollTarget = pinEnd - 10;
+//     const { pinEnd } = getTargets();
+//     const scrollTarget = pinEnd - 10;
 
-    document.body.style.overflow = "hidden";
-    window.addEventListener("wheel",     prevent, { passive: false });
-    window.addEventListener("touchmove", prevent, { passive: false });
+//     document.body.style.overflow = "hidden";
+//     window.addEventListener("wheel",     prevent, { passive: false });
+//     window.addEventListener("touchmove", prevent, { passive: false });
 
-    if (document.body.scrollHeight < scrollTarget + 100) {
-      document.body.style.minHeight = `${scrollTarget + 200}px`;
-    }
+//     if (document.body.scrollHeight < scrollTarget + 100) {
+//       document.body.style.minHeight = `${scrollTarget + 200}px`;
+//     }
 
-    gsap.to(window, {
-      duration: 4,
-      scrollTo: { y: scrollTarget, autoKill: false },
-      ease: "power2.inOut",
-      onComplete: () => {
-        state.done    = true;
-        state.running = false;
-        document.body.style.minHeight = "";
-        unlock();
-      },
-    });
-  };
+//     gsap.to(window, {
+//       duration: 4,
+//       scrollTo: { y: scrollTarget, autoKill: false },
+//       ease: "power2.inOut",
+//       onComplete: () => {
+//         state.done    = true;
+//         state.running = false;
+//         document.body.style.minHeight = "";
+//         unlock();
+//       },
+//     });
+//   };
 
-  const runUp = () => {
-    if (state.running) return;
-    state.running = true;
-    state.done    = false;
+//   const runUp = () => {
+//     if (state.running) return;
+//     state.running = true;
+//     state.done    = false;
 
-    document.body.style.overflow = "hidden";
-    window.addEventListener("wheel",     prevent, { passive: false });
-    window.addEventListener("touchmove", prevent, { passive: false });
+//     document.body.style.overflow = "hidden";
+//     window.addEventListener("wheel",     prevent, { passive: false });
+//     window.addEventListener("touchmove", prevent, { passive: false });
 
-    gsap.to(window, {
-      duration: 4,
-      scrollTo: { y: 0, autoKill: false },
-      ease: "power2.inOut",
-      onComplete: () => {
-        state.done    = false;
-        state.running = false;
-        document.body.style.minHeight = "";
-        unlock();
-      },
-    });
-  };
+//     gsap.to(window, {
+//       duration: 4,
+//       scrollTo: { y: 0, autoKill: false },
+//       ease: "power2.inOut",
+//       onComplete: () => {
+//         state.done    = false;
+//         state.running = false;
+//         document.body.style.minHeight = "";
+//         unlock();
+//       },
+//     });
+//   };
 
-  const onWheel = (e: WheelEvent) => {
-    if (state.running) return;
+//   const onWheel = (e: WheelEvent) => {
+//     if (state.running) return;
 
-    const { pinEnd, pinStart } = getTargets();
-    const scrollY = window.scrollY;
+//     const { pinEnd, pinStart } = getTargets();
+//     const scrollY = window.scrollY;
 
-    if (e.deltaY > 0 && scrollY < pinEnd - 10 && scrollY >= pinStart - 100) {
-      runDown();
-      return;
-    }
-    if (e.deltaY < 0 && scrollY > pinStart && scrollY <= pinEnd) {
-      runUp();
-      return;
-    }
-  };
+//     if (e.deltaY > 0 && scrollY < pinEnd - 10 && scrollY >= pinStart - 100) {
+//       runDown();
+//       return;
+//     }
+//     if (e.deltaY < 0 && scrollY > pinStart && scrollY <= pinEnd) {
+//       runUp();
+//       return;
+//     }
+//   };
 
-  let touchStartY = 0;
-  const onTouchStart = (e: TouchEvent) => { touchStartY = e.touches[0].clientY; };
-  const onTouchEnd   = (e: TouchEvent) => {
-    if (state.running) return;
-    const diff = touchStartY - e.changedTouches[0].clientY;
-    const { pinEnd, pinStart } = getTargets();
-    const scrollY = window.scrollY;
+//   let touchStartY = 0;
+//   const onTouchStart = (e: TouchEvent) => { touchStartY = e.touches[0].clientY; };
+//   const onTouchEnd   = (e: TouchEvent) => {
+//     if (state.running) return;
+//     const diff = touchStartY - e.changedTouches[0].clientY;
+//     const { pinEnd, pinStart } = getTargets();
+//     const scrollY = window.scrollY;
 
-    if (diff > 30 && scrollY < pinEnd - 10 && scrollY >= pinStart - 100) {
-      runDown();
-    } else if (diff < -30 && scrollY > pinStart && scrollY <= pinEnd) {
-      runUp();
-    }
-  };
+//     if (diff > 30 && scrollY < pinEnd - 10 && scrollY >= pinStart - 100) {
+//       runDown();
+//     } else if (diff < -30 && scrollY > pinStart && scrollY <= pinEnd) {
+//       runUp();
+//     }
+//   };
 
-  window.addEventListener("wheel",      onWheel,      { passive: true });
-  window.addEventListener("touchstart", onTouchStart, { passive: true });
-  window.addEventListener("touchend",   onTouchEnd,   { passive: true });
+//   window.addEventListener("wheel",      onWheel,      { passive: true });
+//   window.addEventListener("touchstart", onTouchStart, { passive: true });
+//   window.addEventListener("touchend",   onTouchEnd,   { passive: true });
 
-  return () => {
-    unlock();
-    window.removeEventListener("wheel",      onWheel);
-    window.removeEventListener("touchstart", onTouchStart);
-    window.removeEventListener("touchend",   onTouchEnd);
-    gsap.killTweensOf(window);
-    document.body.style.minHeight = "";
-  };
-}, []);
+//   return () => {
+//     unlock();
+//     window.removeEventListener("wheel",      onWheel);
+//     window.removeEventListener("touchstart", onTouchStart);
+//     window.removeEventListener("touchend",   onTouchEnd);
+//     gsap.killTweensOf(window);
+//     document.body.style.minHeight = "";
+//   };
+// }, []);
 
 
   useEffect(() => {
@@ -202,16 +202,20 @@ useEffect(() => {
     if (!heroEl) return;
 
     const tl = gsap.timeline({
-      scrollTrigger: {
-  trigger: heroEl,
-  start: () => `top top+=${document.querySelector("nav")?.offsetHeight || 0}`,
-  end: () => `+=${heroEl.offsetHeight * 8}`,
-  pin: true,
-  scrub: 1.5,
+//       scrollTrigger: {
+//   trigger: heroEl,
+//   start: () => `top top+=${document.querySelector("nav")?.offsetHeight || 0}`,
+//   end: () => `+=${heroEl.offsetHeight * 8}`,
+//   pin: true,
+//   scrub: 1.5,
 
-  onLeave:        () => { autoScrollRef.current.done = true; },
-  onEnterBack:    () => { autoScrollRef.current.done = false; }, 
-},  
+//   onLeave:        () => { autoScrollRef.current.done = true; },
+//   onEnterBack:    () => { autoScrollRef.current.done = false; }, 
+// },  
+// },  
+
+delay: 1,
+defaults: { ease: "power2.out" }
     });
 
     tl.fromTo(".main-visual-wrapper", { scale: 0.4, opacity: 0 }, { scale: 1, opacity: 1, duration: 2 })
@@ -306,7 +310,7 @@ useEffect(() => {
                 </h1>
                 {dynamicContent ? (
                   <div
-                    className="dynamic-html-content text-gray-200 font-medium text-base sm:text-lg md:text-2xl max-w-full md:max-w-lg mx-auto lg:mx-0 tracking-wide leading-relaxed text-center lg:text-left px-2"
+                    className="dynamic-html-content text-gray-200 font-medium text-base sm:text-lg md:text-2xl max-w-full md:max-w-lg mx-auto lg:mx-0 tracking-wide leading-relaxed text-center lg:text-left px-2 whitespace-pre-line"
                     style={{ wordBreak: "break-word", overflowWrap: "anywhere", textShadow: "0 2px 10px rgba(0,0,0,0.8)" }}
                     dangerouslySetInnerHTML={{ __html: dynamicContent }}
                   />

@@ -249,18 +249,23 @@ const remainingText = words.join(' '); // Baaki words ko wapas jod dega
       {/* 1. Header */}
       <div className="container mx-auto max-w-[1500px] pt-24 pb-12 px-6">
         <SectionHeading
-          title={
-            <>
-              {remainingText}{" "}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500">
-                {lastWord}
-              </span>
-            </>
-          }
-          subtitle={data.customerSubtitle}
-          badge={data.customerBadge}
-          mode="light"
-        />
+        title={
+          <>
+            {remainingText}{" "}
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500">
+              {lastWord}
+            </span>
+          </>
+        }
+        // subtitle={data.customerSubtitle}
+        subtitle={
+  <div className="whitespace-pre-line">
+    {data.customerSubtitle}
+  </div>
+}
+        badge={data.customerBadge}
+        mode="light"
+      />
       </div>
 
       {/* 2. GSAP Wrapper  */}

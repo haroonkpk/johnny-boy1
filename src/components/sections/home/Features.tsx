@@ -145,7 +145,12 @@ const Features = ({ initialProducts, content }: FeaturesProps) => {
               })()}
             </>
           }
-          subtitle={subtitleText}
+          // subtitle={subtitleText}
+          subtitle={
+            <div className="whitespace-pre-line">
+              {subtitleText}
+            </div>
+          }
           badge={badge}
           mode="light"
         />
