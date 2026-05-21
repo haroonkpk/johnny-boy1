@@ -15,8 +15,8 @@ import {
 import { IoMailOpen } from "react-icons/io5";
 import { MdKeyboardDoubleArrowRight } from "react-icons/md";
 
-// const Footer = () => {
-const Footer = ({ data }: { data: any }) => {
+const Footer = () => {
+
   const containerVariants: Variants = {
     hidden: { opacity: 0 },
     visible: {
