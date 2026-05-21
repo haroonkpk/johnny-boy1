@@ -20,6 +20,7 @@ export default async function LocalSeries() {
       />
   
       {/* <div className="py-10 flex justify-center items-center "> */}
+      {/* <div className="py-10 flex justify-center items-center "> */}
          <div className="pt-10 pb-6 flex justify-center items-center">
         <h1 className="text-black text-5xl md:text-7xl font-extrabold text-center">
           {products.length} Flavours
