@@ -97,8 +97,8 @@ const FlavorAroma = () => {
             />
 
             {/* Flavor Profile Stats - Now Fully Dynamic */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 pt-6 mb-6">
-              {/* Stat 1: Intensity */}
+           <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 pt-6 mb-6">
+            
               <div className="space-y-2">
                 <div className="flex items-center gap-2 text-black font-bold uppercase text-xs">
                   <Zap size={14} className="text-[#3ac8ee]" /> {data?.stat1Label || defaults.stat1Label}
@@ -111,7 +111,7 @@ const FlavorAroma = () => {
                 </div>
               </div>
 
-              {/* Stat 2: Smoothness */}
+       
               <div className="space-y-2">
                 <div className="flex items-center gap-2 text-black font-bold uppercase text-xs">
                   <Droplets size={14} className="text-[#937ef1]" /> {data?.stat2Label || defaults.stat2Label}
@@ -124,7 +124,7 @@ const FlavorAroma = () => {
                 </div>
               </div>
 
-              {/* Stat 3: Freshness */}
+            
               <div className="space-y-2">
                 <div className="flex items-center gap-2 text-black font-bold uppercase text-xs">
                   <Wind size={14} className="text-emerald-500" /> {data?.stat3Label || defaults.stat3Label}
@@ -136,7 +136,7 @@ const FlavorAroma = () => {
                   />
                 </div>
               </div>
-            </div>
+            </div> 
 
           
             <Button

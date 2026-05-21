@@ -10,11 +10,13 @@ import {
   FaPhone,
   FaYoutube,
   FaPaperPlane,
+  FaSnapchatGhost,
 } from "react-icons/fa";
 import { IoMailOpen } from "react-icons/io5";
 import { MdKeyboardDoubleArrowRight } from "react-icons/md";
 
-const Footer = () => {
+// const Footer = () => {
+const Footer = ({ data }: { data: any }) => {
   const containerVariants: Variants = {
     hidden: { opacity: 0 },
     visible: {
@@ -57,20 +59,22 @@ const Footer = () => {
             Conditions Terms of Use Ours features in Services new Guests List.
             The Team List Guests List The Team List.
           </p>
+    
           <div className="flex items-center space-x-4 mt-8">
-            {/* Facebook */}
+         
             <div className="w-10 h-10 bg-white/5 border border-white/10 rounded-full flex items-center justify-center cursor-pointer hover:bg-[#937ef1] hover:shadow-[0_0_15px_#937ef1] hover:-translate-y-1 transition-all duration-300 group">
               <FaFacebook className="text-white" />
             </div>
-            {/* YouTube */}
+        
             <div className="w-10 h-10 bg-white/5 border border-white/10 rounded-full flex items-center justify-center cursor-pointer hover:bg-red-500 hover:shadow-[0_0_15px_rgba(239,68,68,0.5)] hover:-translate-y-1 transition-all duration-300">
               <FaYoutube className="text-white" />
             </div>
-            {/* Instagram */}
+          
             <div className="w-10 h-10 bg-white/5 border border-white/10 rounded-full flex items-center justify-center cursor-pointer hover:bg-gradient-to-tr hover:from-[#937ef1] hover:to-[#3ac8ee] hover:shadow-[0_0_15px_#3ac8ee] hover:-translate-y-1 transition-all duration-300">
               <FaInstagram className="text-white" />
             </div>
           </div>
+         
         </motion.div>
 
         {/* 2nd part: Address */}
@@ -147,3 +151,4 @@ const Footer = () => {
 };
 
 export default Footer;
+

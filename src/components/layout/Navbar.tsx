@@ -99,7 +99,8 @@ export default function Navbar() {
               <img
                 src="/images/jhonny.png"
                 alt="Logo"
-                className="h-[clamp(4rem,6vw,6rem)] w-auto rounded-full object-contain"
+                
+                className="h-[clamp(6rem,8vw,8rem)]  w-auto rounded-full object-contain"
               />
             </Link>
           </div>
