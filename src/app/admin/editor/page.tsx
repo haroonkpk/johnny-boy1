@@ -14,6 +14,7 @@ import WholesaleCtaSection from "@/components/admin/editor/WholesaleCtaSection";
 import SectionOrderSection from "@/components/admin/editor/SectionOrderSection";
 import ProductSection from "@/components/admin/editor/ProductSection";
 
+
 export default function AdminEditorPage() {
   const [loading, setLoading] = useState(true);
   const [mounted, setMounted] = useState(false);
@@ -104,6 +105,23 @@ export default function AdminEditorPage() {
     ctaBadge: content.ctaBadge,
     ctaTitle: content.ctaTitle,
     ctaDesc: content.ctaDesc,
+  };
+  // Is object ko content check block ke baad aur return statement se pehle rakhein:
+  const footerSectionData = {
+    description: content.footerDescription,
+    showDescription: content.showFooterDesc ?? true, // block out / hide karne ke liye booleans
+    address: content.footerAddress,
+    phone: content.footerPhone,
+    email: content.footerEmail,
+    showAddress: content.showFooterAddress ?? true,
+    facebookUrl: content.facebookUrl,
+    instagramUrl: content.instagramUrl,
+    youtubeUrl: content.youtubeUrl,
+    snapchatUrl: content.snapchatUrl, // snapchat add karne ke liye
+    showSocials: content.showFooterSocials ?? true,
+    newsDate: content.footerNewsDate,
+    newsTitle: content.footerNewsTitle,
+    showNews: content.showFooterNews ?? true,
   };
 
   const sectionOrderData = {

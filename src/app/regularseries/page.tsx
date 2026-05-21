@@ -18,7 +18,7 @@ export default async function RegularSeries() {
         subtitle="Premium clouds ultimate flavor. Explore the exclusive JohnnyBoy collection where cutting-edge tech meets bold aesthetics."
         badge="Products"
       />
-      <div className="min-h-screen flex justify-center items-center">
+      <div className="py-10 flex justify-center items-center ">
         <h1 className="text-black text-5xl md:text-7xl font-extrabold text-center">
           {products.length} Flavours
         </h1>
