@@ -2,6 +2,9 @@ import ProductCard from '@/components/ProductCard';
 import PageHero from '@/components/PageHero';
 import { getProducts } from '@/actions/product';
 import { Product } from '@/types/product';
+import DeviceHighlights from '@/components/sections/home/DeviceHighlights';
+import BottleParallax from '@/components/sections/home/BottleParallax';
+
 
 export const revalidate = 10;
 
@@ -25,6 +28,15 @@ export default async function RegularSeries() {
           {products.length} Flavours
         </h1>
       </div>
+      {/* --- Bottles --- */}
+      <BottleParallax />
+      {/* --- higlight--- */}
+      <DeviceHighlights />
+
+    
+      
+
+
       <div className="max-w-[1500px] mx-auto px-4 sm:px-6 lg:px-8 py-20">
 
         {/* Products Grid */}

@@ -4,6 +4,7 @@ import Movement from '@/components/sections/home/Movement';
 import TechSpecs from '@/components/sections/home/TechSpecs';
 import HappyCustomers from '@/components/sections/home/HappyCustomers';
 import Features from '@/components/sections/home/Features';
+import DeviceHighlights from '@/components/sections/home/DeviceHighlights';
 import { getProducts } from '@/actions/product';
 import { getSiteContent } from '@/actions/content';
 import { ComponentType } from 'react';
@@ -15,6 +16,7 @@ const SECTION_MAP: Record<string, ComponentType<any>> = {
   hero: Hero,
   techSpecs: TechSpecs,
   features: Features,
+  deviceHighlights: DeviceHighlights,
   movement: Movement,
   happyCustomers: HappyCustomers,
   homeCta: HomeCTA,
@@ -24,6 +26,7 @@ const DEFAULT_ORDER = [
   'hero',
   'techSpecs',
   'features',
+  'deviceHighlights',
   'movement',
   'happyCustomers',
   'homeCta',
@@ -59,6 +62,7 @@ export default async function Home() {
 
         return <Component key={sectionId} {...props} />;
       })}
+      <DeviceHighlights />
     </main>
   );
 }
