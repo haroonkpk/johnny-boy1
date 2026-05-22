@@ -169,7 +169,8 @@ const tabs = [
   </div>
 </div>
 
-    {/* Conditional Rendering Section - Sirf yahi render hoga */}
+  
+    {/* Conditional Rendering Section  */}
     <div className="min-h-[400px]">
       {activeTab === "hero" && <HeroSection initialContent={content.heroContent} />}
       {activeTab === "flavor" && <FlavorAromaSection initialData={flavorAromaData} />}
