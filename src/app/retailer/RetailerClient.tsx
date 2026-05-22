@@ -7,7 +7,7 @@ import {
   MapPin,
   Zap,
 } from "lucide-react";
-import Image from "next/image";
+import CloudinaryImage from "@/components/ui/CloudinaryImage";
 
 import { useCart } from "@/components/context/CartContext";
 import { SeriesKey, Product } from "@/types/product";
@@ -105,26 +105,29 @@ export default function RetailerClient({ initialProducts }: { initialProducts: P
                 <Card variant="light" className="flex flex-col h-full shadow-none border-none bg-white p-3 sm:p-4">
                   <div className="relative w-full aspect-[4/5] rounded-2xl overflow-hidden mb-4 flex items-center justify-center bg-gray-50/50">
                     {/* Background */}
-                    <Image
+                    <CloudinaryImage
                       src={product.bg}
                       alt="bg"
                       fill
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
                       className="object-cover z-0 opacity-50"
                     />
                     
                     {/* Fruit */}
-                    <Image
+                    <CloudinaryImage
                       src={product.fruits}
                       alt="fruit"
                       fill
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
                       className="absolute z-10 drop-shadow-md"
                     />
 
                     {/* Device */}
-                    <Image
+                    <CloudinaryImage
                       src={product.image}
                       alt={product.name}
                       fill
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
                       className="relative scale-[1.6] translate-x-[-26%]  z-20 object-contain drop-shadow-xl"
                     />
                     

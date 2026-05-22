@@ -3,6 +3,7 @@ import { useRef, useLayoutEffect } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Link from "next/link";
+import Image from "next/image";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -12,7 +13,6 @@ export default function BottleParallax() {
 
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
-      // Ab sirf bottle (leftWrapper) move hogi, text static rahega
       gsap.to(leftWrapper.current, {
         scrollTrigger: {
           trigger: containerRef.current,
@@ -38,15 +38,19 @@ export default function BottleParallax() {
         className="relative w-96 md:w-[800px] flex justify-center items-center"
       >
         <div className="absolute inset-0 flex justify-center items-center -z-10">
-          <img
+          <Image
             src="/images/fruit7.png"
+            width={800}
+            height={800}
             className="w-[95%] h-auto object-contain scale-125"
             alt="Fruit"
           />
         </div>
-        <img
+        <Image
           src="/images/vape7.png"
-          className="w-full object-contain rotate-[-20deg] -translate-x-20 translate-y-16 scale-125"
+          width={600}
+          height={800}
+          className="w-full h-auto object-contain rotate-[-20deg] -translate-x-20 translate-y-16 scale-125"
           alt="Vape"
         />
       </div>

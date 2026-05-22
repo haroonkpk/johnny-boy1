@@ -4,7 +4,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Trash2, Plus, Minus, ShoppingBag, Loader2 } from "lucide-react";
-import Image from "next/image";
+import CloudinaryImage from "@/components/ui/CloudinaryImage";
 import { useCart } from "@/components/context/CartContext";
 import Button from "@/components/ui/Button";
 import { useSession } from "next-auth/react";
@@ -27,21 +27,16 @@ export default function CartDrawer() {
   // Total price calculation
   const totalPrice = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
-  // ---  Checkout Function ---
-  // --- Updated Checkout Logic --- 
   const handleCheckout = async () => {
-    // 1. Basic Check: Agar cart khali hai toh ruk jao
     if (cart.length === 0) return;
-
     setIsLoading(true);
     
     try {
-      // 2. Data Tayyar Karein: Jo Model mang raha hai
    const orderPayload = {
         customerName: session?.user?.name || "Guest Customer",
         email: session?.user?.email || "No Email",
         userId: (session?.user as any)?.id,
-        items: cart.map((item: any) => ({ //  'item: any'
+        items: cart.map((item: any) => ({ 
           productId: item._id || item.id, 
           name: item.name,
           price: item.price,
@@ -78,7 +73,6 @@ export default function CartDrawer() {
         clearCart();  
         closeDrawer(); 
       } else {
-        // Agar email fail ho par DB save ho gaya ho
         alert("Order Recorded! Our team will contact you.");
         clearCart();
         closeDrawer();
@@ -156,10 +150,11 @@ export default function CartDrawer() {
                   >
                     {/* Item Image */}
                     <div className="relative w-20 h-24 bg-[var(--color-cream)] rounded-xl overflow-hidden flex-shrink-0">
-                      <Image 
+                      <CloudinaryImage 
                         src={item.image} 
                         alt={item.name} 
                         fill 
+                        sizes="80px"
                         className="object-contain p-2" 
                       />
                     </div>

@@ -2,6 +2,7 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import { LogIn, UserPlus, LayoutDashboard } from "lucide-react";
+import Image from "next/image";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ScrollToPlugin } from "gsap/ScrollToPlugin";
@@ -281,7 +282,7 @@ defaults: { ease: "power2.out" }
       <div ref={triggerRef} className="relative min-h-[100svh] py-24 md:py-0 w-full flex items-center justify-center">
 
         <div className="full-bg-water absolute inset-0 z-0 opacity-0 pointer-events-none">
-          <img src="/images/water7.png" className="w-full h-full object-cover mix-blend-screen" alt="water bg" />
+          <Image src="/images/water7.png" fill priority sizes="100vw" className="object-cover mix-blend-screen" alt="water bg" />
         </div>
 
         <div className="absolute inset-0 z-50 flex items-center justify-center pointer-events-none">
@@ -292,10 +293,10 @@ defaults: { ease: "power2.out" }
         </div>
 
         <div className="side-water-left absolute left-0 z-20 pointer-events-none">
-          <img src="/images/water1.png" className="w-[300px] md:w-[600px] h-auto opacity-70" alt="splash" />
+          <Image src="/images/water1.png" width={600} height={600} priority className="w-[300px] md:w-[600px] h-auto opacity-70" alt="splash" />
         </div>
         <div className="side-water-right absolute right-0 z-20 pointer-events-none">
-          <img src="/images/water22.png" className="w-[300px] md:w-[600px] h-auto opacity-70" alt="splash" />
+          <Image src="/images/water22.webp" width={600} height={600} priority className="w-[300px] md:w-[600px] h-auto opacity-70" alt="splash" />
         </div>
 
         <div className="container mx-auto max-w-[1500px] px-2 md:px-6 z-30 relative">
@@ -344,11 +345,11 @@ defaults: { ease: "power2.out" }
             </div>
 
             <div className="main-visual-wrapper relative flex justify-center items-center h-[350px] sm:h-[400px] md:h-[550px] lg:h-[650px] order-1 lg:order-2 -mt-4 md:-mt-8 lg:mt-0">
-              <img src="/images/cloud-bg.webp" className="absolute w-full h-full object-contain opacity-20 mix-blend-screen z-0 blur-2xl" alt="cloud" />
+              <Image src="/images/cloud-bg.webp" fill priority sizes="100vw" className="object-contain opacity-20 mix-blend-screen z-0 blur-2xl" alt="cloud" />
               <div className="relative z-20 flex flex-col items-center">
-                <img src="/images/icestraight.png" alt="Product" className="w-[340px] sm:w-[420px] md:w-[650px] lg:w-[750px] max-w-[110vw] h-auto object-contain drop-shadow-[0_20px_50px_rgba(147,126,241,0.5)]" />
-                <div className="absolute top-[98%] w-full h-[50%] opacity-40 pointer-events-none scale-y-[-1] blur-md overflow-hidden">
-                  <img src="/images/icestraight.png" className="w-full h-full object-contain" alt="reflection" />
+                <Image src="/images/icestraight.png" alt="Product" width={750} height={1000} priority className="w-[340px] sm:w-[420px] md:w-[650px] lg:w-[750px] max-w-[110vw] h-auto object-contain drop-shadow-[0_20px_50px_rgba(147,126,241,0.5)]" />
+                <div className="absolute top-[98%] w-full h-[50%] opacity-40 pointer-events-none scale-y-[-1] blur-md overflow-hidden relative">
+                  <Image src="/images/icestraight.png" fill sizes="(max-width: 1024px) 100vw, 50vw" className="object-contain" alt="reflection" />
                 </div>
               </div>
               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] md:w-[400px] h-[300px] md:h-[400px] bg-[#937ef1]/20 rounded-full blur-[120px] -z-10"></div>

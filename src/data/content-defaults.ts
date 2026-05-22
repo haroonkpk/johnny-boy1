@@ -45,6 +45,22 @@ export const CONTENT_DEFAULTS = {
     "homeCta",
   ],
   hiddenSections: [] as string[],
+
+  localseriesTitle: 'Johnny Boy',
+  localseriesSubtitle: "Premium clouds ultimate flavor. Explore the exclusive JohnnyBoy collection where cutting-edge tech meets bold aesthetics.",
+  localseriesBadge: "Products",
+
+  regularseriesTitle: 'Johnny Boy',
+  regularseriesSubtitle: "Premium clouds ultimate flavor. Explore the exclusive JohnnyBoy collection where cutting-edge tech meets bold aesthetics.",
+  regularseriesBadge: "Products",
+
+  contactTitle: 'Contact Us',
+  contactSubtitle: "Have a question or want to get in touch? We'd love to hear from you.",
+  contactBadge: "Get in Touch",
+
+  reviewTitle: 'Trusted by Visionaries.',
+  reviewSubtitle: "Real stories from real people who bought our products.",
+  reviewBadge: "Reviews",
 };
 
 export const DEFAULT_SECTION_ORDER = CONTENT_DEFAULTS.sectionOrder;

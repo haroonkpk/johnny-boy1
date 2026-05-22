@@ -1,25 +1,28 @@
 import ProductCard from '@/components/ProductCard';
 import PageHero from '@/components/PageHero';
 import { getProducts } from '@/actions/product';
+import { getSiteContent } from '@/actions/content';
 import { Product } from '@/types/product';
 import Link from 'next/link';
-// import DeviceHighlights from '@/components/sections/home/DeviceHighlights';
-// import BottleParallax from '@/components/sections/home/BottleParallax';
 
 export const revalidate = 10;
 
 export default async function LocalSeries() {
-  const allProducts: Product[] = await getProducts();
-  const products = allProducts
+  const [allProducts, content] = await Promise.all([
+    getProducts(),
+    getSiteContent(),
+  ]);
+
+  const products = (allProducts as Product[])
     .filter(p => p.series === 'local')
     .sort((a, b) => Number(a.comingSoon) - Number(b.comingSoon));
 
   return (
     <div className="min-h-screen bg-[var(--color-cream)]">
       <PageHero 
-        title={<>Johnny <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500">Boy</span></>}
-        subtitle="Premium clouds ultimate flavor. Explore the exclusive JohnnyBoy collection where cutting-edge tech meets bold aesthetics."
-        badge="Products"
+        title={content.localseriesTitle}
+        subtitle={content.localseriesSubtitle}
+        badge={content.localseriesBadge}
       />
     
   

@@ -11,6 +11,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { Card } from "../ui/card";
 import { Product } from "@/types/product";
+import CloudinaryImage from "@/components/ui/CloudinaryImage";
+import { isCloudinaryUrl } from "@/lib/cloudinary-helpers";
 
 interface UpdateProductFormProps {
   product: Product;
@@ -277,7 +279,11 @@ function ImageUploadField({
         <div className="flex flex-col gap-2">
           <label className="text-sm font-medium text-[#374151]">{label}</label>
           <div className="relative w-full h-36 rounded-xl overflow-hidden border border-slate-200">
-            <img src={preview} alt={label} className="w-full h-full object-cover" />
+            {preview.includes("res.cloudinary.com") ? (
+              <CloudinaryImage src={preview} alt={label} fill sizes="200px" className="object-cover" />
+            ) : (
+              <img src={preview} alt={label} className="w-full h-full object-cover" />
+            )}
             <button
               type="button"
               onClick={onRemove}

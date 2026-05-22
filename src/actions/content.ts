@@ -7,4 +7,8 @@ export {
   updateHappyCustomersSection,
   updateWholesaleCtaSection,
   updateSectionOrder,
+  updateLocalSeriesSection,
+  updateRegularSeriesSection,
+  updateContactSection,
+  updateReviewSection,
 } from "./editor";
