@@ -18,7 +18,7 @@ import RegularPageEditor from "@/components/admin/editor/RegularPageEditor";
 import LocalPageEditor from "@/components/admin/editor/LocalPageEditor";
 import ContactPageEditor from "@/components/admin/editor/ContactPageEditor";
 
-
+// the 
 export default function AdminEditorPage() {
   const [loading, setLoading] = useState(true);
   const [mounted, setMounted] = useState(false);
