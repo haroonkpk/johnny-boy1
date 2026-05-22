@@ -10,9 +10,6 @@ import CarouselArrow from "@/components/shared/CarouselArrow";
 import DotIndicators from "@/components/shared/DotIndicators";
 
 
-// interface FeaturesProps {
-//   initialProducts: Product[];
-// }
 interface FeaturesProps {
   initialProducts: Product[];
   content: {
@@ -104,25 +101,7 @@ const Features = ({ initialProducts, content }: FeaturesProps) => {
       {/* 1. Heading */}
       <div className="container mx-auto max-w-[1500px]">
         
-        {/* <SectionHeading
-  title={
-    <>
-      {titleText.includes("Products") ? (
-        <>
-          {titleText.replace("Products", "")}{" "}
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500">
-            Products
-          </span>
-        </>
-      ) : (
-        titleText
-      )}
-    </>
-  }
-  subtitle={subtitleText}
-  badge={badge}
-  mode="light"
-/> */}
+       
 
 <SectionHeading
           title={

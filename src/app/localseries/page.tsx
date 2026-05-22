@@ -2,6 +2,9 @@ import ProductCard from '@/components/ProductCard';
 import PageHero from '@/components/PageHero';
 import { getProducts } from '@/actions/product';
 import { Product } from '@/types/product';
+import DeviceHighlights from '@/components/sections/home/DeviceHighlights';
+import BottleParallax from '@/components/sections/home/BottleParallax';
+import Link from 'next/link';
 
 export const revalidate = 10;
 
@@ -18,6 +21,7 @@ export default async function LocalSeries() {
         subtitle="Premium clouds ultimate flavor. Explore the exclusive JohnnyBoy collection where cutting-edge tech meets bold aesthetics."
         badge="Products"
       />
+    
   
       {/* <div className="py-10 flex justify-center items-center "> */}
      
@@ -26,6 +30,23 @@ export default async function LocalSeries() {
           {products.length} Flavours
         </h1>
       </div>
+
+      {/* --- BUTTON becom reseller --- */}
+      <div className="flex justify-center pb-12">
+        <Link 
+          href="/signup" 
+          className="px-8 py-4 bg-gray-900 text-white rounded-full font-bold hover:bg-gray-800 transition-all transform hover:scale-105 shadow-lg"
+        >
+          Become a Reseller
+        </Link>
+      </div>
+       
+      
+{/* --- higlight--- */}
+      <DeviceHighlights />
+       {/* --- Bottles --- */}
+      <BottleParallax />
+
       <div className="max-w-[1500px] mx-auto px-4 sm:px-6 lg:px-8 py-20">
 
         {/* Products Grid */}
