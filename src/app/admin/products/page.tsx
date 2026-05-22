@@ -9,7 +9,7 @@ import { Modal } from "@/components/ui/modal";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { CreateProductForm } from "@/components/admin/CreateProductForm";
 import { UpdateProductForm } from "@/components/admin/UpdateProductForm";
-import Image from "next/image";
+import CloudinaryImage from "@/components/ui/CloudinaryImage";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 
@@ -58,7 +58,7 @@ export default function ProductsPage() {
         <div className="flex items-center gap-[clamp(0.5rem,1.5vw,1rem)] py-2">
           <div className="w-[clamp(2.5rem,5vw,3.5rem)] h-[clamp(2.5rem,5vw,3.5rem)] flex items-center justify-center overflow-hidden bg-gray-50 rounded-lg">
             {p.image ? (
-              <Image src={p.image} alt={p.name} width={40} height={40} className="object-contain" />
+              <CloudinaryImage src={p.image} alt={p.name} width={40} height={40} sizes="40px" className="object-contain" />
             ) : (
               <div className="text-gray-300 text-[10px] font-medium">NO IMG</div>
             )}
@@ -86,7 +86,7 @@ export default function ProductsPage() {
           {[p.fruits, p.bg].map((src, i) => (
             <div key={i} className="w-[clamp(1.5rem,3vw,2rem)] h-[clamp(1.5rem,3vw,2rem)] bg-white overflow-hidden z-[1] hover:z-[10] transition-all hover:scale-110 rounded-full border border-gray-100 flex items-center justify-center">
               {src ? (
-                <Image src={src} alt="asset" width={32} height={32} className="object-cover" />
+                <CloudinaryImage src={src} alt="asset" width={32} height={32} sizes="32px" className="object-cover" />
               ) : (
                 <div className="text-[8px] text-gray-300">-</div>
               )}

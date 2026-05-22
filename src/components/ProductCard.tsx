@@ -6,6 +6,8 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Card } from "@/components/ui/card";
 import { Product } from "@/types/product";
 import { ChevronDown, ChevronUp } from "lucide-react";
+import Image from "next/image";
+import CloudinaryImage from "@/components/ui/CloudinaryImage";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -140,20 +142,25 @@ export default function ProductCard({ product, type }: ProductCardProps) {
         <div
           className={`absolute inset-0 transition-all duration-700 ${product.comingSoon ? "grayscale brightness-75 contrast-125" : ""}`}
         >
-          <img
+          <CloudinaryImage
             src={product?.bg ? product.bg : "/images/bg1.png"}
             alt="background"
-            className="absolute inset-0 w-full h-full object-cover z-0"
+            fill
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            className="object-cover z-0"
           />
 
           {/* 2. FRUIT (MIDDLE LAYER) */}
           {product?.fruits && (
-            <img
+            <CloudinaryImage
               src={product.fruits}
               alt="fruit"
+              width={500}
+              height={500}
+              sizes="(max-width: 768px) 90vw, 400px"
               className="absolute top-1/2 left-1/2 
                  -translate-x-1/2 -translate-y-1/2
-                 w-[90%] md:w-[100%]
+                 w-[90%] md:w-[100%] h-auto
                  z-10
                  drop-shadow-2xl"
             />
@@ -161,11 +168,12 @@ export default function ProductCard({ product, type }: ProductCardProps) {
         </div>
 
         {/* 3. WATER EFFECT (ON TOP OF BG + FRUIT) */}
-        <img
+        <Image
           src="/images/ice.webp"
           alt="water effect"
-          className="absolute inset-0 w-full h-full object-cover
-               z-20 opacity-60 mix-blend-screen pointer-events-none"
+          fill
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          className="object-cover z-20 opacity-60 mix-blend-screen pointer-events-none"
         />
 
         {/* --- 4. COMING SOON OVERLAY (Rotated & Styled) --- */}
@@ -188,10 +196,13 @@ export default function ProductCard({ product, type }: ProductCardProps) {
 
       {/* --- 3. MAIN PRODUCT BOTTLE --- */}
       {!product.comingSoon && product.image && (
-        <img
+        <CloudinaryImage
           ref={bottleRef}
           src={product.image}
           alt={product.name}
+          width={600}
+          height={800}
+          sizes="(max-width: 768px) 100vw, 400px"
           className="absolute translate-x-[-25%] scale-180 z-20 w-full h-auto object-contain "
         />
       )}

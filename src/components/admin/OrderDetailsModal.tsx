@@ -3,7 +3,7 @@
 import { X, Clock, Package, CheckCircle2, Truck, Timer } from "lucide-react";
 import { Modal } from "@/components/ui/modal";
 import { cn } from "@/lib/utils";
-import Image from "next/image";
+import CloudinaryImage from "@/components/ui/CloudinaryImage";
 
 interface OrderDetailsModalProps {
   isOpen: boolean;
@@ -137,7 +137,7 @@ export function OrderDetailsModal({
                   {order.items.map((item: any, idx: number) => (
                     <div key={idx} className="flex items-center gap-3 bg-white p-2 rounded-lg border border-slate-200">
                        <div className="relative w-12 h-12 rounded bg-slate-100 overflow-hidden flex-shrink-0">
-                          <Image src={item.image} alt={item.name} fill className="object-cover" />
+                          <CloudinaryImage src={item.image} alt={item.name} fill sizes="48px" className="object-cover" />
                        </div>
                        <div className="flex-grow min-w-0">
                           <p className="text-slate-900 font-bold text-sm truncate">{item.name}</p>
