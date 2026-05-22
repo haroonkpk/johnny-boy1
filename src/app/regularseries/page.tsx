@@ -28,14 +28,14 @@ export default async function RegularSeries() {
         </h1>
       </div>
         {/* --- BUTTON becom reseller --- */}
-            <div className="flex justify-center pb-12">
+            {/* <div className="flex justify-center pb-12">
               <Link
                 href="/signup" 
                 className="px-8 py-4 bg-gray-900 text-white rounded-full font-bold hover:bg-gray-800 transition-all transform hover:scale-105 shadow-lg"
               >
                 Become a Reseller
               </Link>
-            </div>
+            </div> */}
       {/* <BottleParallax />
       <DeviceHighlights /> */}
 
