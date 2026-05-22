@@ -11,7 +11,7 @@ const FlavorAroma = () => {
   const [data, setData] = useState<any>(null);
   const [isMounted, setIsMounted] = useState(false);
 
-  // 1. Data Fetching Logic (Connect with Admin API)
+  // 1. Data Fetching Logic 
   useEffect(() => {
     setIsMounted(true);
     const fetchContent = async () => {
@@ -97,7 +97,7 @@ const FlavorAroma = () => {
             />
 
             {/* Flavor Profile Stats - Now Fully Dynamic */}
-           <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 pt-6 mb-6">
+           {/* <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 pt-6 mb-6">
             
               <div className="space-y-2">
                 <div className="flex items-center gap-2 text-black font-bold uppercase text-xs">
@@ -136,15 +136,15 @@ const FlavorAroma = () => {
                   />
                 </div>
               </div>
-            </div> 
+            </div>  */}
 
           
-            <Button
+            {/* <Button
               variant="secondary-outline"
               className="rounded-full px-8 py-4"
             >
               {finalBtnText}
-            </Button>
+            </Button> */}
           </div>
 
           {/* Right: Visuals */}
