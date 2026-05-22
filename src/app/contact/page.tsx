@@ -13,6 +13,7 @@ import PageHero from "@/components/PageHero";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import toast from "react-hot-toast";
+import { getSiteContent } from "@/actions/content";
 
 /* ---------------- TYPES ---------------- */
 interface InfoCardProps {
@@ -56,6 +57,19 @@ const Contact = () => {
     const formRef = useRef<HTMLFormElement>(null);
     const [emailValue, setEmailValue] = useState("");
     const [emailError, setEmailError] = useState("");
+    const [content, setContent] = useState<any>(null);
+
+    useEffect(() => {
+        const fetchContent = async () => {
+            try {
+                const data = await getSiteContent();
+                setContent(data);
+            } catch (err) {
+                console.error("Failed to load contact content:", err);
+            }
+        };
+        fetchContent();
+    }, []);
 
     const validateEmail = (val: string) => {
         const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -101,9 +115,9 @@ useEffect(() => {
    <div className="relative min-h-screen bg-[var(--color-cream)] overflow-hidden">
 
             <PageHero 
-              title={<>Contact <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500">Us</span></>}
-              subtitle="Have a question or want to get in touch? We'd love to hear from you."
-              badge="Get in Touch"
+              title={content?.contactTitle || 'Contact <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500">Us</span>'}
+              subtitle={content?.contactSubtitle || "Have a question or want to get in touch? We'd love to hear from you."}
+              badge={content?.contactBadge || "Get in Touch"}
             />
        
                 

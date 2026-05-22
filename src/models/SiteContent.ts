@@ -42,6 +42,26 @@ export interface ISiteContent extends Document {
   // Section Order (for home page)
   sectionOrder: string[];
   hiddenSections: string[];
+
+  // Local Series Page Hero
+  localseriesTitle: string;
+  localseriesSubtitle: string;
+  localseriesBadge: string;
+
+  // Regular Series Page Hero
+  regularseriesTitle: string;
+  regularseriesSubtitle: string;
+  regularseriesBadge: string;
+
+  // Contact Page Hero
+  contactTitle: string;
+  contactSubtitle: string;
+  contactBadge: string;
+
+  // Review Page Hero
+  reviewTitle: string;
+  reviewSubtitle: string;
+  reviewBadge: string;
 }
 
 const SiteContentSchema = new Schema<ISiteContent>(
@@ -99,6 +119,26 @@ const SiteContentSchema = new Schema<ISiteContent>(
       type: [String],
       default: [],
     },
+
+    // Local Series Page Hero
+    localseriesTitle: { type: String, default: "" },
+    localseriesSubtitle: { type: String, default: "" },
+    localseriesBadge: { type: String, default: "" },
+
+    // Regular Series Page Hero
+    regularseriesTitle: { type: String, default: "" },
+    regularseriesSubtitle: { type: String, default: "" },
+    regularseriesBadge: { type: String, default: "" },
+
+    // Contact Page Hero
+    contactTitle: { type: String, default: "" },
+    contactSubtitle: { type: String, default: "" },
+    contactBadge: { type: String, default: "" },
+
+    // Review Page Hero
+    reviewTitle: { type: String, default: "" },
+    reviewSubtitle: { type: String, default: "" },
+    reviewBadge: { type: String, default: "" },
   },
   { timestamps: true }
 );

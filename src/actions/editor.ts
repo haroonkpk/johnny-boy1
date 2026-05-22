@@ -87,7 +87,7 @@ export async function updateFlavorAromaSection(data: {
     return { error: error.message || "Failed to update flavor aroma section" };
   }
 }
-// ── UPDATE: Product Explore Section ───────────────────────────────
+// Product Explore Section 
 export async function updateProductSection(data: {
   productBadge: string;
   productTitle: string;
@@ -118,7 +118,7 @@ export async function updateProductSection(data: {
   }
 }
 
-// ── UPDATE: Cherry Soda Section ─────────────────────────────────
+// Cherry Soda Section 
 export async function updateCherrySodaSection(data: {
   ultraTitle: string;
   ultraDesc: string;
@@ -146,7 +146,7 @@ export async function updateCherrySodaSection(data: {
   }
 }
 
-// ── UPDATE: Happy Customers Section ─────────────────────────────
+// Happy Customers Section 
 export async function updateHappyCustomersSection(data: {
   customerTitle: string;
   customerSubtitle: string;
@@ -176,7 +176,7 @@ export async function updateHappyCustomersSection(data: {
   }
 }
 
-// ── UPDATE: Wholesale CTA Section ───────────────────────────────
+// Wholesale CTA Section 
 export async function updateWholesaleCtaSection(data: {
   ctaBadge: string;
   ctaTitle: string;
@@ -206,7 +206,7 @@ export async function updateWholesaleCtaSection(data: {
   }
 }
 
-// ── UPDATE: Section Order & Visibility ───────────────────────────
+//  Section Order & Visibility 
 export async function updateSectionOrder(sectionOrder: string[], hiddenSections: string[]) {
   try {
     await dbConnect();
@@ -220,5 +220,105 @@ export async function updateSectionOrder(sectionOrder: string[], hiddenSections:
   } catch (error: any) {
     console.error("updateSectionOrder Error:", error);
     return { error: error.message || "Failed to update section layout" };
+  }
+}
+
+//  Local Series Page 
+export async function updateLocalSeriesSection(data: {
+  localseriesTitle: string;
+  localseriesSubtitle: string;
+  localseriesBadge: string;
+}) {
+  try {
+    await dbConnect();
+    await SiteContent.findOneAndUpdate(
+      { configId: "main" },
+      {
+        localseriesTitle: data.localseriesTitle.trim(),
+        localseriesSubtitle: data.localseriesSubtitle.trim(),
+        localseriesBadge: data.localseriesBadge.trim(),
+      },
+      { upsert: true, new: true }
+    );
+    revalidatePath("/localseries");
+    return { success: true, message: "Local Series page content updated successfully" };
+  } catch (error: any) {
+    console.error("updateLocalSeriesSection Error:", error);
+    return { error: error.message || "Failed to update Local Series page content" };
+  }
+}
+
+//  Regular Series Page 
+export async function updateRegularSeriesSection(data: {
+  regularseriesTitle: string;
+  regularseriesSubtitle: string;
+  regularseriesBadge: string;
+}) {
+  try {
+    await dbConnect();
+    await SiteContent.findOneAndUpdate(
+      { configId: "main" },
+      {
+        regularseriesTitle: data.regularseriesTitle.trim(),
+        regularseriesSubtitle: data.regularseriesSubtitle.trim(),
+        regularseriesBadge: data.regularseriesBadge.trim(),
+      },
+      { upsert: true, new: true }
+    );
+    revalidatePath("/regularseries");
+    return { success: true, message: "Regular Series page content updated successfully" };
+  } catch (error: any) {
+    console.error("updateRegularSeriesSection Error:", error);
+    return { error: error.message || "Failed to update Regular Series page content" };
+  }
+}
+
+//  Contact Page 
+export async function updateContactSection(data: {
+  contactTitle: string;
+  contactSubtitle: string;
+  contactBadge: string;
+}) {
+  try {
+    await dbConnect();
+    await SiteContent.findOneAndUpdate(
+      { configId: "main" },
+      {
+        contactTitle: data.contactTitle.trim(),
+        contactSubtitle: data.contactSubtitle.trim(),
+        contactBadge: data.contactBadge.trim(),
+      },
+      { upsert: true, new: true }
+    );
+    revalidatePath("/contact");
+    return { success: true, message: "Contact page content updated successfully" };
+  } catch (error: any) {
+    console.error("updateContactSection Error:", error);
+    return { error: error.message || "Failed to update Contact page content" };
+  }
+}
+
+//  Review Page 
+export async function updateReviewSection(data: {
+  reviewTitle: string;
+  reviewSubtitle: string;
+  reviewBadge: string;
+}) {
+  try {
+    await dbConnect();
+    await SiteContent.findOneAndUpdate(
+      { configId: "main" },
+      {
+        reviewTitle: data.reviewTitle.trim(),
+        reviewSubtitle: data.reviewSubtitle.trim(),
+        reviewBadge: data.reviewBadge.trim(),
+      },
+      { upsert: true, new: true }
+    );
+    revalidatePath("/review");
+    return { success: true, message: "Review page content updated successfully" };
+  } catch (error: any) {
+    console.error("updateReviewSection Error:", error);
+    return { error: error.message || "Failed to update Review page content" };
   }
 }

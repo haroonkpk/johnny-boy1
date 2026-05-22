@@ -13,12 +13,17 @@ import HappyCustomersSection from "@/components/admin/editor/HappyCustomersSecti
 import WholesaleCtaSection from "@/components/admin/editor/WholesaleCtaSection";
 import SectionOrderSection from "@/components/admin/editor/SectionOrderSection";
 import ProductSection from "@/components/admin/editor/ProductSection";
-
+import LocalSeriesSection from "@/components/admin/editor/LocalSeriesSection";
+import RegularSeriesSection from "@/components/admin/editor/RegularSeriesSection";
+import ContactSection from "@/components/admin/editor/ContactSection";
+import ReviewSection from "@/components/admin/editor/ReviewSection";
+import { TabNavigation } from "@/components/shared/TabNavigation";
 
 export default function AdminEditorPage() {
   const [loading, setLoading] = useState(true);
   const [mounted, setMounted] = useState(false);
   const [content, setContent] = useState<any>(null);
+  const [activeTab, setActiveTab] = useState("home");
 
   // ── Mount Guard ──
   useEffect(() => {
@@ -106,22 +111,29 @@ export default function AdminEditorPage() {
     ctaTitle: content.ctaTitle,
     ctaDesc: content.ctaDesc,
   };
-  // Is object ko content check block ke baad aur return statement se pehle rakhein:
-  const footerSectionData = {
-    description: content.footerDescription,
-    showDescription: content.showFooterDesc ?? true, // block out / hide karne ke liye booleans
-    address: content.footerAddress,
-    phone: content.footerPhone,
-    email: content.footerEmail,
-    showAddress: content.showFooterAddress ?? true,
-    facebookUrl: content.facebookUrl,
-    instagramUrl: content.instagramUrl,
-    youtubeUrl: content.youtubeUrl,
-    snapchatUrl: content.snapchatUrl, // snapchat add karne ke liye
-    showSocials: content.showFooterSocials ?? true,
-    newsDate: content.footerNewsDate,
-    newsTitle: content.footerNewsTitle,
-    showNews: content.showFooterNews ?? true,
+  
+  const localseriesData = {
+    localseriesTitle: content.localseriesTitle,
+    localseriesSubtitle: content.localseriesSubtitle,
+    localseriesBadge: content.localseriesBadge,
+  };
+
+  const regularseriesData = {
+    regularseriesTitle: content.regularseriesTitle,
+    regularseriesSubtitle: content.regularseriesSubtitle,
+    regularseriesBadge: content.regularseriesBadge,
+  };
+
+  const contactData = {
+    contactTitle: content.contactTitle,
+    contactSubtitle: content.contactSubtitle,
+    contactBadge: content.contactBadge,
+  };
+
+  const reviewData = {
+    reviewTitle: content.reviewTitle,
+    reviewSubtitle: content.reviewSubtitle,
+    reviewBadge: content.reviewBadge,
   };
 
   const sectionOrderData = {
@@ -134,31 +146,65 @@ export default function AdminEditorPage() {
       {/* ── Page Heading ── */}
       <SectionHeading
         title="Content Editor"
-        subtitle="Manage your homepage content. Each section saves independently."
+        subtitle="Manage your website content. Each section saves independently."
         mode="light"
         className="!mb-[clamp(1.5rem,4vw,2.5rem)]"
       />
 
+      {/* Tabs Navigation */}
+      <TabNavigation
+        tabs={[
+          { id: "home", label: "Home Page" },
+          { id: "localseries", label: "Local Series" },
+          { id: "regularseries", label: "Regular Series" },
+          { id: "contact", label: "Contact Page" },
+          { id: "review", label: "Review Page" },
+        ]}
+        activeTab={activeTab}
+        onTabChange={setActiveTab}
+        className="mb-[clamp(1.5rem,3vw,2rem)] rounded-2xl border border-gray-100"
+      />
+
       <div className="flex flex-col gap-[clamp(1.5rem,3vw,2rem)]">
-        {/* Hero Section */}
-        <HeroSection initialContent={content.heroContent} />
+        {activeTab === "home" && (
+          <>
+            {/* Hero Section */}
+            <HeroSection initialContent={content.heroContent} />
 
-        {/* Flavor Aroma Section */}
-        <FlavorAromaSection initialData={flavorAromaData} />
-{/* EXPLORE OUR PRODUCT */}
-<ProductSection initialData={productSectionData} />
+            {/* Flavor Aroma Section */}
+            <FlavorAromaSection initialData={flavorAromaData} />
+            {/* EXPLORE OUR PRODUCT */}
+            <ProductSection initialData={productSectionData} />
 
-        {/* Cherry Soda Section */}
-        <CherrySodaSection initialData={cherrySodaData} />
+            {/* Cherry Soda Section */}
+            <CherrySodaSection initialData={cherrySodaData} />
 
-        {/* Happy Customers Section */}
-        <HappyCustomersSection initialData={happyCustomersData} />
+            {/* Happy Customers Section */}
+            <HappyCustomersSection initialData={happyCustomersData} />
 
-        {/* Wholesale CTA Section */}
-        <WholesaleCtaSection initialData={wholesaleCtaData} />
+            {/* Wholesale CTA Section */}
+            <WholesaleCtaSection initialData={wholesaleCtaData} />
 
-        {/* Section Layout & Ordering */}
-        <SectionOrderSection initialData={sectionOrderData} />
+            {/* Section Layout & Ordering */}
+            <SectionOrderSection initialData={sectionOrderData} />
+          </>
+        )}
+
+        {activeTab === "localseries" && (
+          <LocalSeriesSection initialData={localseriesData} />
+        )}
+
+        {activeTab === "regularseries" && (
+          <RegularSeriesSection initialData={regularseriesData} />
+        )}
+
+        {activeTab === "contact" && (
+          <ContactSection initialData={contactData} />
+        )}
+
+        {activeTab === "review" && (
+          <ReviewSection initialData={reviewData} />
+        )}
       </div>
     </div>
   );

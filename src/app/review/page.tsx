@@ -8,6 +8,8 @@ import Button from "@/components/ui/Button";
 import { Card } from "@/components/ui/card";
 import PageHero from "@/components/PageHero";
 
+import { getSiteContent } from "@/actions/content";
+
 // TypeScript Interface for Testimonial data
 interface Testimonial {
   id: number;
@@ -89,7 +91,20 @@ function VideoCard({ t, isActive, onToggle }: VideoCardProps) {
 export default function ReviewSection() {
   // Added type for state (number or null)
   const [activeVideoId, setActiveVideoId] = useState<number | null>(null);
+  const [content, setContent] = useState<any>(null);
   const containerRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const fetchContent = async () => {
+      try {
+        const data = await getSiteContent();
+        setContent(data);
+      } catch (err) {
+        console.error("Failed to load review content:", err);
+      }
+    };
+    fetchContent();
+  }, []);
 
   useLayoutEffect(() => {
     let ctx = gsap.context(() => {
@@ -129,9 +144,9 @@ export default function ReviewSection() {
   return (
     <div className="min-h-screen bg-[var(--color-cream)]">
       <PageHero 
-        title={<>Trusted by <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500">Visionaries.</span></>}
-        subtitle="Real stories from real people who bought our products."
-        badge="Reviews"
+        title={content?.reviewTitle || 'Trusted by <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500">Visionaries.</span>'}
+        subtitle={content?.reviewSubtitle || "Real stories from real people who bought our products."}
+        badge={content?.reviewBadge || "Reviews"}
       />
       <div className="max-w-[1500px] mx-auto px-4 sm:px-6 lg:px-8 py-20 relative z-10">
 
