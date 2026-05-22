@@ -24,21 +24,13 @@ export default async function RegularSeries() {
         subtitle={content.regularseriesSubtitle}
         badge={content.regularseriesBadge}
       />
- 
+     
+      {/* <div className="py-10 flex justify-center items-center "> */}
         <div className="pt-10 pb-6 flex justify-center items-center">
         <h1 className="text-black text-5xl md:text-7xl font-extrabold text-center">
           {products.length} Flavours
         </h1>
       </div>
-        {/* --- BUTTON becom reseller --- */}
-            {/* <div className="flex justify-center pb-12">
-              <Link
-                href="/signup" 
-                className="px-8 py-4 bg-gray-900 text-white rounded-full font-bold hover:bg-gray-800 transition-all transform hover:scale-105 shadow-lg"
-              >
-                Become a Reseller
-              </Link>
-            </div> */}
       {/* <BottleParallax />
       <DeviceHighlights /> */}
 

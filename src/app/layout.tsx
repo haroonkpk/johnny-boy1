@@ -36,7 +36,8 @@ export default function RootLayout({
       suppressHydrationWarning={true}
       
     >
-      <body className="min-h-full flex flex-col relative">
+      <body suppressHydrationWarning={true}
+  className="min-h-full flex flex-col relative">
         <div className="fixed inset-0 pointer-events-none bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-gray-900 via-black to-black opacity-80 -z-10"></div>
        <Providers>
   <AuthProvider>
