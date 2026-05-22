@@ -13,23 +13,20 @@ import HappyCustomersSection from "@/components/admin/editor/HappyCustomersSecti
 import WholesaleCtaSection from "@/components/admin/editor/WholesaleCtaSection";
 import SectionOrderSection from "@/components/admin/editor/SectionOrderSection";
 import ProductSection from "@/components/admin/editor/ProductSection";
+import ReviewPageEditor from "@/components/admin/editor/ReviewPageEditor";
+import RegularPageEditor from "@/components/admin/editor/RegularPageEditor";
+import LocalPageEditor from "@/components/admin/editor/LocalPageEditor";
+import ContactPageEditor from "@/components/admin/editor/ContactPageEditor";
 
 
 export default function AdminEditorPage() {
   const [loading, setLoading] = useState(true);
   const [mounted, setMounted] = useState(false);
   const [content, setContent] = useState<any>(null);
-  //  tab
-  const [activeTab, setActiveTab] = useState("hero"); 
-const tabs = [
-  { id: "hero", label: "Hero" },
-  { id: "flavor", label: "Flavor/Aroma" },
-  { id: "products", label: "Products" },
-  { id: "soda", label: "Cherry Soda" },
-  { id: "customers", label: "Customers" },
-  { id: "wholesale", label: "Wholesale" },
-  { id: "layout", label: "Layout & Order" },
-];
+  // tab
+  const [activeTab, setActiveTab] = useState("home");
+
+
   // ── Mount Guard ──
   useEffect(() => {
     setMounted(true);
@@ -138,30 +135,39 @@ const tabs = [
     sectionOrder: content.sectionOrder,
     hiddenSections: content.hiddenSections || [],
   };
+  const tabs = [
+  { id: "home", label: "Home Page" },
+  { id: "review", label: "Review Page" },
+  { id: "regular", label: "Regular Page" },
+  { id: "local", label: "Local Page" },
+  { id: "contact", label: "Contact Page" },
+];
 
- return (
-  <div className="px-[clamp(1rem,4vw,2rem)] py-[clamp(1.5rem,4vw,2.5rem)] max-w-[900px] mx-auto">
-    {/* ── Page Heading ── */}
-    <SectionHeading
-      title="Content Editor"
-      subtitle="Manage your homepage content. Each section saves independently."
-      mode="light"
-      className="!mb-[clamp(1.5rem,4vw,2.5rem)]"
-    />
-
-  
-    {/* Tabs Navigation */}
-<div className="mb-8 border-b border-gray-200">
-  <div className="flex overflow-x-auto scrollbar-hide pb-0.5 whitespace-nowrap">
+  return (
+    <div className="px-[clamp(1rem,4vw,2rem)] py-[clamp(1.5rem,4vw,2.5rem)] max-w-[900px] mx-auto">
+      {/* ── Page Heading ── */}
+      <SectionHeading
+        title="Content Editor"
+        subtitle="Manage your homepage content. Each section saves independently."
+        mode="light"
+        className="!mb-[clamp(1.5rem,4vw,2.5rem)]"
+      />
+    {/* navtab */}
+    <div className="w-full overflow-x-auto scrollbar-hide mb-8">
+  <div className="flex gap-3 min-w-max pb-2">
     {tabs.map((tab) => (
       <button
         key={tab.id}
         onClick={() => setActiveTab(tab.id)}
-        className={`px-4 py-2 text-sm font-medium transition-all border-b-2 ${
-          activeTab === tab.id 
-            ? "border-black text-black" 
-            : "border-transparent text-gray-500 hover:text-black"
-        }`}
+        className={`
+          px-5 py-2.5 rounded-full text-sm font-medium whitespace-nowrap
+          transition-all duration-300 border
+          ${
+            activeTab === tab.id
+              ? "bg-black text-white border-black shadow-md"
+              : "bg-white text-gray-700 border-gray-200 hover:border-black"
+          }
+        `}
       >
         {tab.label}
       </button>
@@ -169,17 +175,36 @@ const tabs = [
   </div>
 </div>
 
-  
-    {/* Conditional Rendering Section  */}
-    <div className="min-h-[400px]">
-      {activeTab === "hero" && <HeroSection initialContent={content.heroContent} />}
-      {activeTab === "flavor" && <FlavorAromaSection initialData={flavorAromaData} />}
-      {activeTab === "products" && <ProductSection initialData={productSectionData} />}
-      {activeTab === "soda" && <CherrySodaSection initialData={cherrySodaData} />}
-      {activeTab === "customers" && <HappyCustomersSection initialData={happyCustomersData} />}
-      {activeTab === "wholesale" && <WholesaleCtaSection initialData={wholesaleCtaData} />}
-      {activeTab === "layout" && <SectionOrderSection initialData={sectionOrderData} />}
+      {/* <div className="flex flex-col gap-[clamp(1.5rem,3vw,2rem)]"> */}
+      {activeTab === "home" && (
+  <div className="flex flex-col gap-[clamp(1.5rem,3vw,2rem)]">
+        {/* Hero Section */}
+        <HeroSection initialContent={content.heroContent} />
+
+        {/* Flavor Aroma Section */}
+        <FlavorAromaSection initialData={flavorAromaData} />
+{/* EXPLORE OUR PRODUCT */}
+<ProductSection initialData={productSectionData} />
+
+        {/* Cherry Soda Section */}
+        <CherrySodaSection initialData={cherrySodaData} />
+
+        {/* Happy Customers Section */}
+        <HappyCustomersSection initialData={happyCustomersData} />
+
+        {/* Wholesale CTA Section */}
+        <WholesaleCtaSection initialData={wholesaleCtaData} />
+
+        {/* Section Layout & Ordering */}
+        <SectionOrderSection initialData={sectionOrderData} />
+      </div>
+      )}
+ {activeTab === "review" && <ReviewPageEditor />}
+{activeTab === "regular" && <RegularPageEditor />}
+
+{activeTab === "local" && <LocalPageEditor />}
+
+{activeTab === "contact" && <ContactPageEditor />}
     </div>
-  </div>
-);
+  );
 }

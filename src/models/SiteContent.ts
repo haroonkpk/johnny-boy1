@@ -38,7 +38,15 @@ export interface ISiteContent extends Document {
   ctaBadge: string;
   ctaTitle: string;
   ctaDesc: string;
+// ===============================
+// REGULAR PAGE SECTION
+// ===============================
+regularHeroTitle: string;
+regularHeroSubtitle: string;
+regularHeroBadge: string;
 
+regularFlavourLabel: string;
+regularEmptyMessage: string;
   // Section Order (for home page)
   sectionOrder: string[];
   hiddenSections: string[];
@@ -83,6 +91,16 @@ const SiteContentSchema = new Schema<ISiteContent>(
     ctaTitle: { type: String, default: "" },
     ctaDesc: { type: String, default: "" },
 
+    // ===============================
+// REGULAR PAGE SECTION
+// ===============================
+// REGULAR PAGE SECTION
+regularHeroTitle: { type: String, default: "" },
+regularHeroSubtitle: { type: String, default: "" },
+regularHeroBadge: { type: String, default: "" },
+
+regularFlavourLabel: { type: String, default: "Flavours" },
+regularEmptyMessage: { type: String, default: "No products found" },
     // Section Order
     sectionOrder: {
       type: [String],

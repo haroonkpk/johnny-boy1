@@ -222,3 +222,132 @@ export async function updateSectionOrder(sectionOrder: string[], hiddenSections:
     return { error: error.message || "Failed to update section layout" };
   }
 }
+
+//regular page
+export async function updateRegularPageSection(data: {
+  title: string;
+  subtitle: string;
+  badge: string;
+}) {
+  try {
+    await dbConnect();
+
+    await SiteContent.findOneAndUpdate(
+      { configId: "main" },
+      {
+        regularHeroTitle: data.title.trim(),
+        regularHeroSubtitle: data.subtitle.trim(),
+        regularHeroBadge: data.badge.trim(),
+      },
+      { upsert: true, new: true }
+    );
+
+    revalidatePath("/regular");
+
+    return {
+      success: true,
+      message: "Regular page updated successfully",
+    };
+  } catch (error: any) {
+    return {
+      success: false,
+      error: error.message || "Failed to update regular page",
+    };
+  }
+}
+// local page
+export async function updateLocalPageSection(data: {
+  title: string;
+  subtitle: string;
+  badge: string;
+}) {
+  try {
+    await dbConnect();
+
+    await SiteContent.findOneAndUpdate(
+      { configId: "main" },
+      {
+        localHeroTitle: data.title.trim(),
+        localHeroSubtitle: data.subtitle.trim(),
+        localHeroBadge: data.badge.trim(),
+      },
+      { upsert: true, new: true }
+    );
+
+    revalidatePath("/local");
+
+    return {
+      success: true,
+      message: "Local page updated successfully",
+    };
+  } catch (error: any) {
+    return {
+      success: false,
+      error: error.message || "Failed to update local page",
+    };
+  }
+}
+// review
+export async function updateReviewPageSection(data: {
+  title: string;
+  subtitle: string;
+  badge: string;
+}) {
+  try {
+    await dbConnect();
+
+    await SiteContent.findOneAndUpdate(
+      { configId: "main" },
+      {
+        reviewHeroTitle: data.title.trim(),
+        reviewHeroSubtitle: data.subtitle.trim(),
+        reviewHeroBadge: data.badge.trim(),
+      },
+      { upsert: true, new: true }
+    );
+
+    revalidatePath("/review");
+
+    return {
+      success: true,
+      message: "Review page updated successfully",
+    };
+  } catch (error: any) {
+    return {
+      success: false,
+      error: error.message || "Failed to update review page",
+    };
+  }
+}
+// contact
+export async function updateContactPageSection(data: {
+  title: string;
+  subtitle: string;
+  badge: string;
+}) {
+  try {
+    await dbConnect();
+
+    await SiteContent.findOneAndUpdate(
+      { configId: "main" },
+      {
+        contactHeroTitle: data.title.trim(),
+        contactHeroSubtitle: data.subtitle.trim(),
+        contactHeroBadge: data.badge.trim(),
+      },
+      { upsert: true, new: true }
+    );
+
+    revalidatePath("/contact");
+
+    return {
+      success: true,
+      message: "Contact page updated successfully",
+    };
+  } catch (error: any) {
+    return {
+      success: false,
+      error: error.message || "Failed to update contact page",
+    };
+  }
+}
