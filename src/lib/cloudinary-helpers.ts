@@ -44,7 +44,7 @@ export function cloudinaryLoader({
 }): string {
   if (!isCloudinaryUrl(src)) return src;
 
-  const q = quality ? `q_${quality}` : "q_auto";
+  const q = (quality && quality !== 75) ? `q_${quality}` : "q_auto:eco";
   const transformations = `${q},f_auto,w_${width}`;
 
   return injectTransformations(src, transformations);
