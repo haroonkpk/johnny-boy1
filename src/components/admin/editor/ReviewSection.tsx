@@ -52,7 +52,7 @@ export default function ReviewSection({ initialData }: ReviewSectionProps) {
   };
 
   return (
-    <Card variant="light" className="!rounded-[clamp(12px,2vw,20px)] !p-0 !shadow-none !border-none bg-white">
+    <Card variant="light" className="!rounded-[clamp(12px,2vw,20px)] !p-0 !shadow-none !border-none bg-white  mb-20 md:bottom-0">
       <div className="p-[clamp(1rem,3vw,1.75rem)]">
         <div className="flex items-center gap-2 mb-[clamp(0.75rem,2vw,1.25rem)]">
           <h3 className="text-[clamp(0.9rem,2vw,1.1rem)] font-bold text-gray-900">

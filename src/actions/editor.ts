@@ -453,3 +453,77 @@ export async function updateReviewSection(data: {
   }
 }
 
+// ── UPDATE: Footer Section ────────────────────────────────
+export async function updateFooter(data: {
+  footerDesc: string;
+  footerAddress: string;
+  footerPhone: string;
+  footerEmail: string;
+  footerFacebook: string;
+  footerYoutube: string;
+  footerInstagram: string;
+  footerNewsTitle: string;
+}) {
+  try {
+    await dbConnect();
+    await SiteContent.findOneAndUpdate(
+      { configId: "main" },
+      {
+        footerDesc: data.footerDesc.trim(),
+        footerAddress: data.footerAddress.trim(),
+        footerPhone: data.footerPhone.trim(),
+        footerEmail: data.footerEmail.trim(),
+        footerFacebook: data.footerFacebook.trim(),
+        footerYoutube: data.footerYoutube.trim(),
+        footerInstagram: data.footerInstagram.trim(),
+        footerNewsTitle: data.footerNewsTitle.trim(),
+      },
+      { upsert: true, new: true }
+    );
+    
+   
+    revalidatePath("/", "layout"); 
+    
+    return {
+      success: true,
+      message: "Footer updated successfully",
+    };
+  } catch (error: any) {
+    console.error("updateFooter Error:", error);
+    return { 
+      success: false, 
+      message: error.message || "Failed to update footer"
+    };
+  }
+}
+// ── UPDATE: Device Highlights Section ──────────────────────────
+export async function updateDeviceHighlightsSection(data: {
+  highlightTitle: string;
+  highlightSubtitle: string;
+  highlightsList: { id: number; name: string; iconUrl: string }[];
+}) {
+  try {
+    await dbConnect();
+    await SiteContent.findOneAndUpdate(
+      { configId: "main" },
+      {
+        highlightTitle: data.highlightTitle.trim(),
+        highlightSubtitle: data.highlightSubtitle.trim(),
+        highlightsList: data.highlightsList, // Yeh pura array update kar dega
+      },
+      { upsert: true, new: true }
+    );
+    
+    revalidatePath("/");
+    return { 
+      success: true, 
+      message: "Device Highlights updated successfully" 
+    };
+  } catch (error: any) {
+    console.error("updateDeviceHighlightsSection Error:", error);
+    return { 
+      success: false, 
+      error: error.message || "Failed to update Device Highlights" 
+    };
+  }
+}

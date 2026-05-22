@@ -17,6 +17,8 @@ import LocalSeriesSection from "@/components/admin/editor/LocalSeriesSection";
 import RegularSeriesSection from "@/components/admin/editor/RegularSeriesSection";
 import ContactSection from "@/components/admin/editor/ContactSection";
 import ReviewSection from "@/components/admin/editor/ReviewSection";
+import FooterSection from "@/components/admin/editor/FooterSection";
+import DeviceHighlightsSection from "@/components/admin/editor/DeviceHighlightsSection";
 import { TabNavigation } from "@/components/shared/TabNavigation";
 
 export default function AdminEditorPage() {
@@ -111,6 +113,12 @@ export default function AdminEditorPage() {
     ctaTitle: content.ctaTitle,
     ctaDesc: content.ctaDesc,
   };
+  // Yahan ye naya package add karein:
+  const deviceHighlightsData = {
+    highlightTitle: content.highlightTitle,
+    highlightSubtitle: content.highlightSubtitle,
+    highlightsList: content.highlightsList,
+  };
   
   const localseriesData = {
     localseriesTitle: content.localseriesTitle,
@@ -135,6 +143,16 @@ export default function AdminEditorPage() {
     reviewSubtitle: content.reviewSubtitle,
     reviewBadge: content.reviewBadge,
   };
+  const footerData = {
+    footerDesc: content.footerDesc,
+    footerAddress: content.footerAddress,
+    footerPhone: content.footerPhone,
+    footerEmail: content.footerEmail,
+    footerFacebook: content.footerFacebook,
+    footerYoutube: content.footerYoutube,
+    footerInstagram: content.footerInstagram,
+    footerNewsTitle: content.footerNewsTitle,
+  };
 
   const sectionOrderData = {
     sectionOrder: content.sectionOrder,
@@ -146,6 +164,8 @@ export default function AdminEditorPage() {
   { id: "regular", label: "Regular Page" },
   { id: "local", label: "Local Page" },
   { id: "contact", label: "Contact Page" },
+  
+  { id: "footer", label: "Footer" },
 ];
 
   return (
@@ -166,6 +186,7 @@ export default function AdminEditorPage() {
           { id: "regularseries", label: "Regular Series" },
           { id: "contact", label: "Contact Page" },
           { id: "review", label: "Review Page" },
+          { id: "footer", label: "Footer" },
         ]}
         activeTab={activeTab}
         onTabChange={setActiveTab}
@@ -191,6 +212,7 @@ export default function AdminEditorPage() {
 
             {/* Wholesale CTA Section */}
             <WholesaleCtaSection initialData={wholesaleCtaData} />
+            <DeviceHighlightsSection initialData={deviceHighlightsData} />
 
             {/* Section Layout & Ordering */}
             <SectionOrderSection initialData={sectionOrderData} />
@@ -211,6 +233,10 @@ export default function AdminEditorPage() {
 
         {activeTab === "review" && (
           <ReviewSection initialData={reviewData} />
+        )}
+        {/* footer */}
+        {activeTab === "footer" && (
+          <FooterSection initialData={footerData} />
         )}
       </div>
     </div>

@@ -38,6 +38,10 @@ export interface ISiteContent extends Document {
   ctaBadge: string;
   ctaTitle: string;
   ctaDesc: string;
+  // ISiteContent interface ke andar add karein
+highlightTitle: string;
+highlightSubtitle: string;
+highlightsList: { iconUrl: string; name: string }[];
 // ===============================
 // REGULAR PAGE SECTION
 // ===============================
@@ -70,8 +74,16 @@ regularEmptyMessage: string;
   reviewTitle: string;
   reviewSubtitle: string;
   reviewBadge: string;
+  // Footer Fields
+  footerDesc: string;
+  footerAddress: string;
+  footerPhone: string;
+  footerEmail: string;
+  footerFacebook: string;
+  footerYoutube: string;
+  footerInstagram: string;
+  footerNewsTitle: string;
 }
-
 const SiteContentSchema = new Schema<ISiteContent>(
   {
     configId: { type: String, default: "main", unique: true },
@@ -110,6 +122,16 @@ const SiteContentSchema = new Schema<ISiteContent>(
     ctaBadge: { type: String, default: "" },
     ctaTitle: { type: String, default: "" },
     ctaDesc: { type: String, default: "" },
+    // SiteContentSchema definition ke andar add karein
+highlightTitle: { type: String, default: "" },
+highlightSubtitle: { type: String, default: "" },
+highlightsList: { 
+  type: [{ 
+    iconUrl: String, 
+    name: String 
+  }], 
+  default: [] 
+},
 
     // ===============================
 // REGULAR PAGE SECTION
@@ -157,6 +179,15 @@ regularEmptyMessage: { type: String, default: "No products found" },
     reviewTitle: { type: String, default: "" },
     reviewSubtitle: { type: String, default: "" },
     reviewBadge: { type: String, default: "" },
+    // Footer Fields
+footerDesc: { type: String, default: "" },
+footerAddress: { type: String, default: "" },
+footerPhone: { type: String, default: "" },
+footerEmail: { type: String, default: "" },
+footerFacebook: { type: String, default: "" },
+footerYoutube: { type: String, default: "" },
+footerInstagram: { type: String, default: "" },
+footerNewsTitle: { type: String, default: "" },
   },
   { timestamps: true }
 );
