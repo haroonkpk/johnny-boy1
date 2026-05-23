@@ -105,6 +105,7 @@ export default function Navbar() {
                 </Link>
               </div>
 
+             
               {/* Desktop Links (Hidden on Mobile) */}
               <div className="hidden lg:block">
                 <div className="flex items-center gap-[clamp(0.25rem,1vw,1.5rem)]">
