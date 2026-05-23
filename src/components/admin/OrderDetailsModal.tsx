@@ -4,6 +4,7 @@ import { X, Clock, Package, CheckCircle2, Truck, Timer } from "lucide-react";
 import { Modal } from "@/components/ui/modal";
 import { cn } from "@/lib/utils";
 import CloudinaryImage from "@/components/ui/CloudinaryImage";
+import Button from "../ui/Button";
 
 interface OrderDetailsModalProps {
   isOpen: boolean;
@@ -54,9 +55,9 @@ export function OrderDetailsModal({
               Order Details
             </span>
           </div>
-          <button onClick={onClose} className="hover:opacity-80 transition-opacity">
+          <Button onClick={onClose} className="hover:opacity-80 transition-opacity">
             <X style={{ width: "clamp(18px, 2vw, 22px)", height: "clamp(18px, 2vw, 22px)" }} />
-          </button>
+          </Button>
         </div>
 
         {/* Body */}

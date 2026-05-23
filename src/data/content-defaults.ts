@@ -43,6 +43,7 @@ export const CONTENT_DEFAULTS = {
     "movement",
     "happyCustomers",
     "homeCta",
+    "deviceHighlights",
   ],
   hiddenSections: [] as string[],
 
@@ -61,6 +62,28 @@ export const CONTENT_DEFAULTS = {
   reviewTitle: 'Trusted by Visionaries.',
   reviewSubtitle: "Real stories from real people who bought our products.",
   reviewBadge: "Reviews",
+  // device highlight
+
+highlightTitle: "Device Highlights",
+highlightSubtitle: "Experience the ultimate vaping technology with our cutting-edge features.",
+highlightsList: [
+  { id: 1, name: 'Dual Mesh Coil', iconUrl: '/images/icons-dual-mesh-coil.svg' },
+  { id: 2, name: 'E-Liquid Display', iconUrl: '/images/icons-adjustable-airflow.svg' },
+  { id: 3, name: 'Power Display', iconUrl: '/images/icons-usb-type-c.svg' },
+  { id: 4, name: 'Adjustable Airflow', iconUrl: '/images/icons-power-display.svg' },
+  { id: 5, name: 'USB Type-C', iconUrl: '/images/icons-e-liquid-display.svg' },
+],
+
+// ── Footer Content ──
+// CONTENT_DEFAULTS mein ye add karein
+footerDesc: "Beyond Ordinary Vapor. Crafted for a premium vaping experience.",
+footerAddress: "Your Address Here",
+footerPhone: "+123 456 7890",
+footerEmail: "info@johnnyboy.com",
+footerFacebook: "#",
+footerYoutube: "#",
+footerInstagram: "#",
+footerNewsTitle: "Latest updates coming soon.",
 };
 
 export const DEFAULT_SECTION_ORDER = CONTENT_DEFAULTS.sectionOrder;

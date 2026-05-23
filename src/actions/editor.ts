@@ -223,6 +223,136 @@ export async function updateSectionOrder(sectionOrder: string[], hiddenSections:
   }
 }
 
+
+//regular page
+export async function updateRegularPageSection(data: {
+  title: string;
+  subtitle: string;
+  badge: string;
+}) {
+  try {
+    await dbConnect();
+
+    await SiteContent.findOneAndUpdate(
+      { configId: "main" },
+      {
+        regularHeroTitle: data.title.trim(),
+        regularHeroSubtitle: data.subtitle.trim(),
+        regularHeroBadge: data.badge.trim(),
+      },
+      { upsert: true, new: true }
+    );
+
+    revalidatePath("/regular");
+
+    return {
+      success: true,
+      message: "Regular page updated successfully",
+    };
+  } catch (error: any) {
+    return {
+      success: false,
+      error: error.message || "Failed to update regular page",
+    };
+  }
+}
+// local page
+export async function updateLocalPageSection(data: {
+  title: string;
+  subtitle: string;
+  badge: string;
+}) {
+  try {
+    await dbConnect();
+
+    await SiteContent.findOneAndUpdate(
+      { configId: "main" },
+      {
+        localHeroTitle: data.title.trim(),
+        localHeroSubtitle: data.subtitle.trim(),
+        localHeroBadge: data.badge.trim(),
+      },
+      { upsert: true, new: true }
+    );
+
+    revalidatePath("/local");
+
+    return {
+      success: true,
+      message: "Local page updated successfully",
+    };
+  } catch (error: any) {
+    return {
+      success: false,
+      error: error.message || "Failed to update local page",
+    };
+  }
+}
+// review
+export async function updateReviewPageSection(data: {
+  title: string;
+  subtitle: string;
+  badge: string;
+}) {
+  try {
+    await dbConnect();
+
+    await SiteContent.findOneAndUpdate(
+      { configId: "main" },
+      {
+        reviewHeroTitle: data.title.trim(),
+        reviewHeroSubtitle: data.subtitle.trim(),
+        reviewHeroBadge: data.badge.trim(),
+      },
+      { upsert: true, new: true }
+    );
+
+    revalidatePath("/review");
+
+    return {
+      success: true,
+      message: "Review page updated successfully",
+    };
+  } catch (error: any) {
+    return {
+      success: false,
+      error: error.message || "Failed to update review page",
+    };
+  }
+}
+// contact
+export async function updateContactPageSection(data: {
+  title: string;
+  subtitle: string;
+  badge: string;
+}) {
+  try {
+    await dbConnect();
+
+    await SiteContent.findOneAndUpdate(
+      { configId: "main" },
+      {
+        contactHeroTitle: data.title.trim(),
+        contactHeroSubtitle: data.subtitle.trim(),
+        contactHeroBadge: data.badge.trim(),
+      },
+      { upsert: true, new: true }
+    );
+
+    revalidatePath("/contact");
+
+    return {
+      success: true,
+      message: "Contact page updated successfully",
+    };
+  } catch (error: any) {
+    return {
+      success: false,
+      error: error.message || "Failed to update contact page",
+    };
+  }
+}
+
 //  Local Series Page 
 export async function updateLocalSeriesSection(data: {
   localseriesTitle: string;
@@ -320,5 +450,80 @@ export async function updateReviewSection(data: {
   } catch (error: any) {
     console.error("updateReviewSection Error:", error);
     return { error: error.message || "Failed to update Review page content" };
+  }
+}
+
+// ── UPDATE: Footer Section ────────────────────────────────
+export async function updateFooter(data: {
+  footerDesc: string;
+  footerAddress: string;
+  footerPhone: string;
+  footerEmail: string;
+  footerFacebook: string;
+  footerYoutube: string;
+  footerInstagram: string;
+  footerNewsTitle: string;
+}) {
+  try {
+    await dbConnect();
+    await SiteContent.findOneAndUpdate(
+      { configId: "main" },
+      {
+        footerDesc: data.footerDesc.trim(),
+        footerAddress: data.footerAddress.trim(),
+        footerPhone: data.footerPhone.trim(),
+        footerEmail: data.footerEmail.trim(),
+        footerFacebook: data.footerFacebook.trim(),
+        footerYoutube: data.footerYoutube.trim(),
+        footerInstagram: data.footerInstagram.trim(),
+        footerNewsTitle: data.footerNewsTitle.trim(),
+      },
+      { upsert: true, new: true }
+    );
+    
+   
+    revalidatePath("/", "layout"); 
+    
+    return {
+      success: true,
+      message: "Footer updated successfully",
+    };
+  } catch (error: any) {
+    console.error("updateFooter Error:", error);
+    return { 
+      success: false, 
+      message: error.message || "Failed to update footer"
+    };
+  }
+}
+// ── UPDATE: Device Highlights Section ──────────────────────────
+export async function updateDeviceHighlightsSection(data: {
+  highlightTitle: string;
+  highlightSubtitle: string;
+  highlightsList: { id: number; name: string; iconUrl: string }[];
+}) {
+  try {
+    await dbConnect();
+    await SiteContent.findOneAndUpdate(
+      { configId: "main" },
+      {
+        highlightTitle: data.highlightTitle.trim(),
+        highlightSubtitle: data.highlightSubtitle.trim(),
+        highlightsList: data.highlightsList, // Yeh pura array update kar dega
+      },
+      { upsert: true, new: true }
+    );
+    
+    revalidatePath("/");
+    return { 
+      success: true, 
+      message: "Device Highlights updated successfully" 
+    };
+  } catch (error: any) {
+    console.error("updateDeviceHighlightsSection Error:", error);
+    return { 
+      success: false, 
+      error: error.message || "Failed to update Device Highlights" 
+    };
   }
 }
