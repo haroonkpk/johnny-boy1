@@ -27,6 +27,7 @@ export default async function LocalSeries() {
     
   
       {/* <div className="py-10 flex justify-center items-center "> */}
+      {/* <div className="py-10 flex justify-center items-center "> */}
      
          <div className="pt-10 pb-6 flex justify-center items-center">
         <h1 className="text-black text-5xl md:text-7xl font-extrabold text-center">
@@ -34,18 +35,7 @@ export default async function LocalSeries() {
         </h1>
       </div>
 
-      {/* --- BUTTON becom reseller --- */}
-      {/* <div className="flex justify-center pb-12">
-        <Link 
-          href="/signup" 
-          className="px-8 py-4 bg-gray-900 text-white rounded-full font-bold hover:bg-gray-800 transition-all transform hover:scale-105 shadow-lg"
-        >
-          Become a Reseller
-        </Link>
-      </div> */}
-       
-      {/* <DeviceHighlights />
-      <BottleParallax /> */}
+     
 
       <div className="max-w-[1500px] mx-auto px-4 sm:px-6 lg:px-8 py-20">
 
