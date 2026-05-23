@@ -72,12 +72,14 @@ export default async function LocalSeries() {
               return (
                 <div 
                   key={product._id || product.id} 
-                  className={`transform hover:scale-110 transition-all duration-700 ease-out ${smStaggerClass} ${staggerClass}`}
+                  className={`${smStaggerClass} ${staggerClass}`}
                 >
-                  <ProductCard 
-                    product={product as any} 
-                    type="local" 
-                  />
+                  <div className="transform hover:scale-110 transition-transform duration-700 ease-out">
+                    <ProductCard 
+                      product={product as any} 
+                      type="local" 
+                    />
+                  </div>
                 </div>
               );
             })}

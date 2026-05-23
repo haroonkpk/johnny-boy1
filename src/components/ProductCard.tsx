@@ -78,45 +78,23 @@ export default function ProductCard({ product, type }: ProductCardProps) {
 
       card.addEventListener("mouseenter", onMouseEnter);
       card.addEventListener("mouseleave", onMouseLeave);
-
-      // Mobile Scroll Animation
-      mm.add("(max-width: 768px)", () => {
-        ScrollTrigger.create({
-          trigger: card,
-          start: "center 65%",
-          end: "center 35%",
-          onEnter: () => {
-            setIsExpanded(true);
-            gsap.to(info, { y: "0%", duration: 0.5, ease: "power2.out" });
-            gsap.to(desc, { opacity: 1, duration: 0.3, delay: 0.2 });
-          },
-          onLeave: () => {
-            setIsExpanded(false);
-            gsap.to(info, { y: "65%", duration: 0.5, ease: "power2.in" });
-            gsap.to(desc, { opacity: 0, duration: 0.2 });
-          },
-          onEnterBack: () => {
-            setIsExpanded(true);
-            gsap.to(info, { y: "0%", duration: 0.5, ease: "power2.out" });
-            gsap.to(desc, { opacity: 1, duration: 0.3, delay: 0.2 });
-          },
-          onLeaveBack: () => {
-            setIsExpanded(false);
-            gsap.to(info, { y: "65%", duration: 0.5, ease: "power2.in" });
-            gsap.to(desc, { opacity: 0, duration: 0.2 });
-          },
-        });
-      });
     }, cardRef);
+
+    const timer = setTimeout(() => {
+      ScrollTrigger.refresh();
+    }, 200);
 
     return () => {
       ctx.revert();
       mm.revert();
+      clearTimeout(timer);
+      ScrollTrigger.refresh();
     };
   }, []);
 
   const togglePanel = (e: React.MouseEvent) => {
     e.stopPropagation();
+    if (typeof window !== "undefined" && window.innerWidth > 768) return;
     const newState = !isExpanded;
     setIsExpanded(newState);
 
@@ -135,6 +113,7 @@ export default function ProductCard({ product, type }: ProductCardProps) {
   return (
     <Card
       ref={cardRef}
+      onClick={togglePanel}
       className="relative w-[clamp(280px,100%,400px)] h-[clamp(450px,75vh,550px)] mx-auto p-0 overflow-hidden shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_20px_40px_rgb(0,0,0,0.12)] transition-shadow duration-500 cursor-pointer group rounded-3xl"
     >
       <div ref={waterRef} className="absolute inset-0">
@@ -180,7 +159,6 @@ export default function ProductCard({ product, type }: ProductCardProps) {
         {product.comingSoon && (
           <div className="absolute inset-0 z-40 flex items-center justify-center bg-black/20 backdrop-blur-[2px]">
             <div className="relative transform -rotate-12 scale-110">
-              {/* -rotate-12 text ka angle change kar dega taake wo straight na lage */}
 
               {/* Background Glow for Premium Look */}
               <div className="absolute inset-0 bg-red-600/20 blur-2xl rounded-full"></div>
@@ -214,14 +192,14 @@ export default function ProductCard({ product, type }: ProductCardProps) {
         {/* Toggle Button */}
         <button
           onClick={togglePanel}
-          className="absolute top-4 right-4 p-1 rounded-full bg-white/10 text-white/70 hover:bg-white/20 transition-colors md:hidden"
+          className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-full bg-white/10 text-white/70 hover:bg-white/20 transition-colors md:hidden"
         >
           {isExpanded ? <ChevronDown size={20} /> : <ChevronUp size={20} />}
         </button>
 
         <div className="flex flex-col h-full items-center text-center">
           {/* Always Visible Title */}
-          <h3 className="text-[clamp(1.25rem,4vw,1.75rem)] pb-22 font-black text-white uppercase italic tracking-wider leading-tight">
+          <h3 className="text-[clamp(1.25rem,4vw,1.75rem)] pb-22 px-10 md:px-0 font-black text-white uppercase italic tracking-wider leading-tight">
             {product.name}
           </h3>
 
