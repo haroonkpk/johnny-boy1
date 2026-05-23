@@ -30,7 +30,8 @@ export default function DeviceHighlightsSection({ initialData }: { initialData: 
     try {
       const res = await updateDeviceHighlightsSection(data);
       if (res.success) {
-        toast.success(res.message);
+        // toast.success(res.message);
+        toast.success(res.message || "Updated successfully");
         // Note: Yahan aap state update kar sakte hain agar backend se naya data aaye
       } else {
         toast.error(res.error || "Failed to update");
