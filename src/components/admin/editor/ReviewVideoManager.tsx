@@ -74,6 +74,7 @@ export default function ReviewVideoManager() {
             </div>
             <Button className="!bg-black text-white px-4 py-2 rounded-lg" onClick={() => deleteReviewVideo(v._id).then(loadVideos)}>
               Delete
+              {/* Delete */}
             </Button>
           </div>
         ))}
