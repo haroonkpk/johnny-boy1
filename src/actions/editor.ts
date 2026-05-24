@@ -5,7 +5,6 @@ import SiteContent from "@/models/SiteContent";
 import { revalidatePath } from "next/cache";
 import { CONTENT_DEFAULTS } from "@/data/content-defaults";
 
-// ── Helper: get or create the singleton config 
 async function getOrCreateConfig() {
   await dbConnect();
   let config = await SiteContent.findOne({ configId: "main" }).lean();

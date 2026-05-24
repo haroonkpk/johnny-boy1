@@ -1,5 +1,4 @@
-// ── Default content values for the home page sections ──
-// Shared between actions, API route, and components
+
 
 export const CONTENT_DEFAULTS = {
   heroContent:

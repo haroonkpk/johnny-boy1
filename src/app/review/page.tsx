@@ -7,12 +7,13 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Button from "@/components/ui/Button";
 import { Card } from "@/components/ui/card";
 import PageHero from "@/components/PageHero";
-
 import { getSiteContent } from "@/actions/content";
+import { getReviewVideos } from "@/actions/review";
 
 // TypeScript Interface for Testimonial data
 interface Testimonial {
-  id: number;
+  id: string;
+  // id: number;
   name: string;
   role: string;
   videoSrc: string;
@@ -26,7 +27,7 @@ interface VideoCardProps {
   onToggle: () => void;
 }
 
-// Plugin register karna zaroori hai
+
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
 }
@@ -39,11 +40,11 @@ const PauseIcon = () => (
   <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" /></svg>
 );
 
-const TESTIMONIALS: Testimonial[] = [
-  { id: 0, name: "Sarah Jenkins", role: "Product Designer", videoSrc: "/video1.mp4", tag: "Review" },
-  { id: 1, name: "Marcus Chen", role: "Growth Lead", videoSrc: "/video2.mp4", tag: "Review" },
-  { id: 2, name: "Elena Rodriguez", role: "Founder @ EcoFlow", videoSrc: "/video3.mp4", tag: "Review" },
-];
+// const TESTIMONIALS: Testimonial[] = [
+//   { id: 0, name: "Sarah Jenkins", role: "Product Designer", videoSrc: "/video1.mp4", tag: "Review" },
+//   { id: 1, name: "Marcus Chen", role: "Growth Lead", videoSrc: "/video2.mp4", tag: "Review" },
+//   { id: 2, name: "Elena Rodriguez", role: "Founder @ EcoFlow", videoSrc: "/video3.mp4", tag: "Review" },
+// ];
 
 function VideoCard({ t, isActive, onToggle }: VideoCardProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -92,19 +93,34 @@ export default function ReviewSection() {
   // Added type for state (number or null)
   const [activeVideoId, setActiveVideoId] = useState<number | null>(null);
   const [content, setContent] = useState<any>(null);
+  const [videos, setVideos] = useState<any[]>([]);
   const containerRef = useRef<HTMLElement>(null);
 
-  useEffect(() => {
-    const fetchContent = async () => {
-      try {
-        const data = await getSiteContent();
-        setContent(data);
-      } catch (err) {
-        console.error("Failed to load review content:", err);
-      }
-    };
-    fetchContent();
-  }, []);
+  // useEffect(() => {
+  //   const fetchContent = async () => {
+  //     try {
+  //       const data = await getSiteContent();
+  //       setContent(data);
+  //     } catch (err) {
+  //       console.error("Failed to load review content:", err);
+  //     }
+  //   };
+  //   fetchContent();
+  // }, []);
+  // Dono useEffect ko hata kar sirf ye ek use karein:
+useEffect(() => {
+  const fetchAll = async () => {
+    try {
+      const [siteData, videoData] = await Promise.all([getSiteContent(), getReviewVideos()]);
+      setContent(siteData);
+      setVideos(videoData || []);
+    } catch (err) {
+      console.error("Failed to load data:", err);
+    }
+  };
+  fetchAll();
+}, []);
+ 
 
   useLayoutEffect(() => {
     let ctx = gsap.context(() => {
@@ -151,12 +167,27 @@ export default function ReviewSection() {
       <div className="max-w-[1500px] mx-auto px-4 sm:px-6 lg:px-8 py-20 relative z-10">
 
         <div className="video-grid grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
-          {TESTIMONIALS.map((t) => (
+          {/* {TESTIMONIALS.map((t) => (
             <div key={t.id} className="video-grid-item">
               <VideoCard
                 t={t}
                 isActive={activeVideoId === t.id}
                 onToggle={() => setActiveVideoId(activeVideoId === t.id ? null : t.id)}
+              />
+            </div>
+          ))} */}
+          {videos.map((t) => (
+            <div key={t._id} className="video-grid-item">
+              <VideoCard
+                t={{ 
+                    id: t._id, 
+                    name: t.name, 
+                    role: t.role, 
+                    videoSrc: t.videoUrl, 
+                    tag: t.tag || "Review" 
+                }}
+                isActive={activeVideoId === t._id}
+                onToggle={() => setActiveVideoId(activeVideoId === t._id ? null : t._id)}
               />
             </div>
           ))}
