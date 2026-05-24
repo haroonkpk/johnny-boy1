@@ -5,6 +5,7 @@ import cloudinary from "@/lib/cloudinary";
 import { revalidatePath } from "next/cache";
 import fs from "fs/promises";
 import path from "path";
+import os from "os";
 
 
 export async function getReviewVideos() {
@@ -40,7 +41,7 @@ export async function addReviewVideoAction(formData: FormData) {
     return { success: false, error: "Thumbnail is required" };
   }
 
-  const tempDir = path.join(process.cwd(), "src", "tmp");
+  const tempDir = os.tmpdir();
   let tempFilePath = "";
 
   try {
@@ -182,7 +183,7 @@ export async function updateReviewVideoAction(formData: FormData) {
   // If a new video file is selected, upload it and destroy the old one
   if (file && file.size > 0) {
     console.log("Uploading new video...");
-    const tempDir = path.join(process.cwd(), "src", "tmp");
+    const tempDir = os.tmpdir();
     await fs.mkdir(tempDir, { recursive: true });
     const tempFilePath = path.join(tempDir, `${Date.now()}-${file.name}`);
     await fs.writeFile(tempFilePath, Buffer.from(await file.arrayBuffer()));
