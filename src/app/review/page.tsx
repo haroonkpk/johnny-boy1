@@ -7,15 +7,14 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Button from "@/components/ui/Button";
 import { Card } from "@/components/ui/card";
 import PageHero from "@/components/PageHero";
-
 import { getSiteContent } from "@/actions/content";
+import { getReviewVideos } from "@/actions/review";
 
 // TypeScript Interface for Testimonial data
 interface Testimonial {
-  id: number;
-  name: string;
-  role: string;
+  id: string;
   videoSrc: string;
+  thumbnailUrl: string;
   tag: string;
 }
 
@@ -26,7 +25,7 @@ interface VideoCardProps {
   onToggle: () => void;
 }
 
-// Plugin register karna zaroori hai
+
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
 }
@@ -39,46 +38,57 @@ const PauseIcon = () => (
   <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" /></svg>
 );
 
-const TESTIMONIALS: Testimonial[] = [
-  { id: 0, name: "Sarah Jenkins", role: "Product Designer", videoSrc: "/video1.mp4", tag: "Review" },
-  { id: 1, name: "Marcus Chen", role: "Growth Lead", videoSrc: "/video2.mp4", tag: "Review" },
-  { id: 2, name: "Elena Rodriguez", role: "Founder @ EcoFlow", videoSrc: "/video3.mp4", tag: "Review" },
-];
-
 function VideoCard({ t, isActive, onToggle }: VideoCardProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
+  const [hasPlayed, setHasPlayed] = useState(false);
+
+  useEffect(() => {
+    if (isActive) {
+      setHasPlayed(true);
+    }
+  }, [isActive]);
 
   useEffect(() => {
     const vid = videoRef.current;
-    if (!vid) return;
-    if (isActive) {
-      vid.play().catch(() => {});
-    } else {
-      vid.pause();
+    if (hasPlayed && vid) {
+      if (isActive) {
+        vid.play().catch(() => {});
+      } else {
+        vid.pause();
+      }
     }
-  }, [isActive]);
+  }, [isActive, hasPlayed]);
 
   return (
     <Card className="relative flex flex-col w-full h-[450px] overflow-hidden bg-white border border-black/[0.08] hover:border-black/[0.2] transition-colors duration-300 p-0">
       <div className="relative flex-1 cursor-pointer bg-gray-100 overflow-hidden" onClick={onToggle}>
-        <video
-          ref={videoRef}
-          src={t.videoSrc}
-          poster={t.videoSrc.replace(".mp4", ".png")}
-          playsInline
-          loop
-          muted={!isActive}
-          preload="none"
-          className="absolute inset-0 w-full h-full object-cover"
-        />
+        {!hasPlayed && t.thumbnailUrl && (
+          <img
+            src={t.thumbnailUrl}
+            alt="Review Thumbnail"
+            className="absolute inset-0 w-full h-full object-cover z-0"
+          />
+        )}
+        {hasPlayed && (
+          <video
+            ref={videoRef}
+            src={t.videoSrc}
+            poster={t.thumbnailUrl}
+            playsInline
+            loop
+            muted={!isActive}
+            preload="auto"
+            className="absolute inset-0 w-full h-full object-cover z-10"
+          />
+        )}
         <Button
           variant="review"
           onClick={(e) => { e.stopPropagation(); onToggle(); }}
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10 w-[64px] h-[64px]"
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 w-[64px] h-[64px]"
         >
           {isActive ? <PauseIcon /> : <PlayIcon />}
         </Button>
-        <div className="absolute top-6 left-6 z-10">
+        <div className="absolute top-6 left-6 z-20">
           <span className="px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white text-xs font-medium uppercase tracking-widest">
             {t.tag}
           </span>
@@ -89,22 +99,25 @@ function VideoCard({ t, isActive, onToggle }: VideoCardProps) {
 }
 
 export default function ReviewSection() {
-  // Added type for state (number or null)
-  const [activeVideoId, setActiveVideoId] = useState<number | null>(null);
+  // Added type for state (string or null)
+  const [activeVideoId, setActiveVideoId] = useState<string | null>(null);
   const [content, setContent] = useState<any>(null);
+  const [videos, setVideos] = useState<any[]>([]);
   const containerRef = useRef<HTMLElement>(null);
 
-  useEffect(() => {
-    const fetchContent = async () => {
-      try {
-        const data = await getSiteContent();
-        setContent(data);
-      } catch (err) {
-        console.error("Failed to load review content:", err);
-      }
-    };
-    fetchContent();
-  }, []);
+useEffect(() => {
+  const fetchAll = async () => {
+    try {
+      const [siteData, videoData] = await Promise.all([getSiteContent(), getReviewVideos()]);
+      setContent(siteData);
+      setVideos(videoData || []);
+    } catch (err) {
+      console.error("Failed to load data:", err);
+    }
+  };
+  fetchAll();
+}, []);
+ 
 
   useLayoutEffect(() => {
     let ctx = gsap.context(() => {
@@ -151,12 +164,17 @@ export default function ReviewSection() {
       <div className="max-w-[1500px] mx-auto px-4 sm:px-6 lg:px-8 py-20 relative z-10">
 
         <div className="video-grid grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
-          {TESTIMONIALS.map((t) => (
-            <div key={t.id} className="video-grid-item">
+          {videos.map((t) => (
+            <div key={t._id} className="video-grid-item">
               <VideoCard
-                t={t}
-                isActive={activeVideoId === t.id}
-                onToggle={() => setActiveVideoId(activeVideoId === t.id ? null : t.id)}
+                t={{ 
+                    id: t._id, 
+                    videoSrc: t.videoUrl, 
+                    thumbnailUrl: t.thumbnailUrl,
+                    tag: t.tag || "Review" 
+                }}
+                isActive={activeVideoId === t._id}
+                onToggle={() => setActiveVideoId(activeVideoId === t._id ? null : t._id)}
               />
             </div>
           ))}

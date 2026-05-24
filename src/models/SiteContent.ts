@@ -83,6 +83,7 @@ regularEmptyMessage: string;
   footerYoutube: string;
   footerInstagram: string;
   footerNewsTitle: string;
+  selectedReviewVideos: string[];
 }
 const SiteContentSchema = new Schema<ISiteContent>(
   {
@@ -188,6 +189,10 @@ footerFacebook: { type: String, default: "" },
 footerYoutube: { type: String, default: "" },
 footerInstagram: { type: String, default: "" },
 footerNewsTitle: { type: String, default: "" },
+    selectedReviewVideos: {
+      type: [String],
+      default: [],
+    },
   },
   { timestamps: true }
 );

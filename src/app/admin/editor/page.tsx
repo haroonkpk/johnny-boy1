@@ -19,6 +19,7 @@ import ContactSection from "@/components/admin/editor/ContactSection";
 import ReviewSection from "@/components/admin/editor/ReviewSection";
 import FooterSection from "@/components/admin/editor/FooterSection";
 import DeviceHighlightsSection from "@/components/admin/editor/DeviceHighlightsSection";
+import ReviewVideoManager from "@/components/admin/editor/ReviewVideoManager";
 import { TabNavigation } from "@/components/shared/TabNavigation";
 
 export default function AdminEditorPage() {
@@ -106,6 +107,7 @@ export default function AdminEditorPage() {
     customerTitle: content.customerTitle,
     customerSubtitle: content.customerSubtitle,
     customerBadge: content.customerBadge,
+    selectedReviewVideos: (content.selectedReviewVideos || []) as string[],
   };
 
   const wholesaleCtaData = {
@@ -113,7 +115,6 @@ export default function AdminEditorPage() {
     ctaTitle: content.ctaTitle,
     ctaDesc: content.ctaDesc,
   };
-  // Yahan ye naya package add karein:
   const deviceHighlightsData = {
     highlightTitle: content.highlightTitle,
     highlightSubtitle: content.highlightSubtitle,
@@ -234,6 +235,14 @@ export default function AdminEditorPage() {
         {activeTab === "review" && (
           <ReviewSection initialData={reviewData} />
         )}
+        
+        {/* vedios */}
+    
+{activeTab === "review" && (
+ 
+    <ReviewVideoManager /> 
+
+)}
         {/* footer */}
         {activeTab === "footer" && (
           <FooterSection initialData={footerData} />

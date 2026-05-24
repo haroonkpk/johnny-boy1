@@ -5,7 +5,6 @@ import SiteContent from "@/models/SiteContent";
 import { revalidatePath } from "next/cache";
 import { CONTENT_DEFAULTS } from "@/data/content-defaults";
 
-// ── Helper: get or create the singleton config 
 async function getOrCreateConfig() {
   await dbConnect();
   let config = await SiteContent.findOne({ configId: "main" }).lean();
@@ -453,7 +452,7 @@ export async function updateReviewSection(data: {
   }
 }
 
-// ── UPDATE: Footer Section ────────────────────────────────
+// ── Footer Section ────────────────────────────────
 export async function updateFooter(data: {
   footerDesc: string;
   footerAddress: string;
@@ -496,7 +495,7 @@ export async function updateFooter(data: {
     };
   }
 }
-// ── UPDATE: Device Highlights Section ──────────────────────────
+//  Device Highlights Section ──────────────────────────
 export async function updateDeviceHighlightsSection(data: {
   highlightTitle: string;
   highlightSubtitle: string;
@@ -509,7 +508,7 @@ export async function updateDeviceHighlightsSection(data: {
       {
         highlightTitle: data.highlightTitle.trim(),
         highlightSubtitle: data.highlightSubtitle.trim(),
-        highlightsList: data.highlightsList, // Yeh pura array update kar dega
+        highlightsList: data.highlightsList, 
       },
       { upsert: true, new: true }
     );
@@ -525,5 +524,22 @@ export async function updateDeviceHighlightsSection(data: {
       success: false, 
       error: error.message || "Failed to update Device Highlights" 
     };
+  }
+}
+
+//  Selected Review Videos 
+export async function updateSelectedReviewVideos(videoIds: string[]) {
+  try {
+    await dbConnect();
+    await SiteContent.findOneAndUpdate(
+      { configId: "main" },
+      { selectedReviewVideos: videoIds },
+      { upsert: true, new: true }
+    );
+    revalidatePath("/");
+    return { success: true, message: "Review video selection saved successfully" };
+  } catch (error: any) {
+    console.error("updateSelectedReviewVideos Error:", error);
+    return { success: false, error: error.message || "Failed to save review video selection" };
   }
 }
