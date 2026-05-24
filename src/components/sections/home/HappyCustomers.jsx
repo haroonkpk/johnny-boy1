@@ -15,27 +15,31 @@ if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger, Draggable, ScrollToPlugin);
 }
 
-// Data
-const TESTIMONIALS = [
-  { id: 0, videoSrc: "/video2.mp4" },
-  { id: 1, videoSrc: "/video1.mp4" },
-  { id: 2, videoSrc: "/video3.mp4" },
-];
-
-
 // Video Card Component
 function VideoCard({ t, isActive, onToggle }) {
   const videoRef = useRef(null);
+  const [hasPlayed, setHasPlayed] = useState(false);
+
+  useEffect(() => {
+    setHasPlayed(false);
+  }, [t._id]);
+
+  useEffect(() => {
+    if (isActive) {
+      setHasPlayed(true);
+    }
+  }, [isActive]);
 
   useEffect(() => {
     const vid = videoRef.current;
-    if (!vid) return;
-    if (isActive) {
-      vid.play().catch(() => {});
-    } else {
-      vid.pause();
+    if (hasPlayed && vid) {
+      if (isActive) {
+        vid.play().catch(() => {});
+      } else {
+        vid.pause();
+      }
     }
-  }, [isActive]);
+  }, [isActive, hasPlayed]);
 
   return (
     <Card className="relative flex flex-col w-full h-full overflow-hidden bg-white border border-black/[0.08] hover:border-black/[0.2] transition-colors duration-300 p-0">
@@ -43,23 +47,34 @@ function VideoCard({ t, isActive, onToggle }) {
         className="relative flex-1 cursor-pointer bg-gray-100 overflow-hidden"
         onClick={onToggle}
       >
-        <video
-          ref={videoRef}
-          src={t.videoSrc}
-          poster={t.videoSrc.replace(".mp4", ".png")}
-          playsInline
-          loop
-          muted={!isActive}
-          preload="none"
-          className="absolute inset-0 w-full h-full object-cover"
-        />
+        {!hasPlayed && t.thumbnailUrl && (
+          <img
+            key={`img-${t._id}`}
+            src={t.thumbnailUrl}
+            alt="Customer Review Thumbnail"
+            className="absolute inset-0 w-full h-full object-cover z-0"
+          />
+        )}
+        {hasPlayed && (
+          <video
+            key={`vid-${t._id}`}
+            ref={videoRef}
+            src={t.videoUrl}
+            poster={t.thumbnailUrl}
+            playsInline
+            loop
+            muted={!isActive}
+            preload="auto"
+            className="absolute inset-0 w-full h-full object-cover z-10"
+          />
+        )}
         <Button
           variant="review"
           onClick={(e) => {
             e.stopPropagation();
             onToggle();
           }}
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10 w-[64px] h-[64px]"
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 w-[64px] h-[64px]"
         >
           {isActive ? <Pause /> : <Play />}
         </Button>
@@ -73,6 +88,7 @@ export default function HappyCustomers() {
   const wrapperRef = useRef(null);
   const trackRef = useRef(null);
   const scrollTriggerRef = useRef(null);
+  const [videos, setVideos] = useState([]);
   
   const [data, setData] = useState({
     customerTitle: "What our customers say",
@@ -82,27 +98,43 @@ export default function HappyCustomers() {
 
   useEffect(() => {
     let isMounted = true;
-    const fetchContent = async () => {
+    const fetchAll = async () => {
       try {
-        const res = await fetch("/api/content", { cache: 'no-store' });
-        const json = await res.json();
-        if (json && isMounted) {
-          setData({
-            customerTitle: json.customerTitle || "What our customers say",
-            customerSubtitle: json.customerSubtitle || "Real stories from real people who bought our product",
-            customerBadge: json.customerBadge || "Testimonials"
-          });
-          setTimeout(() => {
-            if (isMounted) ScrollTrigger.refresh();
-          }, 100);
+        const [contentRes, videosRes] = await Promise.all([
+          fetch("/api/content", { cache: 'no-store' }),
+          fetch("/api/reviews/selected", { cache: 'no-store' })
+        ]);
+        const contentJson = await contentRes.json();
+        const videosJson = await videosRes.json();
+
+        if (isMounted) {
+          if (contentJson) {
+            setData({
+              customerTitle: contentJson.customerTitle || "What our customers say",
+              customerSubtitle: contentJson.customerSubtitle || "Real stories from real people who bought our product",
+              customerBadge: contentJson.customerBadge || "Testimonials"
+            });
+          }
+          if (videosJson) {
+            setVideos(videosJson);
+          }
         }
-      } catch (error) { console.error(error); }
+      } catch (error) {
+        console.error("Error fetching HappyCustomers data:", error);
+      }
     };
-    fetchContent();
+    fetchAll();
     return () => {
       isMounted = false;
     };
   }, []);
+
+  useEffect(() => {
+    if (videos.length > 0) {
+      const t = setTimeout(() => ScrollTrigger.refresh(), 200);
+      return () => clearTimeout(t);
+    }
+  }, [videos.length]);
 
   const useIsomorphicLayoutEffect = typeof window !== "undefined" ? useLayoutEffect : useEffect;
 
@@ -202,9 +234,9 @@ export default function HappyCustomers() {
             ref={trackRef}
             className="flex gap-6 px-[7.5vw] will-change-transform"
           >
-            {TESTIMONIALS.map((t) => (
+            {videos.map((t) => (
               <div
-                key={t.id}
+                key={t._id}
                 className="shrink-0"
                 style={{
                   width: "clamp(300px, 70vw, 800px)",
@@ -212,10 +244,11 @@ export default function HappyCustomers() {
                 }}
               >
                 <VideoCard
+                  key={t._id}
                   t={t}
-                  isActive={activeVideoId === t.id}
+                  isActive={activeVideoId === t._id}
                   onToggle={() =>
-                    setActiveVideoId(activeVideoId === t.id ? null : t.id)
+                    setActiveVideoId(activeVideoId === t._id ? null : t._id)
                   }
                 />
               </div>

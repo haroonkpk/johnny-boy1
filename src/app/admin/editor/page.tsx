@@ -107,6 +107,7 @@ export default function AdminEditorPage() {
     customerTitle: content.customerTitle,
     customerSubtitle: content.customerSubtitle,
     customerBadge: content.customerBadge,
+    selectedReviewVideos: (content.selectedReviewVideos || []) as string[],
   };
 
   const wholesaleCtaData = {
@@ -114,7 +115,6 @@ export default function AdminEditorPage() {
     ctaTitle: content.ctaTitle,
     ctaDesc: content.ctaDesc,
   };
-  // Yahan ye naya package add karein:
   const deviceHighlightsData = {
     highlightTitle: content.highlightTitle,
     highlightSubtitle: content.highlightSubtitle,

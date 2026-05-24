@@ -1,15 +1,12 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useRef, useCallback } from "react";
 import { Card } from "@/components/ui/card";
 import Button from "@/components/ui/Button";
-import {
-  GripVertical,
-  Eye,
-  EyeOff,
-} from "lucide-react";
+import { GripVertical, Eye, EyeOff } from "lucide-react";
 import { updateSectionOrder } from "@/actions/editor";
 import toast from "react-hot-toast";
+import { cn } from "@/lib/utils";
 
 // ── Section label map for the reorder panel ──
 const SECTION_LABELS: Record<string, { label: string }> = {
@@ -34,93 +31,49 @@ interface SectionOrderSectionProps {
 export default function SectionOrderSection({ initialData }: SectionOrderSectionProps) {
   const [sectionOrder, setSectionOrder] = useState<string[]>(initialData.sectionOrder || []);
   const [hiddenSections, setHiddenSections] = useState<string[]>(initialData.hiddenSections || []);
-  
   const [savingOrder, setSavingOrder] = useState(false);
   const [originalOrder, setOriginalOrder] = useState<string[]>(initialData.sectionOrder || []);
   const [originalHiddenSections, setOriginalHiddenSections] = useState<string[]>(initialData.hiddenSections || []);
 
-  const [dragIndex, setDragIndex] = useState<number | null>(null);
-  const [dragOverIndex, setDragOverIndex] = useState<number | null>(null);
-  const [touchStartIndex, setTouchStartIndex] = useState<number | null>(null);
-  const [touchCurrentIndex, setTouchCurrentIndex] = useState<number | null>(null);
+  // ─── Pointer drag state 
+  const [draggingIndex, setDraggingIndex] = useState<number | null>(null);
+  const [overIndex, setOverIndex] = useState<number | null>(null);
+  const listRef = useRef<HTMLDivElement>(null);
+  const pointerDragIndex = useRef<number | null>(null);
 
-  const handleDragStart = useCallback((index: number) => {
-    setDragIndex(index);
-  }, []);
+  // ─── Pointer handlers  ────
+  const handlePointerDown = (index: number, e: React.PointerEvent) => {
+    (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
+    pointerDragIndex.current = index;
+    setDraggingIndex(index);
+    setOverIndex(index);
+  };
 
-  const handleDragOver = useCallback(
-    (e: React.DragEvent, index: number) => {
-      e.preventDefault();
-      e.dataTransfer.dropEffect = "move";
-      if (dragIndex !== null && index !== dragIndex) {
-        setDragOverIndex(index);
+  const handlePointerMove = (e: React.PointerEvent) => {
+    if (pointerDragIndex.current === null || !listRef.current) return;
+    const rows = Array.from(listRef.current.querySelectorAll<HTMLElement>("[data-drag-row]"));
+    for (let i = 0; i < rows.length; i++) {
+      const rect = rows[i].getBoundingClientRect();
+      if (e.clientY >= rect.top && e.clientY <= rect.bottom) {
+        setOverIndex(i);
+        break;
       }
-    },
-    [dragIndex]
-  );
-
-  const handleDrop = useCallback(
-    (e: React.DragEvent, dropIndex: number) => {
-      e.preventDefault();
-      if (dragIndex === null || dragIndex === dropIndex) {
-        setDragIndex(null);
-        setDragOverIndex(null);
-        return;
-      }
-      const newOrder = [...sectionOrder];
-      const [moved] = newOrder.splice(dragIndex, 1);
-      newOrder.splice(dropIndex, 0, moved);
-      setSectionOrder(newOrder);
-      setDragIndex(null);
-      setDragOverIndex(null);
-    },
-    [dragIndex, sectionOrder]
-  );
-
-  const handleDragEnd = useCallback(() => {
-    setDragIndex(null);
-    setDragOverIndex(null);
-  }, []);
-
-  // Touch Support
-  const handleTouchStart = useCallback((index: number) => {
-    setTouchStartIndex(index);
-    setDragIndex(index);
-  }, []);
-
-  const handleTouchMove = useCallback(
-    (e: React.TouchEvent) => {
-      if (touchStartIndex === null) return;
-      
-      const touch = e.touches[0];
-      const element = document.elementFromPoint(touch.clientX, touch.clientY);
-      if (!element) return;
-
-      const cardElement = element.closest("[data-section-index]");
-      if (cardElement) {
-        const targetIndex = parseInt(cardElement.getAttribute("data-section-index") || "", 10);
-        if (!isNaN(targetIndex) && targetIndex !== touchStartIndex) {
-          setTouchCurrentIndex(targetIndex);
-          setDragOverIndex(targetIndex);
-        }
-      }
-    },
-    [touchStartIndex]
-  );
-
-  const handleTouchEnd = useCallback(() => {
-    if (touchStartIndex !== null && touchCurrentIndex !== null && touchStartIndex !== touchCurrentIndex) {
-      const newOrder = [...sectionOrder];
-      const [moved] = newOrder.splice(touchStartIndex, 1);
-      newOrder.splice(touchCurrentIndex, 0, moved);
-      setSectionOrder(newOrder);
     }
-    setTouchStartIndex(null);
-    setTouchCurrentIndex(null);
-    setDragIndex(null);
-    setDragOverIndex(null);
-  }, [touchStartIndex, touchCurrentIndex, sectionOrder]);
+  };
 
+  const handlePointerUp = () => {
+    if (pointerDragIndex.current !== null && overIndex !== null && pointerDragIndex.current !== overIndex) {
+      const updated = [...sectionOrder];
+      const [moved] = updated.splice(pointerDragIndex.current, 1);
+      updated.splice(overIndex, 0, moved);
+      setSectionOrder(updated);
+    }
+    pointerDragIndex.current = null;
+    setDraggingIndex(null);
+    setOverIndex(null);
+  };
+
+  // ─── Toggle section visibility ──────────────────────────────────────
   const toggleVisibility = useCallback((sectionId: string) => {
     setHiddenSections((prev) =>
       prev.includes(sectionId)
@@ -147,7 +100,7 @@ export default function SectionOrderSection({ initialData }: SectionOrderSection
   };
 
   return (
-    <Card variant="light" className="!rounded-[clamp(12px,2vw,20px)] !p-0 !shadow-none !border-none bg-white   mb-20 md:bottom-0">
+    <Card variant="light" className="!rounded-[clamp(12px,2vw,20px)] !p-0 !shadow-none !border-none bg-white mb-20 md:bottom-0">
       <div className="p-[clamp(1rem,3vw,1.75rem)]">
         <div className="flex items-center gap-2 mb-[clamp(0.75rem,2vw,1.25rem)]">
           <h3 className="text-[clamp(0.9rem,2vw,1.1rem)] font-bold text-gray-900">
@@ -155,43 +108,60 @@ export default function SectionOrderSection({ initialData }: SectionOrderSection
           </h3>
         </div>
         <p className="text-[clamp(0.7rem,1.2vw,0.8rem)] text-gray-500 mb-[clamp(0.5rem,1.5vw,1rem)]">
-          Drag sections to reorder how they appear on the home page
+          Drag the <GripVertical className="inline w-3.5 h-3.5 text-gray-400" /> handle to reorder sections on the home page.
         </p>
 
-        <div className="flex flex-col gap-[clamp(0.35rem,1vw,0.5rem)]">
+        <div
+          ref={listRef}
+          className="flex flex-col gap-[clamp(0.35rem,1vw,0.5rem)]"
+          onPointerMove={handlePointerMove}
+          onPointerUp={handlePointerUp}
+          onPointerCancel={handlePointerUp}
+        >
           {sectionOrder.map((sectionId, index) => {
             const info = SECTION_LABELS[sectionId];
             if (!info) return null;
-            const isDragging = dragIndex === index;
-            const isDragOver = dragOverIndex === index;
+            const isDragging = draggingIndex === index;
+            const isOver = overIndex === index && draggingIndex !== null && draggingIndex !== index;
             const isHidden = hiddenSections.includes(sectionId);
+
             return (
               <Card
                 key={sectionId}
-                draggable
+                data-drag-row
                 data-section-index={index}
-                onDragStart={() => handleDragStart(index)}
-                onDragOver={(e: React.DragEvent<HTMLDivElement>) => handleDragOver(e, index)}
-                onDrop={(e: React.DragEvent<HTMLDivElement>) => handleDrop(e, index)}
-                onDragEnd={handleDragEnd}
-                onTouchStart={() => handleTouchStart(index)}
-                onTouchMove={handleTouchMove}
-                onTouchEnd={handleTouchEnd}
-                className={`
-                  !rounded-[clamp(8px,1.5vw,12px)] !shadow-none !border-none
-                  !p-[clamp(0.5rem,1.5vw,0.75rem)]
-                  flex items-center gap-[clamp(0.5rem,1.5vw,0.75rem)]
-                  transition-all duration-200 select-none
-                  ${isDragging ? "opacity-40 scale-[0.97]" : isHidden ? "opacity-60 bg-gray-50/50" : "opacity-100 bg-white/60"}
-                  ${isDragOver ? "!border-t-2 !border-t-black/30 bg-black/[0.04]" : ""}
-                  cursor-grab active:cursor-grabbing touch-none
-                `}
+                className={cn(
+                  "!rounded-[clamp(8px,1.5vw,12px)]",
+                  "!p-[clamp(0.5rem,1.5vw,0.75rem)]",
+                  "flex items-center gap-[clamp(0.5rem,1.5vw,0.75rem)]",
+                  "transition-all duration-100 select-none",
+                  isDragging
+                    ? "bg-black/5 !border-black/30 scale-[1.02] shadow-md opacity-80 !shadow-sm"
+                    : isOver
+                    ? "!border-black !border-dashed bg-blue-50/30 !shadow-none"
+                    : isHidden
+                    ? "opacity-60 bg-gray-50/50 !border-none !shadow-none"
+                    : "bg-white/60 !border-none !shadow-none",
+                )}
               >
-                <GripVertical
-                  size={16}
-                  className="text-gray-400 shrink-0"
-                />
-                <span className={`flex-1 text-[clamp(0.8rem,1.5vw,0.9rem)] font-medium ${isHidden ? "text-gray-400" : "text-gray-800"}`}>
+                {/* Drag handle  */}
+                <span
+                  onPointerDown={(e) => handlePointerDown(index, e)}
+                  style={{ touchAction: "none" }}
+                  className={cn(
+                    "flex-shrink-0 p-1 -m-1 rounded-md transition-colors",
+                    isDragging
+                      ? "cursor-grabbing text-black"
+                      : "cursor-grab text-gray-300 hover:text-gray-600 hover:bg-gray-100"
+                  )}
+                >
+                  <GripVertical size={18} />
+                </span>
+
+                <span className={cn(
+                  "flex-1 text-[clamp(0.8rem,1.5vw,0.9rem)] font-medium",
+                  isHidden ? "text-gray-400" : "text-gray-800"
+                )}>
                   {info.label}
                   {isHidden && (
                     <span className="ml-2 inline-flex items-center px-1.5 py-0.5 rounded-full text-[10px] font-medium bg-gray-100 text-gray-500 border border-gray-200 select-none">
@@ -199,6 +169,7 @@ export default function SectionOrderSection({ initialData }: SectionOrderSection
                     </span>
                   )}
                 </span>
+
                 <button
                   type="button"
                   onClick={(e) => {

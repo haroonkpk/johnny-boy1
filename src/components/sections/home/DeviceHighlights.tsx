@@ -2,6 +2,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import { SectionHeading } from "../../ui/SectionHeading";
 
 const DeviceHighlights: React.FC = () => {
   const [data, setData] = useState<any>(null);
@@ -50,14 +51,35 @@ const DeviceHighlights: React.FC = () => {
       <div className="container relative z-10 mx-auto px-6 max-w-[2000px]">
         
         {/* Heading Section */}
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-6xl font-extrabold text-gray-900 mb-6 uppercase tracking-tight">
-            {title}
-          </h2>
-          <p className="text-gray-600 max-w-3xl mx-auto text-lg md:text-xl leading-relaxed">
-            {subtitle}
-          </p>
-        </div>
+        <SectionHeading
+          title={
+            <>
+              {(() => {
+                const words = title.trim().split(" ");
+                if (words.length <= 1) return title;
+                
+                const lastWord = words.pop();
+                const mainText = words.join(" ");
+                
+                return (
+                  <>
+                    {mainText}{" "}
+                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500">
+                      {lastWord}
+                    </span>
+                  </>
+                );
+              })()}
+            </>
+          }
+          subtitle={
+            <div className="whitespace-pre-line">
+              {subtitle}
+            </div>
+          }
+          badge={data?.highlightBadge || "Highlights"}
+          mode="light"
+        />
 
         {/* Dynamic Grid Section */}
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-8">

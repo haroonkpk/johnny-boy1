@@ -73,8 +73,6 @@ highlightsList: [
   { id: 5, name: 'USB Type-C', iconUrl: '/images/icons-e-liquid-display.svg' },
 ],
 
-// ── Footer Content ──
-// CONTENT_DEFAULTS mein ye add karein
 footerDesc: "Beyond Ordinary Vapor. Crafted for a premium vaping experience.",
 footerAddress: "Your Address Here",
 footerPhone: "+123 456 7890",
@@ -83,6 +81,7 @@ footerFacebook: "#",
 footerYoutube: "#",
 footerInstagram: "#",
 footerNewsTitle: "Latest updates coming soon.",
+selectedReviewVideos: [] as string[],
 };
 
 export const DEFAULT_SECTION_ORDER = CONTENT_DEFAULTS.sectionOrder;
